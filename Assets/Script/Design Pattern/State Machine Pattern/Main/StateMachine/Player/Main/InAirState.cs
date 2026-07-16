@@ -1,0 +1,67 @@
+using Script.StateMachine.Player.Base;
+using UnityEngine;
+
+namespace Script.StateMachine.Player.Main
+{
+    public class InAirState : PlayerBaseState
+    {
+        private static readonly int _inAirAnimation = Animator.StringToHash("InAir");
+        private float _previousTime;
+        private float currentSpeed;
+        public InAirState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+        {
+        }
+
+        public override void Enter()
+        {
+            playerStateMachine.InputReader.JumpAction += BackToJump;
+            playerStateMachine.InputReader.DashAction += SwitchDashState;
+            playerStateMachine.InteractionHoldWall.ClimbAction += SwitchHoldWallState;
+            playerStateMachine.Animator.CrossFadeInFixedTime(_inAirAnimation, playerStateMachine.AnimationCrossFade, 0);
+        }
+
+        public override void Tick(float deltaTime)
+        {
+            if (playerStateMachine.CharacterController.isGrounded)
+            {
+                playerStateMachine.SwitchState(new LandingState(playerStateMachine));
+            }
+            Movement(deltaTime);
+        }
+
+        public override void Exit()
+        {
+            playerStateMachine.InputReader.DashAction -= SwitchDashState;
+            playerStateMachine.InputReader.JumpAction -= BackToJump;
+            playerStateMachine.InteractionHoldWall.ClimbAction -= SwitchHoldWallState;
+            playerStateMachine.ForceReceiver.IsActiveFallingAction  = false;
+        }
+        
+        private void Movement(float deltaTime)
+        {
+            currentSpeed = playerStateMachine.InputReader.IsSprint
+                ? playerStateMachine.SprintSpeed
+                : playerStateMachine.WalkSpeed;
+
+            var motion = CalculateInputDirection() * currentSpeed;
+            Move(motion, deltaTime);
+        }
+
+        private void BackToJump()
+        {
+            if (playerStateMachine.JumpCount >= 2) return;
+            playerStateMachine.ForceReceiver._verticalVelocity = 0f;
+            playerStateMachine.SwitchState(new StartJumpState(playerStateMachine));
+        }
+        
+        private void SwitchDashState()
+        {
+            playerStateMachine.SwitchState(new DashState(playerStateMachine));
+        }
+        
+        private void SwitchHoldWallState()
+        {
+            playerStateMachine.SwitchState(new HoldWallState(playerStateMachine));
+        }
+    }
+}

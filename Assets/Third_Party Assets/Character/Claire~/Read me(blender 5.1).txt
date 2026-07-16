@@ -1,0 +1,5 @@
+1. blender version:  5.1 or above 
+2. Install the included addon 'import_daz-5.1.0' and ' mhx_rts-5.1.0 '
+3. Better performance in cycles 
+4. Feel free to use it in your renders/animations
+Enjoy~
