@@ -6,6 +6,8 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 {
     public Vector2 Movement { get; private set; }
     public bool IsSprint { get; private set; }
+    public bool IsInteract { get; private set; }
+
     public event Action JumpAction = delegate { };
     public event Action DashAction = delegate { };
 
@@ -31,7 +33,7 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
     public void OnMove(InputAction.CallbackContext context)
     {
         Movement = context.ReadValue<Vector2>();
-        Debug.Log(Movement);
+        // Debug.Log(Movement);
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -44,6 +46,12 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        if (context.canceled)
+        {
+            IsInteract = false;
+            return;
+        }
+        IsInteract = true;
     }
 
     public void OnCrouch(InputAction.CallbackContext context)

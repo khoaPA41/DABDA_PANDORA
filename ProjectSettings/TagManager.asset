@@ -11,11 +11,13 @@ TagManager:
   - ChangeEnvironmentState
   - Climb
   - CanHold
+  - Obstacle Trigger
+  - Button_Obstacle_Trigger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacle
   - Water
   - UI
   - 
