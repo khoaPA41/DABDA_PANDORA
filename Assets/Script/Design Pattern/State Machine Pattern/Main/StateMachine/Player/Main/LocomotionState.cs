@@ -20,6 +20,9 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction += playerStateMachine.SwitchDashState;
             playerStateMachine.ForceReceiver.FallingEventAction += playerStateMachine.SwitchInAirState;
+            playerStateMachine.InteractionHoldWall.PickUpItemAction += SwitchGetItemState;
+            playerStateMachine.InteractionHoldWall.EnterKeyAction += SwitchEnterKeyState;
+
             playerStateMachine.Animator.CrossFadeInFixedTime(_locomotionBlendTreeHash, playerStateMachine.AnimationCrossFade, 0);
         }
 
@@ -35,6 +38,10 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction -= playerStateMachine.SwitchDashState;
             playerStateMachine.ForceReceiver.FallingEventAction -= playerStateMachine.SwitchInAirState;
+            playerStateMachine.InteractionHoldWall.PickUpItemAction -= SwitchGetItemState;
+            playerStateMachine.InteractionHoldWall.EnterKeyAction -= SwitchEnterKeyState;
+
+
         }
 
         private void Movement(float deltaTime)
@@ -68,6 +75,16 @@ namespace Script.StateMachine.Player.Main
             }
             
             playerStateMachine.Animator.SetFloat(_movement, 0.5f, playerStateMachine.AnimationCrossFade, deltaTime);
+        }
+
+        private void SwitchGetItemState(GameObject item)
+        {
+            playerStateMachine.SwitchState(new GetItemState(playerStateMachine, item));
+        }
+        
+        private void SwitchEnterKeyState()
+        {
+            playerStateMachine.SwitchState(new EnterKeyState(playerStateMachine));
         }
     }
 }

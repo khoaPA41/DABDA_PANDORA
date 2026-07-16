@@ -13,6 +13,9 @@ TagManager:
   - CanHold
   - Obstacle Trigger
   - Button_Obstacle_Trigger
+  - ObjectPooling
+  - Item
+  - GateLock
   layers:
   - Default
   - TransparentFX

@@ -24,6 +24,11 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public float JumpForce { get; private set; }
         [field: SerializeField] public float DashForce { get; private set; }
 
+        [Header("Item")]         
+        [field: SerializeField] public GetPooledObject GetPooledObject { get; private set; }
+        [field: SerializeField] public Transform HoldItemTransform { get; private set; }
+
+        
         [Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
@@ -68,6 +73,11 @@ namespace Script.StateMachine.Player.Base
         public void SwitchInAirState()
         {
             SwitchState(new InAirState(this));
+        }
+
+        public void DestroyObject(GameObject obj)
+        {
+            Destroy(obj);
         }
     }
 }
