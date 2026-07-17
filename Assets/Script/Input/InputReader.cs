@@ -6,7 +6,7 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 {
     public Vector2 Movement { get; private set; }
     public bool IsSprint { get; private set; }
-    public bool IsInteract { get; private set; }
+    public bool IsInteract { get; set; }
 
     public event Action JumpAction = delegate { };
     public event Action DashAction = delegate { };
@@ -46,12 +46,12 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.canceled)
+        if (context.started)
         {
-            IsInteract = false;
+            IsInteract = true;
             return;
         }
-        IsInteract = true;
+        IsInteract = false;
     }
 
     public void OnCrouch(InputAction.CallbackContext context)

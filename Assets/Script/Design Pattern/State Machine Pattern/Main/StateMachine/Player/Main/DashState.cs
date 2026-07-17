@@ -26,6 +26,7 @@ namespace Script.StateMachine.Player.Main
         public override void Tick(float deltaTime)
         {
             var normalizeTime = GetNormalizeTime(playerStateMachine.Animator, _dashAnimationTag, 0);
+
             if (normalizeTime >= _previousTime && normalizeTime >= .5f)
             {
                 if (!playerStateMachine.CharacterController.isGrounded)
@@ -33,7 +34,6 @@ namespace Script.StateMachine.Player.Main
                     playerStateMachine.SwitchState(new InAirState(playerStateMachine));
                     return;
                 }
-
                 playerStateMachine.ReturnLocomotion();
             }
 
@@ -43,9 +43,11 @@ namespace Script.StateMachine.Player.Main
 
         public override void Exit()
         {
+            playerStateMachine.ForceReceiver.IsDash = false;
             playerStateMachine.InteractionHoldWall.ClimbAction -= SwitchHoldWallState;
-            playerStateMachine.ForceReceiver._horizontalVelocity = 0f;
+            
         }
+        
         private void SwitchHoldWallState()
         {
             playerStateMachine.SwitchState(new HoldWallState(playerStateMachine));

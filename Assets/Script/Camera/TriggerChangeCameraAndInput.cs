@@ -1,17 +1,21 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerChangeCameraAndInput : MonoBehaviour
 {
-    [Header("Camera Object")]
-    [SerializeField] private GameObject camera2D;
-    [SerializeField] private GameObject camera3D;
+    [Header("Camera Object")] [SerializeField] 
+    private List<GameObject> mainCameraList;
+    // [SerializeField] private GameObject camera2D_I;
+    // [SerializeField] private GameObject camera2D_II;
+    //
+    // [SerializeField] private GameObject camera3D;
     [SerializeField] private GameObject cameraTargetGate;
 
-    public bool Is3DState { get; private set; } = true;
+    public bool IsChangeInputState = true;
 
-    public event Action ChangeCameraStateAction;
+    public event Action<CameraStatus> ChangeCameraStateAction;
 
     private void OnEnable()
     {
@@ -23,11 +27,22 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         ChangeCameraStateAction -= ChangeCamera;
     }
 
-    private void ChangeCamera()
+    private void ChangeCamera(CameraStatus cameraStatus)
     {
-        Is3DState = !Is3DState;
-        camera2D.SetActive(!Is3DState);
-        camera3D.SetActive(Is3DState);
+        IsChangeInputState = cameraStatus.isChangeInputState;
+        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera  => camera.name == cameraStatus.name))].SetActive(true);
+        ResetCamera(cameraStatus.name);
+        // camera2D.SetActive(!Is3DState);
+        // camera3D.SetActive(Is3DState);
+    }
+
+    private void ResetCamera(string name)
+    {
+        foreach (var camera in mainCameraList)
+        {
+            if (camera.name == name) continue;
+            camera.SetActive(false);
+        }
     }
 
     public void ChangeCameraTargetGateCoroutine()
@@ -51,7 +66,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     {
         if (other.CompareTag("ChangeEnvironmentState"))
         {
-            ChangeCameraStateAction?.Invoke();
+            ChangeCameraStateAction?.Invoke(other.gameObject.GetComponent<CameraStatus>());
         }
     }
 

@@ -19,8 +19,6 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
-            
-
             playerStateMachine.JumpCount++;
             playerStateMachine.Animator.CrossFadeInFixedTime(_jumpAnimation, playerStateMachine.AnimationCrossFade, 0);
             playerStateMachine.ForceReceiver.Jump(playerStateMachine.JumpForce);

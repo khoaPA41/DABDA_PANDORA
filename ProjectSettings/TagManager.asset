@@ -16,6 +16,7 @@ TagManager:
   - ObjectPooling
   - Item
   - GateLock
+  - SlideWall
   layers:
   - Default
   - TransparentFX

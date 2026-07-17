@@ -67,6 +67,7 @@ namespace Script.StateMachine.Player.Base
         
         public void SwitchJumpState()
         {
+            ForceReceiver.IsHoldWall = false;
             SwitchState(new StartJumpState(this));
         }
         

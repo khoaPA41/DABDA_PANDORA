@@ -40,8 +40,6 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.ForceReceiver.FallingEventAction -= playerStateMachine.SwitchInAirState;
             playerStateMachine.InteractionHoldWall.PickUpItemAction -= SwitchGetItemState;
             playerStateMachine.InteractionHoldWall.EnterKeyAction -= SwitchEnterKeyState;
-
-
         }
 
         private void Movement(float deltaTime)

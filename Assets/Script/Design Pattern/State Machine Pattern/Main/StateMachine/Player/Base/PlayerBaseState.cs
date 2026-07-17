@@ -29,7 +29,7 @@ namespace Script.StateMachine.Player.Base
                 return;
             }
 
-            var rotationDamping = playerStateMachine.TriggerChangeCameraAndInput.Is3DState
+            var rotationDamping = playerStateMachine.TriggerChangeCameraAndInput.IsChangeInputState
                 ? playerStateMachine.RotationDamping
                 : playerStateMachine.RotationDamping2D;
 
@@ -49,7 +49,7 @@ namespace Script.StateMachine.Player.Base
 
         protected Vector3 CalculateInputDirection()
         {
-            if (playerStateMachine.TriggerChangeCameraAndInput.Is3DState)
+            if (playerStateMachine.TriggerChangeCameraAndInput.IsChangeInputState)
             {
                 var forward = playerStateMachine.MainCameraTransform.transform.forward;
                 var right = playerStateMachine.MainCameraTransform.transform.right;

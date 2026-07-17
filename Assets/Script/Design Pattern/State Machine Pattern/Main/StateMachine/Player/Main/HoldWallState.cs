@@ -14,7 +14,6 @@ public class HoldWallState : PlayerBaseState
         playerStateMachine.JumpCount = 0;
         playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
         playerStateMachine.Animator.CrossFadeInFixedTime(_holdWallAnimation, playerStateMachine.AnimationCrossFade, 0);
-        playerStateMachine.ForceReceiver._verticalVelocity = 0f;
     }
 
     public override void Tick(float deltaTime)
@@ -23,12 +22,18 @@ public class HoldWallState : PlayerBaseState
         {
             playerStateMachine.ReturnLocomotion();
         }
-        Move(deltaTime);
+
+        if (!playerStateMachine.ForceReceiver.IsHoldWall)
+        {
+            Move(deltaTime);
+        }
     }
 
     public override void Exit()
     {
         playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
         playerStateMachine.ForceReceiver.IsHoldWall = false;
+        playerStateMachine.ForceReceiver.IsSlideWall = false;
+        playerStateMachine.ForceReceiver._verticalVelocity = 0f;
     }
 }

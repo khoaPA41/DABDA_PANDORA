@@ -14,7 +14,6 @@ public class InteractionHoldWall : MonoBehaviour
     public event Action<GameObject> PickUpItemAction;
     public event Action EnterKeyAction;
 
-
     private InputReader  _inputReader;
     private void Start()
     {
@@ -42,6 +41,13 @@ public class InteractionHoldWall : MonoBehaviour
             _forceReceiver.IsHoldWall = true;
             ClimbAction?.Invoke();
         }
+        
+        if (other.CompareTag("SlideWall"))
+        {
+            // transform.SetParent(other.transform);
+            _forceReceiver.IsSlideWall = true;
+            ClimbAction?.Invoke();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -51,6 +57,7 @@ public class InteractionHoldWall : MonoBehaviour
             if (_inputReader.IsInteract)
             {
                 ActiveButtonTriggerAction?.Invoke(other.name);
+                _inputReader.IsInteract = false;
             }
         }
 
@@ -76,8 +83,14 @@ public class InteractionHoldWall : MonoBehaviour
     {
         if (other.CompareTag("CanHold"))
         {
-            _forceReceiver.IsHoldWall = false;
             transform.SetParent(null);
+        }
+        
+        if (other.CompareTag("SlideWall"))
+        {
+            // transform.SetParent(other.transform);
+            _forceReceiver.IsSlideWall = false;
+            ClimbAction?.Invoke();
         }
     }
 }
