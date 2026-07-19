@@ -21,7 +21,7 @@ public class EnterKeyState : PlayerBaseState
         var normalizeTime = GetNormalizeTime(playerStateMachine.Animator, _enterKeyAnimationTag, 0);
         if (normalizeTime >= _previousTime && normalizeTime >= .8f)
         {
-            playerStateMachine.InteractionHoldWall.ActiveText(playerStateMachine.GetPooledObject.item.name);
+            playerStateMachine.Interaction.ActiveText(playerStateMachine.GetPooledObject.item.name);
             playerStateMachine.GetPooledObject.item.Release(playerStateMachine.GetPooledObject.item.name);
             playerStateMachine.TriggerChangeCameraAndInput.ChangeCameraTargetGateCoroutine();
             playerStateMachine.ReturnLocomotion();

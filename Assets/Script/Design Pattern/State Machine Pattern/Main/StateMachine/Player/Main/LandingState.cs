@@ -15,7 +15,6 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
-            
             playerStateMachine.Animator.CrossFadeInFixedTime(_landingAnimation, playerStateMachine.AnimationCrossFade,
                 0);
         }

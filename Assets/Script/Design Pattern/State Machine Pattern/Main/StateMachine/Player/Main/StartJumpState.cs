@@ -34,7 +34,14 @@ namespace Script.StateMachine.Player.Main
             }
             
             _previousTime = normalizeTime;
-            Movement(deltaTime);
+            if (playerStateMachine.IsOnSplineCart)
+            {
+                MoveFollowSplineCart(deltaTime);
+            }
+            else
+            {
+                Movement(deltaTime);
+            }
         }
 
         public override void Exit()

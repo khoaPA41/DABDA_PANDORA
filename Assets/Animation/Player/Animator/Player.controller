@@ -104,7 +104,7 @@ AnimatorStateMachine:
     m_Position: {x: 90, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1146714862953565120}
-    m_Position: {x: 300, y: 250, z: 0}
+    m_Position: {x: 510, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5669756271173512529}
     m_Position: {x: 290, y: 70, z: 0}
@@ -113,16 +113,19 @@ AnimatorStateMachine:
     m_Position: {x: 510, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7543964639229984069}
-    m_Position: {x: 70, y: -160, z: 0}
+    m_Position: {x: 40, y: -150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5647634555540685634}
-    m_Position: {x: 40, y: -80, z: 0}
+    m_Position: {x: 40, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4201487763195537490}
     m_Position: {x: 420, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2329854484254024063}
     m_Position: {x: 40, y: -40, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3760253914323265835}
+    m_Position: {x: 510, y: 230, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -318,6 +321,32 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 79c658dad1ac4d64f865b6ea735db527, type: 2}
   m_Tag: Jump
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &3760253914323265835
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Slide
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: f41eda979f5ee3f43a1c5a7c0967c10a, type: 2}
+  m_Tag: Slide
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Script.StateMachine.Player.Main;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField]
         public CharacterController CharacterController { get; private set; }
         [field: SerializeField] public ForceReceiver ForceReceiver { get; private set; }
-        [field: SerializeField] public InteractionHoldWall InteractionHoldWall { get; private set; }
+        [field: SerializeField] public Interaction Interaction { get; private set; }
         [field: SerializeField] public float WalkSpeed { get; set; } = 5f;
         [field: SerializeField] public float SprintSpeed { get; set; } = 5f;
         [field: SerializeField] public float MovementSpeedStunnedCoefficient { get; private set; } = .2f;
@@ -28,32 +29,44 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public GetPooledObject GetPooledObject { get; private set; }
         [field: SerializeField] public Transform HoldItemTransform { get; private set; }
 
+        [Header("Spline Cart")]
+        [field: SerializeField] public Transform SplineCart { get; private set; }
+        public Vector3 LastCartPosition { get; set; }
+        public bool IsOnSplineCart { get; set; } = false;
         
         [Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
-
         [field: SerializeField] public float AnimationCrossFade { get; private set; } = .1f;
 
+        [Header("Reset")]
+        [field: SerializeField]
+        public List<Transform> PlayerTransformsReset { get; private set; }
+        
         public Transform MainCameraTransform { get; private set; }
         // public bool Is3dEnvironment {get; private set;} = false;
         
         public int JumpCount { get; set; }
+        
         private void Start()
         {
             if (Camera.main is not null) MainCameraTransform = Camera.main.transform;
+            InputReader.SetCursor();
             ReturnLocomotion();
         }
         
-        // private void OnEnable()
-        // {
-        //     ForceReceiver.FallingEventAction += SwitchInAirState;
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     ForceReceiver.FallingEventAction -= SwitchInAirState;
-        // }
+        private void OnEnable()
+        {
+            Interaction.ActiveSplineStateAction += SwitchSplineCartState;
+            Interaction.ResetPlayerStateAction += ResetPlayerState;
+
+        }
+        
+        private void OnDisable()
+        {
+            Interaction.ActiveSplineStateAction -= SwitchSplineCartState;
+            Interaction.ResetPlayerStateAction -= ResetPlayerState;
+        }
         
         public void ReturnLocomotion()
         {
@@ -75,10 +88,24 @@ namespace Script.StateMachine.Player.Base
         {
             SwitchState(new InAirState(this));
         }
+        
+        public void SwitchSplineCartState()
+        {
+            IsOnSplineCart = true;
+            SwitchState(new SplineCartState(this));
+        }
 
         public void DestroyObject(GameObject obj)
         {
             Destroy(obj);
+        }
+
+        private void ResetPlayerState(int transformIndex)
+        {
+            TriggerChangeCameraAndInput.ChangeSplineCamera(false);
+            IsOnSplineCart = false;
+            ReturnLocomotion();
+            transform.position = PlayerTransformsReset[transformIndex].position;
         }
     }
 }

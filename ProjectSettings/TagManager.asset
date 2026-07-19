@@ -17,6 +17,9 @@ TagManager:
   - Item
   - GateLock
   - SlideWall
+  - DeathTrigger
+  - GateSpline
+  - Cutscene_1
   layers:
   - Default
   - TransparentFX
@@ -24,7 +27,7 @@ TagManager:
   - Obstacle
   - Water
   - UI
-  - 
+  - Wall_Obstacle
   - 
   - 
   - 

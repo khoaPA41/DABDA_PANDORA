@@ -16,7 +16,7 @@ namespace Script.StateMachine.Player.Main
         {
             playerStateMachine.InputReader.JumpAction += BackToJump;
             playerStateMachine.InputReader.DashAction += SwitchDashState;
-            playerStateMachine.InteractionHoldWall.ClimbAction += SwitchHoldWallState;
+            playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
             playerStateMachine.Animator.CrossFadeInFixedTime(_inAirAnimation, playerStateMachine.AnimationCrossFade, 0);
         }
 
@@ -24,16 +24,30 @@ namespace Script.StateMachine.Player.Main
         {
             if (playerStateMachine.CharacterController.isGrounded)
             {
+                if (playerStateMachine.IsOnSplineCart)
+                {
+                    playerStateMachine.SwitchState(new SplineCartState(playerStateMachine));
+                    return;
+                }
+
                 playerStateMachine.SwitchState(new LandingState(playerStateMachine));
             }
-            Movement(deltaTime);
+            
+            if (playerStateMachine.IsOnSplineCart)
+            {
+                MoveFollowSplineCart(deltaTime);
+            }
+            else
+            {
+                Movement(deltaTime);
+            }
         }
 
         public override void Exit()
         {
             playerStateMachine.InputReader.DashAction -= SwitchDashState;
             playerStateMachine.InputReader.JumpAction -= BackToJump;
-            playerStateMachine.InteractionHoldWall.ClimbAction -= SwitchHoldWallState;
+            playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
             playerStateMachine.ForceReceiver.IsActiveFallingAction  = false;
         }
         

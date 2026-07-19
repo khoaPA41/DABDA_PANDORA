@@ -20,8 +20,8 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction += playerStateMachine.SwitchDashState;
             playerStateMachine.ForceReceiver.FallingEventAction += playerStateMachine.SwitchInAirState;
-            playerStateMachine.InteractionHoldWall.PickUpItemAction += SwitchGetItemState;
-            playerStateMachine.InteractionHoldWall.EnterKeyAction += SwitchEnterKeyState;
+            playerStateMachine.Interaction.PickUpItemAction += SwitchGetItemState;
+            playerStateMachine.Interaction.EnterKeyAction += SwitchEnterKeyState;
 
             playerStateMachine.Animator.CrossFadeInFixedTime(_locomotionBlendTreeHash, playerStateMachine.AnimationCrossFade, 0);
         }
@@ -38,8 +38,8 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction -= playerStateMachine.SwitchDashState;
             playerStateMachine.ForceReceiver.FallingEventAction -= playerStateMachine.SwitchInAirState;
-            playerStateMachine.InteractionHoldWall.PickUpItemAction -= SwitchGetItemState;
-            playerStateMachine.InteractionHoldWall.EnterKeyAction -= SwitchEnterKeyState;
+            playerStateMachine.Interaction.PickUpItemAction -= SwitchGetItemState;
+            playerStateMachine.Interaction.EnterKeyAction -= SwitchEnterKeyState;
         }
 
         private void Movement(float deltaTime)

@@ -1,0 +1,116 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+
+[Serializable]
+public class TriggerButton
+{
+    public GameObject button;
+    public TextMeshPro text;
+}
+
+public class ObstacleTriggerInteraction : MonoBehaviour
+{
+    private static readonly int ActiveTrigger = Animator.StringToHash("ActiveTrigger");
+    [SerializeField] private GameObject obstacle;
+    [SerializeField] private List<TriggerButton> buttons;
+
+    private TriggerButton _nextButton;
+    private Interaction _player;
+    private Rigidbody _rb;
+    private Animator _animator;
+    private Color _currentColor;
+
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>();
+        _animator = GetComponent<Animator>();
+    }
+    
+    private void Start()
+    {
+        _nextButton = buttons[0];
+        _player.ActiveButtonTriggerAction += FindButton;
+        _currentColor = buttons[0].text.color;
+    }
+    
+    private void OnDisable()
+    {
+        _player.ActiveButtonTriggerAction -= FindButton;
+    }
+
+    private void ResetButtons()
+    {
+        _nextButton = buttons[0];
+        foreach (var button in buttons)
+        {
+            button.text.color = _currentColor;
+        }
+    }
+
+    private TextMeshPro FindButtonByName(string name)
+    {
+        foreach (var button in buttons)
+        {
+            if (button.button.name == name)
+            {
+                return button.text;
+            }
+        }
+        return null;
+    }
+
+    private void FindButton(string name)
+    {
+        Debug.Log(_nextButton.button.name);
+        if (_nextButton.button.name != name)
+        {
+            StartCoroutine(ChangeAlertColor(1f, FindButtonByName(name)));
+            return;
+        }
+
+        StartCoroutine(ChangeOpacity(1f, .3f, 1f,  _nextButton.text));
+
+        if (buttons.IndexOf(_nextButton) == buttons.Count - 1)
+        {
+            _animator.SetTrigger(ActiveTrigger);
+            return;
+        }
+        
+        _nextButton = buttons[buttons.IndexOf(_nextButton) + 1];
+    }
+
+    private IEnumerator ChangeAlertColor(float time, TextMeshPro text)
+    {
+        text.color = Color.red;
+        yield return new WaitForSeconds(time);
+        text.color = _currentColor;
+        ResetButtons();
+    }
+
+    private static IEnumerator ChangeOpacity(float time, float currentOpacity, float targetOpacity, TextMeshPro text)
+    {
+        var currentColor = text.color;
+        var timeElapsed = 0f;
+
+        while (timeElapsed < time)
+        {
+            timeElapsed += Time.deltaTime;
+
+            var timePercentage = Mathf.Clamp01(timeElapsed / time);
+            
+            var changeColor = Mathf.Lerp(currentOpacity, targetOpacity, timePercentage);
+            
+            currentColor.a =  changeColor;
+            text.color = currentColor;
+            yield return null;
+        }
+        currentColor.a =  targetOpacity;
+        text.color = currentColor;
+    }
+}

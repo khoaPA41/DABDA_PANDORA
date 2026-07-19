@@ -21,6 +21,34 @@ namespace Script.StateMachine.Player.Base
         {
             playerStateMachine.CharacterController.Move((playerStateMachine.ForceReceiver.Movement + Vector3.zero) * deltaTime);
         }
+
+        protected void MoveFollowSplineCart(float deltaTime)
+        {
+            var cartDelta = Vector3.zero;
+            
+            // Calculate delta S of Spline Cart
+            cartDelta = playerStateMachine.SplineCart.position - playerStateMachine.LastCartPosition;
+            playerStateMachine.LastCartPosition =  playerStateMachine.SplineCart.position;
+            
+            // Gravity of horizontal
+            var horizontalSpline = playerStateMachine.SplineCart.right * (playerStateMachine.InputReader.Movement.x * playerStateMachine.SprintSpeed * deltaTime);
+            
+            // Gravity of falling / jumping
+            var playerDelta = playerStateMachine.ForceReceiver.Movement * deltaTime;
+
+            // Face look at forward
+            FaceDir(playerStateMachine.MainCameraTransform.transform.forward, deltaTime);
+            
+            // Combine forces
+            playerStateMachine.CharacterController.Move(playerDelta + cartDelta + horizontalSpline);
+            
+            //Convert Player World Space to Spline Local
+            var localPosToCart =  playerStateMachine.SplineCart.InverseTransformPoint(playerStateMachine.transform.position);
+            localPosToCart.x = Mathf.Clamp(localPosToCart.x, -5f, 5f);
+            // Attach player local pos to player world pos
+            playerStateMachine.transform.position = playerStateMachine.SplineCart.TransformPoint(localPosToCart);
+
+        }
         
         protected void FaceDir(Vector3 movement, float deltaTime)
         {

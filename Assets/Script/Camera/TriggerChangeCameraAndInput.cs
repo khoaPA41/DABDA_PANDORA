@@ -12,6 +12,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     //
     // [SerializeField] private GameObject camera3D;
     [SerializeField] private GameObject cameraTargetGate;
+    [SerializeField] private GameObject splineCamera;
 
     public bool IsChangeInputState = true;
 
@@ -47,7 +48,12 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
 
     public void ChangeCameraTargetGateCoroutine()
     {
-        StartCoroutine(ResetCamera(ChangeCameraTargetGate));
+        StartCoroutine(ResetCameraCoroutine(ChangeCameraTargetGate));
+    }
+
+    public void ChangeSplineCamera(bool isActive)
+    {
+        splineCamera.SetActive(isActive);
     }
 
     private void ChangeCameraTargetGate()
@@ -55,7 +61,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         cameraTargetGate.SetActive(!cameraTargetGate.activeInHierarchy);
     }
 
-    private IEnumerator ResetCamera(Action action)
+    private IEnumerator ResetCameraCoroutine(Action action)
     {
         action?.Invoke();
         yield return new WaitForSeconds(3f);
