@@ -87,7 +87,15 @@ namespace Script.StateMachine.Player.Base
                 right.Normalize();
                 return forward * playerStateMachine.InputReader.Movement.y + right * playerStateMachine.InputReader.Movement.x;
             }
-            return new Vector3(-playerStateMachine.InputReader.Movement.y, 0, playerStateMachine.InputReader.Movement.x);
+            return new Vector3(-playerStateMachine.InputReader.Movement.y, 0f, playerStateMachine.InputReader.Movement.x);
+        }
+
+        protected Vector3 CalculateClimbInputDirection()
+        {
+            var right = playerStateMachine.MainCameraTransform.transform.right;
+            right.y = 0f;
+            right.Normalize();
+            return Vector3.up * playerStateMachine.InputReader.Movement.y + right * playerStateMachine.InputReader.Movement.x;
         }
     }
 }

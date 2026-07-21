@@ -43,6 +43,11 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField]
         public List<Transform> PlayerTransformsReset { get; private set; }
         
+        [Header("Attack")]
+        [field: SerializeField]
+        public Shooting Shooting { get; private set; }
+        
+        
         public Transform MainCameraTransform { get; private set; }
         // public bool Is3dEnvironment {get; private set;} = false;
         
@@ -59,13 +64,18 @@ namespace Script.StateMachine.Player.Base
         {
             Interaction.ActiveSplineStateAction += SwitchSplineCartState;
             Interaction.ResetPlayerStateAction += ResetPlayerState;
-
+            ForceReceiver.OnClimbedAction += SwitchClimbState;
+            ForceReceiver.OnHoldWallAction += SwitchHoldWallState;
+            ForceReceiver.OnSlideWallAction += SwitchHoldWallState;
         }
         
         private void OnDisable()
         {
             Interaction.ActiveSplineStateAction -= SwitchSplineCartState;
             Interaction.ResetPlayerStateAction -= ResetPlayerState;
+            ForceReceiver.OnClimbedAction -= SwitchClimbState;
+            ForceReceiver.OnHoldWallAction -= SwitchHoldWallState;
+            ForceReceiver.OnSlideWallAction -= SwitchHoldWallState;
         }
         
         public void ReturnLocomotion()
@@ -92,7 +102,18 @@ namespace Script.StateMachine.Player.Base
         public void SwitchSplineCartState()
         {
             IsOnSplineCart = true;
+            Shooting.ActiveCrosshair(true);
             SwitchState(new SplineCartState(this));
+        }
+
+        private void SwitchClimbState()
+        {
+            SwitchState(new ClimbState(this));
+        }
+        
+        private void SwitchHoldWallState()
+        {
+            SwitchState(new HoldWallState(this));
         }
 
         public void DestroyObject(GameObject obj)
@@ -104,6 +125,7 @@ namespace Script.StateMachine.Player.Base
         {
             TriggerChangeCameraAndInput.ChangeSplineCamera(false);
             IsOnSplineCart = false;
+            Shooting.ActiveCrosshair(false);
             ReturnLocomotion();
             transform.position = PlayerTransformsReset[transformIndex].position;
         }

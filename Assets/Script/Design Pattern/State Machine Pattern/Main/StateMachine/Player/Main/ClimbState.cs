@@ -17,6 +17,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
+            playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
             playerStateMachine.Animator.CrossFadeInFixedTime(_climbingBlendTreeHash,
                 playerStateMachine.AnimationCrossFade, 0);
         }
@@ -24,11 +25,13 @@ namespace Script.StateMachine.Player.Main
         public override void Tick(float deltaTime)
         {
             Movement(deltaTime);
-            // UpdateAnimation(deltaTime);
+            UpdateAnimation(deltaTime);
         }
 
         public override void Exit()
         {
+            playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
+            playerStateMachine.ForceReceiver.IsClimbing = false;
         }
 
         private void Movement(float deltaTime)
@@ -37,32 +40,39 @@ namespace Script.StateMachine.Player.Main
                 ? playerStateMachine.SprintSpeed
                 : playerStateMachine.WalkSpeed;
 
-            var motion = CalculateInputDirection();
+            var motion = CalculateClimbInputDirection();
             Move(motion * currentSpeed, deltaTime);
-            FaceDir(motion, deltaTime);
         }
 
-        //     private void UpdateAnimation(float deltaTime)
-        //     {
-        //         if (playerStateMachine.InputReader.Movement == Vector2.zero)
-        //         {
-        //             playerStateMachine.Animator.SetFloat(_movement, 0, playerStateMachine.AnimationCrossFade, deltaTime);
-        //             if (playerStateMachine.Animator.GetFloat(_movement) <= 0.0001f)
-        //             {
-        //                 playerStateMachine.Animator.SetFloat(_movement, 0);
-        //             }
-        //
-        //             return;
-        //         }
-        //
-        //         if (playerStateMachine.InputReader.IsSprint)
-        //         {
-        //             playerStateMachine.Animator.SetFloat(_movement, 1, playerStateMachine.AnimationCrossFade, deltaTime);
-        //             return;
-        //         }
-        //         
-        //         playerStateMachine.Animator.SetFloat(_movement, 0.5f, playerStateMachine.AnimationCrossFade, deltaTime);
-        //     }
+        private void UpdateAnimation(float deltaTime)
+        {
+            if (playerStateMachine.InputReader.Movement == Vector2.zero)
+            {
+                playerStateMachine.Animator.SetFloat(_climbX, 0, playerStateMachine.AnimationCrossFade, deltaTime);
+                playerStateMachine.Animator.SetFloat(_climbY, 0, playerStateMachine.AnimationCrossFade, deltaTime);
+
+                if (playerStateMachine.Animator.GetFloat(_climbX) <= 0.0001f)
+                {
+                    playerStateMachine.Animator.SetFloat(_climbX, 0);
+                }
+                
+                
+                if (playerStateMachine.Animator.GetFloat(_climbY) <= 0.0001f)
+                {
+                    playerStateMachine.Animator.SetFloat(_climbY, 0);
+                }
         
+                return;
+            }
+        
+            // if (playerStateMachine.InputReader.IsSprint)
+            // {
+            //     playerStateMachine.Animator.SetFloat(_movement, 1, playerStateMachine.AnimationCrossFade, deltaTime);
+            //     return;
+            // }
+            //
+            playerStateMachine.Animator.SetFloat(_climbX, playerStateMachine.InputReader.Movement.x, playerStateMachine.AnimationCrossFade, deltaTime);
+            playerStateMachine.Animator.SetFloat(_climbY, playerStateMachine.InputReader.Movement.y, playerStateMachine.AnimationCrossFade, deltaTime);
+        }
     }
 }

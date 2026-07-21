@@ -1,12 +1,15 @@
 using Script.Design_Pattern.Object_Pooling;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shooting : MonoBehaviour
 {
     [Header("Canvas")]
     [SerializeField] private Canvas Canvas;
-    [SerializeField] private RectTransform crosshair;
+    [SerializeField] private Image crosshairImage;
+   
+    //[SerializeField] private RectTransform crosshair;
     [SerializeField] private float sensitivity;
     [SerializeField] private float crosshairPadding;
     
@@ -20,15 +23,18 @@ public class Shooting : MonoBehaviour
     private InputReader _inputReader;
     private Camera _mainCamera;
     private Vector3 target;
+    private RectTransform crosshair;
+    
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
         _mainCamera = Camera.main;
+        crosshair = crosshairImage.rectTransform;
     }
 
     void Update()
     {
-        // if (!isCanShoot) return;
+        if (!isCanShoot) return;
         var newRectPos = _inputReader.Look * (sensitivity * Time.deltaTime);
         crosshair.anchoredPosition += newRectPos;
         ClampCrosshairPosition();
@@ -66,5 +72,11 @@ public class Shooting : MonoBehaviour
         if (!_inputReader.IsAttack) return;
         objectPooling.GetPooledObject("Bullet", projectile.position).GetComponent<Bullet>().direction = target;
         _inputReader.IsAttack = false;
+    }
+
+    public void ActiveCrosshair(bool active)
+    {
+        crosshairImage.gameObject.SetActive(active);
+        isCanShoot =  active;
     }
 }

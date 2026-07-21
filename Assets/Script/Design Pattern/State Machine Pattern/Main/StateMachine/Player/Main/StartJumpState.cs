@@ -19,6 +19,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
+            playerStateMachine.ForceReceiver._verticalVelocity = -2f;
             playerStateMachine.JumpCount++;
             playerStateMachine.Animator.CrossFadeInFixedTime(_jumpAnimation, playerStateMachine.AnimationCrossFade, 0);
             playerStateMachine.ForceReceiver.Jump(playerStateMachine.JumpForce);
@@ -28,7 +29,7 @@ namespace Script.StateMachine.Player.Main
         public override void Tick(float deltaTime)
         {
             var normalizeTime = GetNormalizeTime(playerStateMachine.Animator, _jumpAnimationTag, 0);
-            if (normalizeTime >= _previousTime && normalizeTime >= .2f && !playerStateMachine.CharacterController.isGrounded)
+            if (normalizeTime >= _previousTime && normalizeTime >= .2f && !playerStateMachine.ForceReceiver.IsGrounded)
             {
                 playerStateMachine.SwitchState(new InAirState(playerStateMachine));
             }

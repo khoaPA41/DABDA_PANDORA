@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4782491681141125944}
   - component: {fileID: 5374825961397886316}
   - component: {fileID: 3051123271344539314}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: SildeWall_Base
   m_TagString: SlideWall
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4609703055854277197}
   - component: {fileID: 3088121698538526951}
   - component: {fileID: 4049897735090927033}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Plane
   m_TagString: SlideWall
   m_Icon: {fileID: 0}

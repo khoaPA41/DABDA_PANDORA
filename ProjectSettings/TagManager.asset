@@ -28,10 +28,10 @@ TagManager:
   - Water
   - UI
   - Wall_Obstacle
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Climb
+  - HoldWall
+  - SlideWall
   - 
   - 
   - 

@@ -16,13 +16,13 @@ namespace Script.StateMachine.Player.Main
         {
             playerStateMachine.InputReader.JumpAction += BackToJump;
             playerStateMachine.InputReader.DashAction += SwitchDashState;
-            playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
+            // playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
             playerStateMachine.Animator.CrossFadeInFixedTime(_inAirAnimation, playerStateMachine.AnimationCrossFade, 0);
         }
 
         public override void Tick(float deltaTime)
         {
-            if (playerStateMachine.CharacterController.isGrounded)
+            if (playerStateMachine.ForceReceiver.IsGrounded)
             {
                 if (playerStateMachine.IsOnSplineCart)
                 {
@@ -47,7 +47,7 @@ namespace Script.StateMachine.Player.Main
         {
             playerStateMachine.InputReader.DashAction -= SwitchDashState;
             playerStateMachine.InputReader.JumpAction -= BackToJump;
-            playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
+            // playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
             playerStateMachine.ForceReceiver.IsActiveFallingAction  = false;
         }
         

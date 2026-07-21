@@ -17,7 +17,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
-            playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
+            // playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
             playerStateMachine.Animator.CrossFadeInFixedTime(_dashAnimation, playerStateMachine.AnimationCrossFade, 0);
             playerStateMachine.ForceReceiver.AddImpact(new Vector3(0f, 0f, CalculateInputDirection().z) *
                                                        playerStateMachine.DashForce);
@@ -44,13 +44,10 @@ namespace Script.StateMachine.Player.Main
         public override void Exit()
         {
             playerStateMachine.ForceReceiver.IsDash = false;
-            playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
+            // playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
             
         }
         
-        private void SwitchHoldWallState()
-        {
-            playerStateMachine.SwitchState(new HoldWallState(playerStateMachine));
-        }
+
     }
 }

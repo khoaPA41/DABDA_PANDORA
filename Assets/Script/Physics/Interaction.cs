@@ -15,9 +15,6 @@ public class Interaction : MonoBehaviour
     [Header("Trigger Non Interaction")]
     [SerializeField] private PlayableDirector cutsceneDirector_1;
     
-    private ForceReceiver _forceReceiver;
-    public event Action ClimbAction;
-    
     public event Action<string> ActiveButtonTriggerAction;
     public event Action <string> ActiveKeyTriggerAction;
     public event Action<GameObject> PickUpItemAction;
@@ -29,7 +26,6 @@ public class Interaction : MonoBehaviour
     private InputReader  _inputReader;
     private void Start()
     {
-        _forceReceiver = GetComponent<ForceReceiver>();
         _inputReader = GetComponent<InputReader>();
     }
 
@@ -44,8 +40,7 @@ public class Interaction : MonoBehaviour
             }
         }
     }
-
-
+    
     public void ActiveSplineAnimate()
     {
         splineAnimate.Play();
@@ -53,20 +48,6 @@ public class Interaction : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("CanHold"))
-        {
-            transform.SetParent(other.transform);
-            _forceReceiver.IsHoldWall = true;
-            ClimbAction?.Invoke();
-        }
-        
-        if (other.CompareTag("SlideWall"))
-        {
-            // transform.SetParent(other.transform);
-            _forceReceiver.IsSlideWall = true;
-            ClimbAction?.Invoke();
-        }
-        
         if (other.CompareTag("DeathTrigger"))
         {
             Debug.Log("Death");
@@ -139,13 +120,6 @@ public class Interaction : MonoBehaviour
         if (other.CompareTag("CanHold"))
         {
             transform.SetParent(null);
-        }
-        
-        if (other.CompareTag("SlideWall"))
-        {
-            // transform.SetParent(other.transform);
-            _forceReceiver.IsSlideWall = false;
-            ClimbAction?.Invoke();
         }
     }
 }

@@ -18,7 +18,7 @@ public class HoldWallState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
-        if (playerStateMachine.CharacterController.isGrounded)
+        if (playerStateMachine.ForceReceiver.IsGrounded)
         {
             playerStateMachine.ReturnLocomotion();
         }
@@ -35,5 +35,6 @@ public class HoldWallState : PlayerBaseState
         playerStateMachine.ForceReceiver.IsHoldWall = false;
         playerStateMachine.ForceReceiver.IsSlideWall = false;
         playerStateMachine.ForceReceiver._verticalVelocity = 0f;
+        playerStateMachine.transform.SetParent(null);
     }
 }
