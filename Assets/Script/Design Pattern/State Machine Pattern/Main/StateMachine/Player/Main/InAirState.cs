@@ -16,6 +16,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
+            playerStateMachine.IsMove = true;
             playerStateMachine.InputReader.JumpAction += BackToJump;
             playerStateMachine.InputReader.DashAction += SwitchDashState;
             // playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
@@ -61,6 +62,7 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.ForceReceiver.OnMatchTargetAction -= GetTarget;
             playerStateMachine.ForceReceiver.IsActiveFallingAction  = false;
             playerStateMachine.ForceReceiver.IsMatchTarget = false;
+            playerStateMachine.IsMove = false;
         }
         
         private void Movement(float deltaTime)

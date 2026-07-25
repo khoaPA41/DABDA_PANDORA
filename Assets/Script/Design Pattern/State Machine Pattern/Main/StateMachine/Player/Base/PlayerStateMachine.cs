@@ -54,7 +54,9 @@ namespace Script.StateMachine.Player.Base
         
         public int JumpCount { get; set; }
         
-        public bool isMove {get; set;}
+        public bool IsMove {get; set;}
+        public bool IsCrouch {get; set;}
+
         // public bool isRunning {get; private set;} = false;
 
         public event Action OnDeathAction;
@@ -127,6 +129,16 @@ namespace Script.StateMachine.Player.Base
         private void SwitchDeathState()
         {
             SwitchState(new DeathState(this));
+        }
+        
+        public void SwitchGetItemState(GameObject item)
+        {
+            SwitchState(new GetItemState(this, item));
+        }
+        
+        public void SwitchEnterKeyState()
+        {
+            SwitchState(new EnterKeyState(this));
         }
 
         public void DestroyObject(GameObject obj)

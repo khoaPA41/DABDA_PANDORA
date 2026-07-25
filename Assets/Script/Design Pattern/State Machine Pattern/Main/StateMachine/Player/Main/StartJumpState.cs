@@ -24,6 +24,7 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.Animator.CrossFadeInFixedTime(_jumpAnimation, playerStateMachine.AnimationCrossFade, 0);
             playerStateMachine.ForceReceiver.Jump(playerStateMachine.JumpForce);
             FaceDir();
+            playerStateMachine.IsMove = true;
         }
 
         public override void Tick(float deltaTime)
@@ -48,6 +49,7 @@ namespace Script.StateMachine.Player.Main
         public override void Exit()
         {
             playerStateMachine.ForceReceiver.FallingEventAction -= playerStateMachine.SwitchInAirState;
+            playerStateMachine.IsMove = false;
         }
         
         private void Movement(float deltaTime)

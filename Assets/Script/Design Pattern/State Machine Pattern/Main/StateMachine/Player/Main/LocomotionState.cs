@@ -19,9 +19,10 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.JumpCount = 0;
             playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction += playerStateMachine.SwitchDashState;
+            playerStateMachine.InputReader.CrouchAction += SwitchCrouchState;
             playerStateMachine.ForceReceiver.FallingEventAction += playerStateMachine.SwitchInAirState;
-            playerStateMachine.Interaction.PickUpItemAction += SwitchGetItemState;
-            playerStateMachine.Interaction.EnterKeyAction += SwitchEnterKeyState;
+            playerStateMachine.Interaction.PickUpItemAction += playerStateMachine.SwitchGetItemState;
+            playerStateMachine.Interaction.EnterKeyAction += playerStateMachine.SwitchEnterKeyState;
 
             playerStateMachine.Animator.CrossFadeInFixedTime(_locomotionBlendTreeHash, playerStateMachine.AnimationCrossFade, 0);
         }
@@ -31,12 +32,11 @@ namespace Script.StateMachine.Player.Main
             // SwitchJumpState();
             if (playerStateMachine.InputReader.Movement == Vector2.zero)
             {
-                playerStateMachine.isMove = false;
+                playerStateMachine.IsMove = false;
             }
             else
             {
-                playerStateMachine.isMove = true;
-
+                playerStateMachine.IsMove = true;
             }
             
             Movement(deltaTime);
@@ -47,9 +47,10 @@ namespace Script.StateMachine.Player.Main
         {
             playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
             playerStateMachine.InputReader.DashAction -= playerStateMachine.SwitchDashState;
+            playerStateMachine.InputReader.CrouchAction -= SwitchCrouchState;
             playerStateMachine.ForceReceiver.FallingEventAction -= playerStateMachine.SwitchInAirState;
-            playerStateMachine.Interaction.PickUpItemAction -= SwitchGetItemState;
-            playerStateMachine.Interaction.EnterKeyAction -= SwitchEnterKeyState;
+            playerStateMachine.Interaction.PickUpItemAction -= playerStateMachine.SwitchGetItemState;
+            playerStateMachine.Interaction.EnterKeyAction -= playerStateMachine.SwitchEnterKeyState;
         }
 
         private void Movement(float deltaTime)
@@ -85,14 +86,19 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.Animator.SetFloat(_movement, 0.5f, playerStateMachine.AnimationCrossFade, deltaTime);
         }
 
-        private void SwitchGetItemState(GameObject item)
+        private void SwitchCrouchState()
         {
-            playerStateMachine.SwitchState(new GetItemState(playerStateMachine, item));
+            playerStateMachine.SwitchState(new CrouchState(playerStateMachine));
         }
-        
-        private void SwitchEnterKeyState()
-        {
-            playerStateMachine.SwitchState(new EnterKeyState(playerStateMachine));
-        }
+
+        // private void SwitchGetItemState(GameObject item)
+        // {
+        //     playerStateMachine.SwitchState(new GetItemState(playerStateMachine, item));
+        // }
+        //
+        // private void SwitchEnterKeyState()
+        // {
+        //     playerStateMachine.SwitchState(new EnterKeyState(playerStateMachine));
+        // }
     }
 }

@@ -6,7 +6,6 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 {
     public Vector2 Movement { get; private set; }
     public Vector2 Look { get; private set; }
-
     public bool IsSprint { get; private set; }
     public bool IsInteract { get; set; }
     public bool IsAttack { get; set; }
@@ -14,6 +13,7 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
     public bool CursorLocked { get; set; } = true;
     public event Action JumpAction = delegate { };
     public event Action DashAction = delegate { };
+    public event Action CrouchAction = delegate { };
 
     private Input _inputActions;
     
@@ -69,6 +69,8 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
 
     public void OnCrouch(InputAction.CallbackContext context)
     {
+        if (context.performed || context.canceled) return;
+        CrouchAction?.Invoke();
     }
 
     public void OnJump(InputAction.CallbackContext context)

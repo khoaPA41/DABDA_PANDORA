@@ -43,18 +43,24 @@ namespace Script.StateMachine.Zombie.Base
                 return false;
             }
             
+            // Debug.Log("In Chasing Range");
+            
             var player = zombieStateMachine.Player.GetComponent<PlayerStateMachine>();
-            if (player.isMove) return true;
+            if (player.IsMove) return true;
 
-            var angleToPlayer = Vector3.Angle(zombieStateMachine.transform.position, directionToPlayer);
+            var angleToPlayer = Vector3.Angle(zombieStateMachine.transform.forward, directionToPlayer);
 
+            // Debug.Log("Angle: " + angleToPlayer);
             if (angleToPlayer <= zombieStateMachine.ViewAngle / 2f)
             {
+                // Debug.Log("See Player" +  zombieStateMachine.Player.name);
+            
                 var origin = zombieStateMachine.transform.position + Vector3.up;
                 var target = zombieStateMachine.Player.position + Vector3.up;
-
+            
                 if (!Physics.Linecast(origin, target, zombieStateMachine.ObstacleLayer))
                 {
+                    // Debug.Log(zombieStateMachine.Player.name + " is chasing");
                     return true;
                 }
             }

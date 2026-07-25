@@ -15,6 +15,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
+            playerStateMachine.IsMove = true;
             playerStateMachine.Animator.CrossFadeInFixedTime(_landingAnimation, playerStateMachine.AnimationCrossFade,
                 0);
         }
@@ -33,6 +34,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Exit()
         {
+            playerStateMachine.IsMove = false;
         }
     }
 }
