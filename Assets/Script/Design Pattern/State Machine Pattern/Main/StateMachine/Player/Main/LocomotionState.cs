@@ -29,6 +29,16 @@ namespace Script.StateMachine.Player.Main
         public override void Tick(float deltaTime)
         {
             // SwitchJumpState();
+            if (playerStateMachine.InputReader.Movement == Vector2.zero)
+            {
+                playerStateMachine.isMove = false;
+            }
+            else
+            {
+                playerStateMachine.isMove = true;
+
+            }
+            
             Movement(deltaTime);
             UpdateAnimation(deltaTime);
         }

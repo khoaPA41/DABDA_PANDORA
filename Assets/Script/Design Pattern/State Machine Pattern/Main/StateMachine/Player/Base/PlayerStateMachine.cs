@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Script.StateMachine.Player.Main;
 using UnityEngine;
@@ -53,11 +54,16 @@ namespace Script.StateMachine.Player.Base
         
         public int JumpCount { get; set; }
         
+        public bool isMove {get; set;}
+        // public bool isRunning {get; private set;} = false;
+
+        public event Action OnDeathAction;
         private void Start()
         {
             if (Camera.main is not null) MainCameraTransform = Camera.main.transform;
             InputReader.SetCursor();
             ReturnLocomotion();
+            // SwitchState(new SplineCartState(this));
         }
         
         private void OnEnable()
@@ -67,6 +73,7 @@ namespace Script.StateMachine.Player.Base
             ForceReceiver.OnClimbedAction += SwitchClimbState;
             ForceReceiver.OnHoldWallAction += SwitchHoldWallState;
             ForceReceiver.OnSlideWallAction += SwitchHoldWallState;
+            OnDeathAction += SwitchDeathState;
         }
         
         private void OnDisable()
@@ -76,6 +83,7 @@ namespace Script.StateMachine.Player.Base
             ForceReceiver.OnClimbedAction -= SwitchClimbState;
             ForceReceiver.OnHoldWallAction -= SwitchHoldWallState;
             ForceReceiver.OnSlideWallAction -= SwitchHoldWallState;
+            OnDeathAction -= SwitchDeathState;
         }
         
         public void ReturnLocomotion()
@@ -115,6 +123,11 @@ namespace Script.StateMachine.Player.Base
         {
             SwitchState(new HoldWallState(this));
         }
+        
+        private void SwitchDeathState()
+        {
+            SwitchState(new DeathState(this));
+        }
 
         public void DestroyObject(GameObject obj)
         {
@@ -128,6 +141,11 @@ namespace Script.StateMachine.Player.Base
             Shooting.ActiveCrosshair(false);
             ReturnLocomotion();
             transform.position = PlayerTransformsReset[transformIndex].position;
+        }
+
+        public void CallDeathAction()
+        {
+            OnDeathAction?.Invoke();
         }
     }
 }

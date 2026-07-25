@@ -29,7 +29,10 @@ public class Shooting : MonoBehaviour
     {
         _inputReader = GetComponent<InputReader>();
         _mainCamera = Camera.main;
-        crosshair = crosshairImage.rectTransform;
+        // if (crosshair)
+        // {
+            crosshair = crosshairImage.rectTransform;
+        // }
     }
 
     void Update()

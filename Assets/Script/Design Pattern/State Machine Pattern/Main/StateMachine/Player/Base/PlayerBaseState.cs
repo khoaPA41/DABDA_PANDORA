@@ -45,8 +45,20 @@ namespace Script.StateMachine.Player.Base
             //Convert Player World Space to Spline Local
             var localPosToCart =  playerStateMachine.SplineCart.InverseTransformPoint(playerStateMachine.transform.position);
             localPosToCart.x = Mathf.Clamp(localPosToCart.x, -5f, 5f);
+            localPosToCart.z = 0f;
+
             // Attach player local pos to player world pos
             playerStateMachine.transform.position = playerStateMachine.SplineCart.TransformPoint(localPosToCart);
+        }
+
+        protected void MoveToTarget(Vector3 movement, float deltaTime)
+        {
+            var distance= movement - playerStateMachine.transform.position;
+            // var lerpPosition = Vector3.MoveTowards(playerStateMachine.transform.position, movement, playerStateMachine.SprintSpeed * 3 * deltaTime); 
+            // var playerDelta = playerStateMachine.ForceReceiver.Movement * deltaTime;
+            // var movementDelta = lerpPosition - playerStateMachine.transform.position;
+            // playerStateMachine.CharacterController.Move(movementDelta);
+            playerStateMachine.CharacterController.Move(distance);
 
         }
         
@@ -95,7 +107,24 @@ namespace Script.StateMachine.Player.Base
             var right = playerStateMachine.MainCameraTransform.transform.right;
             right.y = 0f;
             right.Normalize();
-            return Vector3.up * playerStateMachine.InputReader.Movement.y + right * playerStateMachine.InputReader.Movement.x;
+
+
+            var climbSurfaceNormal = playerStateMachine.ForceReceiver.SurfaceNormal;
+            var climbUp = Vector3.ProjectOnPlane(Vector3.up, climbSurfaceNormal).normalized;
+            var climbRight = Vector3.ProjectOnPlane(right, climbSurfaceNormal).normalized;
+            
+            return (climbUp * playerStateMachine.InputReader.Movement.y +
+                   climbRight * playerStateMachine.InputReader.Movement.x);
+            // - climbSurfaceNormal * .1f
+        }
+
+        protected void RotateToSurface(float deltaTime)
+        {
+            var climbSurfaceNormal = playerStateMachine.ForceReceiver.SurfaceNormal;
+            if (climbSurfaceNormal != Vector3.zero)
+            {
+                playerStateMachine.transform.rotation = Quaternion.Lerp(playerStateMachine.transform.rotation, Quaternion.LookRotation(-climbSurfaceNormal), playerStateMachine.RotationDamping * deltaTime);
+            }
         }
     }
 }

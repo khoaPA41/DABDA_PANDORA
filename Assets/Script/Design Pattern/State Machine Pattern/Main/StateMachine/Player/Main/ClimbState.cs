@@ -24,23 +24,35 @@ namespace Script.StateMachine.Player.Main
 
         public override void Tick(float deltaTime)
         {
+
             Movement(deltaTime);
+            RotateToSurface(deltaTime);
             UpdateAnimation(deltaTime);
         }
 
         public override void Exit()
         {
             playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
-            playerStateMachine.ForceReceiver.IsClimbing = false;
+            playerStateMachine.ForceReceiver.IsActiveFallingAction = false;
+            playerStateMachine.ForceReceiver.IsCallClimbedAction  = false;
         }
 
         private void Movement(float deltaTime)
         {
+            // var normal = playerStateMachine.ForceReceiver.SurfaceNormal;
+            // if (normal != Vector3.zero)
+            // {
+            //     Quaternion targetRotation = Quaternion.LookRotation(-normal);
+            //     // Dùng Slerp để xoay mượt mà, không bị giật cục
+            //     playerStateMachine.transform.rotation = Quaternion.Slerp(playerStateMachine.transform.rotation, targetRotation, 15f * deltaTime);
+            // }
+            
             currentSpeed = playerStateMachine.InputReader.IsSprint
                 ? playerStateMachine.SprintSpeed
                 : playerStateMachine.WalkSpeed;
 
             var motion = CalculateClimbInputDirection();
+            
             Move(motion * currentSpeed, deltaTime);
         }
 
@@ -64,13 +76,7 @@ namespace Script.StateMachine.Player.Main
         
                 return;
             }
-        
-            // if (playerStateMachine.InputReader.IsSprint)
-            // {
-            //     playerStateMachine.Animator.SetFloat(_movement, 1, playerStateMachine.AnimationCrossFade, deltaTime);
-            //     return;
-            // }
-            //
+            
             playerStateMachine.Animator.SetFloat(_climbX, playerStateMachine.InputReader.Movement.x, playerStateMachine.AnimationCrossFade, deltaTime);
             playerStateMachine.Animator.SetFloat(_climbY, playerStateMachine.InputReader.Movement.y, playerStateMachine.AnimationCrossFade, deltaTime);
         }

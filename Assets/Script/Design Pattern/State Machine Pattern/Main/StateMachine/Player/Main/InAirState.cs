@@ -8,6 +8,8 @@ namespace Script.StateMachine.Player.Main
         private static readonly int _inAirAnimation = Animator.StringToHash("InAir");
         private float _previousTime;
         private float currentSpeed;
+
+        private Vector3 matchTarget;
         public InAirState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
         {
         }
@@ -17,6 +19,7 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.JumpAction += BackToJump;
             playerStateMachine.InputReader.DashAction += SwitchDashState;
             // playerStateMachine.Interaction.ClimbAction += SwitchHoldWallState;
+            playerStateMachine.ForceReceiver.OnMatchTargetAction += GetTarget;
             playerStateMachine.Animator.CrossFadeInFixedTime(_inAirAnimation, playerStateMachine.AnimationCrossFade, 0);
         }
 
@@ -39,7 +42,14 @@ namespace Script.StateMachine.Player.Main
             }
             else
             {
-                Movement(deltaTime);
+                if (playerStateMachine.ForceReceiver.IsMatchTarget)
+                {
+                    MoveToTarget(matchTarget, deltaTime);
+                }
+                else
+                {
+                    Movement(deltaTime);
+                }
             }
         }
 
@@ -48,7 +58,9 @@ namespace Script.StateMachine.Player.Main
             playerStateMachine.InputReader.DashAction -= SwitchDashState;
             playerStateMachine.InputReader.JumpAction -= BackToJump;
             // playerStateMachine.Interaction.ClimbAction -= SwitchHoldWallState;
+            playerStateMachine.ForceReceiver.OnMatchTargetAction -= GetTarget;
             playerStateMachine.ForceReceiver.IsActiveFallingAction  = false;
+            playerStateMachine.ForceReceiver.IsMatchTarget = false;
         }
         
         private void Movement(float deltaTime)
@@ -76,6 +88,11 @@ namespace Script.StateMachine.Player.Main
         private void SwitchHoldWallState()
         {
             playerStateMachine.SwitchState(new HoldWallState(playerStateMachine));
+        }
+
+        private void GetTarget(Vector3 position)
+        {
+            matchTarget =  position;
         }
     }
 }

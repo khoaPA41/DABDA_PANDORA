@@ -31,8 +31,8 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     private void ChangeCamera(CameraStatus cameraStatus)
     {
         IsChangeInputState = cameraStatus.isChangeInputState;
-        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera  => camera.name == cameraStatus.name))].SetActive(true);
-        ResetCamera(cameraStatus.name);
+        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera  => camera.name == cameraStatus.cameraName))].SetActive(true);
+        ResetCamera(cameraStatus.cameraName);
         // camera2D.SetActive(!Is3DState);
         // camera3D.SetActive(Is3DState);
     }

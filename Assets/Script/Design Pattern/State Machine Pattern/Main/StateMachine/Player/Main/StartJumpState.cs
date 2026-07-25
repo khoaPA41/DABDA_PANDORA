@@ -19,7 +19,7 @@ namespace Script.StateMachine.Player.Main
 
         public override void Enter()
         {
-            playerStateMachine.ForceReceiver._verticalVelocity = -2f;
+            // playerStateMachine.ForceReceiver._verticalVelocity = -2f;
             playerStateMachine.JumpCount++;
             playerStateMachine.Animator.CrossFadeInFixedTime(_jumpAnimation, playerStateMachine.AnimationCrossFade, 0);
             playerStateMachine.ForceReceiver.Jump(playerStateMachine.JumpForce);

@@ -10,13 +10,18 @@ public class ForceReceiver : MonoBehaviour
     [SerializeField] private LayerMask climbLayer;
     [SerializeField] private LayerMask holdWallLayer;
     [SerializeField] private LayerMask slideWallLayer;
+    [SerializeField] private LayerMask matchTargetLayer;
 
     [SerializeField] private Transform footTransform;
     [SerializeField] private Transform bodyTransform;
 
     [SerializeField] private float footSphereCastRadius;
     [SerializeField] private float bodySphereCastRadius;
+    [SerializeField] private float matchTargetCastRadius;
 
+    
+    [SerializeField] private float bodyCastDistance;
+    [SerializeField] private float matchTargetCastDistance;
 
     private CharacterController _controller;
     public float _verticalVelocity { get; set; }
@@ -26,7 +31,6 @@ public class ForceReceiver : MonoBehaviour
 
     public Vector3 Movement => _impact + Vector3.up * _verticalVelocity;
     
-    public event Action FallingEventAction;
     public bool IsActiveFallingAction;
     public bool IsDash;
     
@@ -34,12 +38,17 @@ public class ForceReceiver : MonoBehaviour
     public bool IsClimbing { get; set; }
     public bool IsHoldWall { get; set; }
     public bool IsSlideWall { get; set; }
-    
+    public bool IsMatchTarget { get; set; }
 
+    public event Action FallingEventAction;
     public event Action OnClimbedAction;
+    public bool IsCallClimbedAction { get; set; }
+    public Vector3 SurfaceNormal { get; set; }
+
     public event Action OnHoldWallAction;
     public event Action OnSlideWallAction;
-
+    public event Action<Vector3> OnMatchTargetAction;
+    
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -51,6 +60,7 @@ public class ForceReceiver : MonoBehaviour
         CheckClimb();
         CheckHoldWall();
         CheckSlideWall();
+        
         if (!IsDash)
         {
             if (_verticalVelocity < 0f && IsGrounded)
@@ -61,7 +71,7 @@ public class ForceReceiver : MonoBehaviour
             {
                 if (IsSlideWall)
                 {
-                    _verticalVelocity += Physics.gravity.y * Time.deltaTime;
+                    _verticalVelocity = -1f;
                 }
                 else if (IsHoldWall || IsClimbing)
                 {
@@ -69,9 +79,10 @@ public class ForceReceiver : MonoBehaviour
                 }
                 else
                 {
+                    CheckMatchTarget();
                     _verticalVelocity += Physics.gravity.y * 3 * Time.deltaTime;
-
                     if (IsActiveFallingAction) return;
+                    
                     FallingEventAction?.Invoke();
                     IsActiveFallingAction = true;
                 }
@@ -98,18 +109,7 @@ public class ForceReceiver : MonoBehaviour
     }
 
     public float GetCoefficientOfMovement() => _coefficientOfMovement;
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        // Draw foot sphere cast
-        Gizmos.DrawWireSphere(footTransform.position, footSphereCastRadius);
-
-        // Draw body sphere cast
-        Gizmos.DrawWireSphere(bodyTransform.position, bodySphereCastRadius);
-    }
-
+    
     private void CheckGround()
     {
         IsGrounded = Physics.CheckSphere(footTransform.position, footSphereCastRadius, groundLayer);
@@ -117,19 +117,24 @@ public class ForceReceiver : MonoBehaviour
 
     private void CheckClimb()
     {
-        if (IsClimbing) return;
-        IsClimbing = Physics.CheckSphere(bodyTransform.position, bodySphereCastRadius, climbLayer);
+        RaycastHit hit = CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, climbLayer, bodyCastDistance);
+        IsClimbing = hit.collider is not null;
+        
+        SurfaceNormal = hit.normal;
+
+        if (IsCallClimbedAction) return;
         if (!IsClimbing) return;
+        IsCallClimbedAction = true;
         OnClimbedAction?.Invoke();
     }
     
     private void CheckHoldWall()
     {
         if (IsHoldWall) return;
-        
-        RaycastHit hit =  CheckSphereCast(bodySphereCastRadius, holdWallLayer);
+        RaycastHit hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, holdWallLayer, bodyCastDistance);
         
         IsHoldWall = hit.collider != null;
+        // Debug.Log(IsHoldWall);
         transform.SetParent(hit.transform);
         
         if (!IsHoldWall) return;
@@ -140,17 +145,41 @@ public class ForceReceiver : MonoBehaviour
     {
         if (IsSlideWall) return;
         
-        RaycastHit hit =  CheckSphereCast(bodySphereCastRadius, slideWallLayer);
+        RaycastHit hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, slideWallLayer, bodyCastDistance);
         IsSlideWall = hit.collider != null;
         
         if (!IsSlideWall) return;
         OnSlideWallAction?.Invoke();
     }
 
-    private RaycastHit CheckSphereCast(float radius, LayerMask mask)
+    private void CheckMatchTarget()
     {
-        Physics.SphereCast(bodyTransform.position, bodySphereCastRadius, transform.forward, out RaycastHit hit, radius, mask);
+        RaycastHit hit =   CheckSphereCast(footTransform, matchTargetCastRadius, -transform.up, matchTargetLayer, matchTargetCastDistance);
+        IsMatchTarget = hit.collider is not null;
+        OnMatchTargetAction?.Invoke(hit.point);
+    }
+
+    private RaycastHit CheckSphereCast(Transform pos, float radius, Vector3 direction, LayerMask mask, float distance)
+    {
+        Physics.SphereCast(pos.position, radius, direction, out RaycastHit hit, distance, mask);
         return hit;
     }
     
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        // Draw foot sphere cast
+        Gizmos.DrawWireSphere(footTransform.position, footSphereCastRadius);
+
+        // Draw body sphere cast
+        Gizmos.DrawWireSphere(bodyTransform.position, bodySphereCastRadius);
+        
+        // Draw match target sphere cast
+        
+        var endPosition = footTransform.position + (-transform.up * matchTargetCastDistance);
+        
+        Gizmos.DrawWireSphere(endPosition, matchTargetCastRadius);
+        Gizmos.DrawLine(footTransform.position,  endPosition);
+    }
 }
