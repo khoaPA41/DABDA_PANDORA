@@ -12,7 +12,7 @@ public class ZombieChasingState : ZombieBaseState
     public override void Enter()
     {
         zombieStateMachine.Animator.CrossFadeInFixedTime(_runAnimation, zombieStateMachine.AnimationCrossFade);
-
+        zombieStateMachine.NavMeshAgent.speed = zombieStateMachine.SprintSpeed;
     }
 
     public override void Tick(float deltaTime)
@@ -21,8 +21,7 @@ public class ZombieChasingState : ZombieBaseState
         {
             zombieStateMachine.SwitchState(new ZombieAttackState(zombieStateMachine));
         }
-        MoveToTarget(zombieStateMachine.Player.position, deltaTime);
-        FaceDir(zombieStateMachine.Player.position, deltaTime);
+        MoveToTarget(zombieStateMachine.Player.position);
     }
 
     public override void Exit()

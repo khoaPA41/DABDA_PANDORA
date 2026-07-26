@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TriggerChangeCameraAndInput : MonoBehaviour
 {
-    [Header("Camera Object")] [SerializeField] 
+    [Header("Camera Object")] [SerializeField]
     private List<GameObject> mainCameraList;
+
     // [SerializeField] private GameObject camera2D_I;
     // [SerializeField] private GameObject camera2D_II;
     //
@@ -17,6 +19,8 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     public bool IsChangeInputState = true;
 
     public event Action<CameraStatus> ChangeCameraStateAction;
+
+    private GameObject previousCamera;
 
     private void OnEnable()
     {
@@ -31,12 +35,36 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     private void ChangeCamera(CameraStatus cameraStatus)
     {
         IsChangeInputState = cameraStatus.isChangeInputState;
-        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera  => camera.name == cameraStatus.cameraName))].SetActive(true);
-        ResetCamera(cameraStatus.cameraName);
-        // camera2D.SetActive(!Is3DState);
-        // camera3D.SetActive(Is3DState);
+
+        var currentCameraName = CheckCurrentCameraActive(cameraStatus) ? cameraStatus.cameraName : previousCamera.name;
+        
+        ActiveCamera(currentCameraName);
+        
+        ResetCamera(currentCameraName);
     }
 
+
+    private bool CheckCurrentCameraActive(CameraStatus cameraStatus)
+    {
+        foreach (var camera in mainCameraList)
+        {
+            if (camera.activeInHierarchy && camera.name != cameraStatus.cameraName)
+            {
+                previousCamera = camera;
+                Debug.Log(previousCamera.name);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void ActiveCamera(string cameraName)
+    {
+        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera => camera.name == cameraName))]
+            .SetActive(true);
+    }
+    
     private void ResetCamera(string name)
     {
         foreach (var camera in mainCameraList)
@@ -46,9 +74,9 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         }
     }
 
-    public void ChangeCameraTargetGateCoroutine()
+    public void ChangeCameraTargetGateCoroutine(float time)
     {
-        StartCoroutine(ResetCameraCoroutine(ChangeCameraTargetGate));
+        StartCoroutine(ResetCameraCoroutine(ChangeCameraTargetGate, time));
     }
 
     public void ChangeSplineCamera(bool isActive)
@@ -61,13 +89,13 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         cameraTargetGate.SetActive(!cameraTargetGate.activeInHierarchy);
     }
 
-    private IEnumerator ResetCameraCoroutine(Action action)
+    private static IEnumerator ResetCameraCoroutine(Action action, float time)
     {
         action?.Invoke();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(time);
         action?.Invoke();
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ChangeEnvironmentState"))
@@ -76,10 +104,8 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.CompareTag("ChangeEnvironmentState")) return;
-
-        other.GetComponent<BoxCollider>().isTrigger = false;
-    }
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (!other.CompareTag("ChangeEnvironmentState")) return;
+    // }
 }

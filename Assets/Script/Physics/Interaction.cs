@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -32,12 +33,12 @@ public class Interaction : MonoBehaviour
 
     public void ActiveText(string name)
     {
-        foreach (var text in gateTextList)
+        foreach (var text in gateTextList.Where(text => text.name == name))
         {
-            if (text.name == name)
-            {
+            // if (text.name == name)
+            // {
                 text.gameObject.SetActive(true);
-            }
+            // }
         }
     }
     

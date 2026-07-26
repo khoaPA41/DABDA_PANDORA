@@ -10,7 +10,6 @@ namespace Script.StateMachine.Zombie.Base
         public CharacterController CharacterController { get; private set; }
         [field: SerializeField] public ForceReceiver ForceReceiver { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; set; }
-        [field: SerializeField] public float WalkSpeed { get; set; } = 5f;
         [field: SerializeField] public float SprintSpeed { get; set; } = 5f;
         [field: SerializeField] public Transform Hand { get; set; }
 

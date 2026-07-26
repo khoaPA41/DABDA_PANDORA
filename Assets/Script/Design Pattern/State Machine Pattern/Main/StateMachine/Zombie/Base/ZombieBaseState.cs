@@ -14,10 +14,9 @@ namespace Script.StateMachine.Zombie.Base
         }
 
 
-        protected void MoveToTarget(Vector3 target, float deltaTime)
+        protected void MoveToTarget(Vector3 target)
         {
-            var direction = target - zombieStateMachine.transform.position;
-            zombieStateMachine.CharacterController.Move(direction * zombieStateMachine.SprintSpeed * deltaTime);
+            zombieStateMachine.NavMeshAgent.SetDestination(target);
         }
 
         protected void FaceDir(Vector3 target, float deltaTime)
