@@ -16,11 +16,13 @@ public class Interaction : MonoBehaviour
     [Header("Trigger Non Interaction")]
     [SerializeField] private PlayableDirector cutsceneDirector_1;
     
+    [Header("Change Camera Script")]
+    [SerializeField] private TriggerChangeCameraAndInput _triggerChangeCameraAndInput;
     public event Action<string> ActiveButtonTriggerAction;
     public event Action <string> ActiveKeyTriggerAction;
     public event Action<GameObject> PickUpItemAction;
     public event Action EnterKeyAction;
-    public event Action ActiveSplineStateAction;
+    public event Action<bool> ActiveSplineStateAction;
 
     public event Action<int> ResetPlayerStateAction;
 
@@ -46,6 +48,11 @@ public class Interaction : MonoBehaviour
     {
         splineAnimate.Play();
     }
+
+    public void ResetPlayerPositionAction(int transformIndex)
+    {
+        ResetPlayerStateAction?.Invoke(transformIndex);
+    }
     
     private void OnTriggerEnter(Collider other)
     {
@@ -63,9 +70,17 @@ public class Interaction : MonoBehaviour
         if (other.CompareTag("Cutscene_1"))
         {
             splineAnimate.Pause();
-            cutsceneDirector_1.Play();
+            cutsceneDirector_1?.Play();
             ResetPlayerStateAction?.Invoke(0);
         }
+    }
+
+    public void ActiveSpline()
+    {
+        _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
+        splineAnimate.Play();
+        ActiveSplineStateAction?.Invoke(true);
+        
     }
 
     private void OnTriggerStay(Collider other)
@@ -111,7 +126,7 @@ public class Interaction : MonoBehaviour
             if (_inputReader.IsInteract)
             {
                 splineAnimate.Play();
-                ActiveSplineStateAction?.Invoke();
+                ActiveSplineStateAction?.Invoke(false);
             }
         }
     }

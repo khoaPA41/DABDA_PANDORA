@@ -31,13 +31,20 @@ namespace Script.StateMachine.Player.Base
             playerStateMachine.LastCartPosition =  playerStateMachine.SplineCart.position;
             
             // Gravity of horizontal
-            var horizontalSpline = playerStateMachine.SplineCart.right * (playerStateMachine.InputReader.Movement.x * playerStateMachine.SprintSpeed * deltaTime);
+            var horizontalInput = playerStateMachine.IsRunningOnSpline
+                ? -playerStateMachine.InputReader.Movement.x
+                : playerStateMachine.InputReader.Movement.x;
+            var horizontalSpline = playerStateMachine.SplineCart.right * (horizontalInput * playerStateMachine.SprintSpeed * deltaTime);
             
             // Gravity of falling / jumping
             var playerDelta = playerStateMachine.ForceReceiver.Movement * deltaTime;
 
             // Face look at forward
-            FaceDir(playerStateMachine.MainCameraTransform.transform.forward, deltaTime);
+            var forwardDir = playerStateMachine.IsRunningOnSpline
+                ? -playerStateMachine.MainCameraTransform.transform.forward
+                : playerStateMachine.MainCameraTransform.transform.forward;
+            
+            FaceDir(forwardDir, deltaTime);
             
             // Combine forces
             playerStateMachine.CharacterController.Move(playerDelta + cartDelta + horizontalSpline);

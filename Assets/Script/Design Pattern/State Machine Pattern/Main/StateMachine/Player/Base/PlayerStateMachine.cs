@@ -34,7 +34,7 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public Transform SplineCart { get; private set; }
         public Vector3 LastCartPosition { get; set; }
         public bool IsOnSplineCart { get; set; } = false;
-        
+        public bool IsRunningOnSpline { get; set; } = false;
         [Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
@@ -109,10 +109,11 @@ namespace Script.StateMachine.Player.Base
             SwitchState(new InAirState(this));
         }
         
-        public void SwitchSplineCartState()
+        private void SwitchSplineCartState(bool isRunning)
         {
             IsOnSplineCart = true;
-            Shooting.ActiveCrosshair(true);
+            IsRunningOnSpline = isRunning;
+            Shooting?.ActiveCrosshair(true);
             SwitchState(new SplineCartState(this));
         }
 
@@ -148,9 +149,9 @@ namespace Script.StateMachine.Player.Base
 
         private void ResetPlayerState(int transformIndex)
         {
-            TriggerChangeCameraAndInput.ChangeSplineCamera(false);
+            TriggerChangeCameraAndInput?.ChangeSplineCamera(false);
             IsOnSplineCart = false;
-            Shooting.ActiveCrosshair(false);
+            Shooting?.ActiveCrosshair(false);
             ReturnLocomotion();
             transform.position = PlayerTransformsReset[transformIndex].position;
         }
