@@ -21,7 +21,8 @@ public class DeathState : PlayerBaseState
 
         if (normalizeTime >= _previousTime && normalizeTime >= .5f)
         {
-            
+            playerStateMachine.GetPooledObject.GetObject("Death_VFX", playerStateMachine.transform.position, null);
+            playerStateMachine.ReturnLocomotion();
         }
 
         _previousTime = normalizeTime;

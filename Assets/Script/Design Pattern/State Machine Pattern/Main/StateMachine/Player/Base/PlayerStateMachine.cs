@@ -149,11 +149,12 @@ namespace Script.StateMachine.Player.Base
 
         private void ResetPlayerState(int transformIndex)
         {
+            Debug.Log("Reset Pos");
+            transform.position = PlayerTransformsReset[transformIndex].position;
             TriggerChangeCameraAndInput?.ChangeSplineCamera(false);
             IsOnSplineCart = false;
             Shooting?.ActiveCrosshair(false);
             ReturnLocomotion();
-            transform.position = PlayerTransformsReset[transformIndex].position;
         }
 
         public void CallDeathAction()

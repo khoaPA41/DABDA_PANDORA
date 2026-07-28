@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Script.StateMachine.Player.Base;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -18,18 +19,20 @@ public class Interaction : MonoBehaviour
     
     [Header("Change Camera Script")]
     [SerializeField] private TriggerChangeCameraAndInput _triggerChangeCameraAndInput;
+
+
+    private PlayerStateMachine _playerStateMachine;
     public event Action<string> ActiveButtonTriggerAction;
     public event Action <string> ActiveKeyTriggerAction;
     public event Action<GameObject> PickUpItemAction;
     public event Action EnterKeyAction;
     public event Action<bool> ActiveSplineStateAction;
-
     public event Action<int> ResetPlayerStateAction;
-
     private InputReader  _inputReader;
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
+        _playerStateMachine = GetComponent<PlayerStateMachine>();
     }
 
 
@@ -54,17 +57,19 @@ public class Interaction : MonoBehaviour
         ResetPlayerStateAction?.Invoke(transformIndex);
     }
     
+    public void ActiveSpline()
+    {
+        _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
+        splineAnimate.Play();
+        ActiveSplineStateAction?.Invoke(true);
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("DeathTrigger"))
         {
             Debug.Log("Death");
-        }
-
-        if (other.CompareTag("DeathTrigger"))
-        {
-            Debug.Log("Death");
-            Destroy(gameObject);
+            _playerStateMachine.CallDeathAction();
         }
         
         if (other.CompareTag("Cutscene_1"))
@@ -73,14 +78,6 @@ public class Interaction : MonoBehaviour
             cutsceneDirector_1?.Play();
             ResetPlayerStateAction?.Invoke(0);
         }
-    }
-
-    public void ActiveSpline()
-    {
-        _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
-        splineAnimate.Play();
-        ActiveSplineStateAction?.Invoke(true);
-        
     }
 
     private void OnTriggerStay(Collider other)

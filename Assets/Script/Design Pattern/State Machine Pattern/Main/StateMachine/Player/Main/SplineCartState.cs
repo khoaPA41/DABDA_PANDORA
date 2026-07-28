@@ -16,7 +16,8 @@ public class SplineCartState : PlayerBaseState
         playerStateMachine.TriggerChangeCameraAndInput.ChangeSplineCamera(true);
         playerStateMachine.JumpCount = 0;
         playerStateMachine.InputReader.JumpAction += playerStateMachine.SwitchJumpState;
-
+        playerStateMachine.LastCartPosition = playerStateMachine.SplineCart.position;
+        
         playerStateMachine.Animator.CrossFadeInFixedTime(playerStateMachine.IsRunningOnSpline ? _runAnimation : _slideAnimation,
             playerStateMachine.AnimationCrossFade, 0);
         // playerStateMachine.Animator.CrossFadeInFixedTime(_runAnimation,

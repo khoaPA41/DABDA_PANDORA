@@ -15,7 +15,17 @@ public class GetPooledObject : MonoBehaviour
     {
         item = _objectPooling.GetPooledObject(name, position);
         item.gameObject.transform.SetParent(parent, false);
-        item.GetComponent<BoxCollider>().enabled = false;
+
+        if (item.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
+        {
+            boxCollider.enabled = false;
+        }
+
+        if (item.TryGetComponent<ParticleSystem>(out ParticleSystem particleSystem))
+        {
+            particleSystem.Play();
+        }
+        // item.GetComponent<BoxCollider>().enabled = false;
     }
 }
 
