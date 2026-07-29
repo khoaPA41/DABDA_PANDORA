@@ -155,7 +155,7 @@ namespace Script.StateMachine.Player.Base
             transform.position = PlayerTransformsReset[transformIndex].position;
             CharacterController.enabled = true;
             
-            TriggerChangeCameraAndInput?.ChangeSplineCamera(false);.
+            TriggerChangeCameraAndInput?.ChangeSplineCamera(false);
             IsOnSplineCart = false;
             Shooting?.ActiveCrosshair(false);
             ReturnLocomotion();
