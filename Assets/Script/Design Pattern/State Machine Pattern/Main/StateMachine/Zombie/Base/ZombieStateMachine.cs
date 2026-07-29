@@ -20,9 +20,7 @@ namespace Script.StateMachine.Zombie.Base
 
         [Header("Patrol Range")]
         [field: SerializeField] public float PatrolRadius { get; private set; }
-        [field: SerializeField] public Transform Patrol_1 { get; private set; }
-        [field: SerializeField] public Transform Patrol_2 { get; private set; }
-
+        
         [Header("Chasing Range")]
         [field: SerializeField] public float ChasingRadius { get; private set; }
 
@@ -35,10 +33,16 @@ namespace Script.StateMachine.Zombie.Base
         [Header("View Layer")]
         [field: SerializeField] public LayerMask ObstacleLayer { get; private set; }
         
-        public Transform Player;
+        // [Header("Target Chasing")]
+
+        public Transform Player {get; private set;}
+        public Transform Spline {get; private set;}
+        public Transform LastCart { get; set; }
+
         private void Start()
         {
             Player =  GameObject.FindWithTag("Player").transform;
+            Spline =  GameObject.FindWithTag("Spline").transform;
             ReturnLocomotion();
         }
 
@@ -46,7 +50,5 @@ namespace Script.StateMachine.Zombie.Base
         {
             SwitchState(new ZombieLocomotionState(this));
         }
-
-
     }
 }

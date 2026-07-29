@@ -20,6 +20,7 @@ TagManager:
   - DeathTrigger
   - GateSpline
   - Cutscene_1
+  - Spline
   layers:
   - Default
   - TransparentFX

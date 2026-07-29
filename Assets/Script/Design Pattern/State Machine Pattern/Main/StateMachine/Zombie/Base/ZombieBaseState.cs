@@ -16,6 +16,7 @@ namespace Script.StateMachine.Zombie.Base
 
         protected void MoveToTarget(Vector3 target)
         {
+
             zombieStateMachine.NavMeshAgent.SetDestination(target);
         }
 

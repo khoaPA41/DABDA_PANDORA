@@ -59,6 +59,7 @@ public class Interaction : MonoBehaviour
     
     public void ActiveSpline()
     {
+        Debug.Log("Active Spline");
         _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
         splineAnimate.Play();
         ActiveSplineStateAction?.Invoke(true);

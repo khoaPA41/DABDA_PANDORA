@@ -150,8 +150,12 @@ namespace Script.StateMachine.Player.Base
         private void ResetPlayerState(int transformIndex)
         {
             Debug.Log("Reset Pos");
+            
+            CharacterController.enabled = false;
             transform.position = PlayerTransformsReset[transformIndex].position;
-            TriggerChangeCameraAndInput?.ChangeSplineCamera(false);
+            CharacterController.enabled = true;
+            
+            TriggerChangeCameraAndInput?.ChangeSplineCamera(false);.
             IsOnSplineCart = false;
             Shooting?.ActiveCrosshair(false);
             ReturnLocomotion();

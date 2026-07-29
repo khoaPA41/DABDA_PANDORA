@@ -21,6 +21,7 @@ public class ZombieChasingState : ZombieBaseState
         {
             zombieStateMachine.SwitchState(new ZombieAttackState(zombieStateMachine));
         }
+        
         MoveToTarget(zombieStateMachine.Player.position);
     }
 
