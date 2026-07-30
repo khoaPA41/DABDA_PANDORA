@@ -45,13 +45,11 @@ namespace Script.Design_Pattern.Object_Pooling
             pooledObjectDict = new Dictionary<string, Stack<PooledObject>>();
             foreach (var item in poolItemList)
             {
-                Debug.Log(item.size);
                 var pooledObjectStack = new Stack<PooledObject>();
                 var parent =
                     parentObjectList.Find(temp => temp.name.Substring(0, temp.name.Length - 5) == item.objectName);
                 for (var i = 0; i < item.size; i++)
                 {
-                    Debug.Log(item.objectName);
                     var newItem = Instantiate(item.pooledObject, item.pooledObject.transform.position,
                         Quaternion.identity);
                     newItem.Instance = this;
