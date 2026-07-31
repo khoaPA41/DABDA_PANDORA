@@ -22,7 +22,7 @@ namespace Script.Design_Pattern.Object_Pooling
 
         private List<GameObject> parentObjectList;
         
-        private void Start()
+        private void Awake()
         {
             parentObjectList = new List<GameObject>();
             foreach (var item in poolItemList)

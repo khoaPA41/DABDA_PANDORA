@@ -11,21 +11,31 @@ public class DragonController : MonoBehaviour
 {
     [Header("Input Script")] [SerializeField]
     private InputReader inputReader;
-
+    
     [Header("Movement")] [SerializeField] private float speed;
     [SerializeField] private float viewPointMargin;
     
     [Header("Projectile")] [SerializeField] Transform projectile;
+    [SerializeField] Transform subProjectile_I;
+    [SerializeField] Transform subProjectile_II;
+
     [SerializeField] float timeWaitToShoot;
     
     private Camera _mainCamera;
     private readonly BulletType _bulletType = BulletType.Normal_Bullet;
     
+    
+    public bool isBuffProjectile;
     private void Start()
     {
         _mainCamera = Camera.main;
         inputReader = GetComponent<InputReader>();
         inputReader.SetCursor();
+    }
+
+    private void OnEnable()
+    {
+        if (ObjectPoolManager.Instance is null) return;
         StartCoroutine(ShootingCoroutine());
     }
 
@@ -52,7 +62,18 @@ public class DragonController : MonoBehaviour
 
     private void AutoShoot()
     {
+        
+        if (isBuffProjectile)
+        {
+            AutoShootBuffProjectile();
+        }
         ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), projectile.position);
+    }
+
+    private void AutoShootBuffProjectile()
+    {
+        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), subProjectile_I.position);
+        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), subProjectile_II.position);
     }
 
     private IEnumerator ShootingCoroutine()
@@ -62,6 +83,5 @@ public class DragonController : MonoBehaviour
             AutoShoot();
             yield return new WaitForSecondsRealtime(timeWaitToShoot);
         }
-        
     }
 }

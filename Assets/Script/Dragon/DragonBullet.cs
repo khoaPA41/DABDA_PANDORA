@@ -15,11 +15,11 @@ public class DragonBullet : MonoBehaviour
     private Vector3 castLength;
     private Camera _mainCamera;
     private float yViewPoint;
+    
     private void Start()
     {
         _pooledObject = GetComponent<PooledObject>();
         _mainCamera =  Camera.main;
-        // yViewPoint = isPlayer ? .1f : -.1f;
     }
     
     private void Update()
@@ -38,9 +38,17 @@ public class DragonBullet : MonoBehaviour
 
         if (Physics.Raycast(_previousPosition, castLength.normalized, out RaycastHit hit, castLength.magnitude, enemyMask))
         {
-            var enemy = hit.transform.GetComponent<DragonEnemy>();
-            enemy.TakeDamage(damage);
-            _pooledObject.Release(gameObject.name);
+            if (hit.transform.TryGetComponent(out DragonEnemy health))
+            {
+                health.TakeDamage(damage);
+                _pooledObject.Release(gameObject.name);
+            }
+
+            if (hit.transform.TryGetComponent(out DragonHealth playerHealth))
+            {
+                playerHealth.TakeDamage(damage);
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -60,9 +68,5 @@ public class DragonBullet : MonoBehaviour
                 _pooledObject.Release(gameObject.name);
             }
         }
-    }
-    private void OnDrawGizmos()
-    {
-        Debug.DrawRay(_previousPosition, castLength);
     }
 }

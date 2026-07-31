@@ -24,15 +24,8 @@ public class MapMovement : MonoBehaviour
 
     private void CheckPosition()
     {
-        // var distance = (transform.position - targetPosition).magnitude;
-        // if (distance < 0.1f)
-        // {
-        //     Debug.Log("Set Active");
-        //     gameObject.SetActive(false);
-        // }
         if (transform.position.z <= targetPosition.z)
         {
-            // gameObject.SetActive(false);
             transform.position = basePosition;
         }
     }

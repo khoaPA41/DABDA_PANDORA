@@ -6,7 +6,6 @@ public class DragonEnemy : MonoBehaviour
 {
     [SerializeField] private float timeWaitToShoot;
     [SerializeField] private Transform projectile;
-    // [SerializeField] private Transform projectile;
 
     private float health;
     private float speed;
@@ -41,7 +40,7 @@ public class DragonEnemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-        Debug.Log(health);
+        // Debug.Log(health);
         if (health <= 0)
         {
             DragonDeath();

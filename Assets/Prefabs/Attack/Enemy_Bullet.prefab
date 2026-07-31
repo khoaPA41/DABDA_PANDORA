@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragonBullet
   speed: 30
-  damage: 1
+  damage: 50
   enemyMask:
     serializedVersion: 2
     m_Bits: 4294967295
