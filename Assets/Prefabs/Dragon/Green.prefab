@@ -2712,7 +2712,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DragonEnemy
   timeWaitToShoot: 1.5
   projectile: {fileID: 685161488516164471}
-  _dragonHealth: {fileID: 0}
 --- !u!114 &5890205734107163397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2744,7 +2743,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.43, y: 5.67, z: 5.36}
+  m_Size: {x: 9.43, y: 15.34, z: 5.36}
   m_Center: {x: 0, y: 2.88, z: -0.89}
 --- !u!1 &8455074933903378698
 GameObject:

@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Splines;
 
 public class Interaction : MonoBehaviour
@@ -29,21 +30,29 @@ public class Interaction : MonoBehaviour
     public event Action<bool> ActiveSplineStateAction;
     public event Action<int> ResetPlayerStateAction;
     private InputReader  _inputReader;
+
+    public List<string> keyOwned;
+    
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
         _playerStateMachine = GetComponent<PlayerStateMachine>();
+        CheckAndActiveIfHaveKey();
     }
 
+    public void CheckAndActiveIfHaveKey()
+    {
+        foreach (var key in keyOwned)
+        {
+            ActiveText(key);
+        }
+    }
 
     public void ActiveText(string name)
     {
         foreach (var text in gateTextList.Where(text => text.name == name))
         {
-            // if (text.name == name)
-            // {
                 text.gameObject.SetActive(true);
-            // }
         }
     }
     
@@ -126,6 +135,11 @@ public class Interaction : MonoBehaviour
                 splineAnimate.Play();
                 ActiveSplineStateAction?.Invoke(false);
             }
+        }
+
+        if (other.CompareTag("ChangeSceneGate"))
+        {
+            other.GetComponent<TriggerChangeScene>().ChangeScene();
         }
     }
 

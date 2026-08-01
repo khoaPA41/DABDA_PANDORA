@@ -21,6 +21,7 @@ TagManager:
   - GateSpline
   - Cutscene_1
   - Spline
+  - ChangeSceneGate
   layers:
   - Default
   - TransparentFX
