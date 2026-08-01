@@ -11,8 +11,11 @@ using UnityEngine;
 [Serializable]
 public class SaveData
 {
+    public bool hasSaveData;
     public string sceneName;
-    public Vector3 position;
+    public float posX;
+    public float posY;
+    public float posZ;
     public CameraStatus cameraStatus;
     public List<string> keyName;
 }
