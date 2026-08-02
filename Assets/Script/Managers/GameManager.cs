@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public List<string> keyOwnedList;
-    
+    public bool obstacleTrigger_I;
     private enum ReasonLoadScene
     {
         New,
@@ -100,15 +100,19 @@ public class GameManager : MonoBehaviour
             Debug.Log("No save data loaded");
             return;
         }
-        var map = GameObject.FindGameObjectWithTag("MapManager").GetComponent<MapManagers>();
-        if (map != null)
-        {
-            map.isActiveObstacleTrigger_I = saveData.isActiveObstacle_I;
-        }
+        // var map = GameObject.FindGameObjectWithTag("MapManager").GetComponent<MapManagers>();
+        // if (map != null)
+        // {
+            obstacleTrigger_I = saveData.isActiveObstacle_I;
+        // }
         
         player.transform.position = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
         keyOwnedList = saveData.keyName;
-        player.GetComponent<TriggerChangeCameraAndInput>().SetSaveDataCamera(saveData.currentCameraName, saveData.previousCameraName);
+        var camera = player.GetComponent<TriggerChangeCameraAndInput>();
+        if (camera != null)
+        {
+            camera.SetSaveDataCamera(saveData.currentCameraName, saveData.previousCameraName);
+        }
     }
 
     public void SetCheckPoint(Vector3 pos)
@@ -148,7 +152,7 @@ public class GameManager : MonoBehaviour
         
         var keyOwned = keyOwnedList;
         
-        var isActiveObstacleTrigger_I = mapManager?.isActiveObstacleTrigger_I ?? currentSaveData.isActiveObstacle_I;
+        var isActiveObstacleTrigger_I = obstacleTrigger_I;
         
 
         var saveData = new SaveData

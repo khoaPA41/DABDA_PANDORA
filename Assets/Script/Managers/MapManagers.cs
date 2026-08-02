@@ -7,8 +7,6 @@ public class MapManagers : MonoBehaviour
     [SerializeField] List<GameObject> MapObjects;
     [SerializeField] GameObject ObstacleObjects;
     
-    public bool isActiveObstacleTrigger_I { get; set; }
-    
     private void Start()
     {
         CheckActiveObstacle();
@@ -17,7 +15,7 @@ public class MapManagers : MonoBehaviour
 
     private void CheckActiveObstacle()
     {
-        ObstacleObjects.SetActive(!isActiveObstacleTrigger_I);
+        ObstacleObjects.SetActive(!GameManager.Instance.obstacleTrigger_I);
     }
     
 

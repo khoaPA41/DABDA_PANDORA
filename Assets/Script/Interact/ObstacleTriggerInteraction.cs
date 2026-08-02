@@ -82,8 +82,7 @@ public class ObstacleTriggerInteraction : MonoBehaviour
         if (buttons.IndexOf(_nextButton) == buttons.Count - 1)
         {
             _animator.SetTrigger(ActiveTrigger);
-            _mapManagers.isActiveObstacleTrigger_I = true;
-            Debug.Log(_mapManagers.isActiveObstacleTrigger_I);
+            GameManager.Instance.obstacleTrigger_I = true;
             return;
         }
         
