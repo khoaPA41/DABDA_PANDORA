@@ -6,6 +6,7 @@ public class DeathState : PlayerBaseState
     private static readonly int _deathAnimation = Animator.StringToHash("Death");
     private static readonly string _deathAnimationTag = "Death";
     private float _previousTime;
+    private bool isActiveVFX;
     public DeathState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -19,11 +20,10 @@ public class DeathState : PlayerBaseState
     {
         var normalizeTime = GetNormalizeTime(playerStateMachine.Animator, _deathAnimationTag, 0);
 
-        if (normalizeTime >= _previousTime && normalizeTime >= .2f)
+        if (normalizeTime >= _previousTime && normalizeTime >= .2f && !isActiveVFX)
         {
+            isActiveVFX = true;
             playerStateMachine.GetPooledObject.GetObject("Death_VFX", playerStateMachine.transform.position, null);
-            // playerStateMachine.ReturnLocomotion();
-            // playerStateMachine.gameObject.SetActive(false);
         }
         
         if (normalizeTime >= _previousTime && normalizeTime >= .5f)

@@ -16,6 +16,8 @@ public class SaveData
     public float posX;
     public float posY;
     public float posZ;
-    public CameraStatus cameraStatus;
-    public List<string> keyName;
+    public string previousCameraName;
+    public string currentCameraName;
+    public List<string> keyName = new List<string>();
+    public bool isActiveObstacle_I;
 }

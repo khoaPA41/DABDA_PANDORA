@@ -24,11 +24,13 @@ public class ObstacleTriggerInteraction : MonoBehaviour
     private Animator _animator;
     private Color _currentColor;
 
-
+    private MapManagers _mapManagers;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Interaction>();
+        _mapManagers =  GameObject.FindGameObjectWithTag("MapManager").GetComponent<MapManagers>();
         _animator = GetComponent<Animator>();
     }
     
@@ -37,6 +39,7 @@ public class ObstacleTriggerInteraction : MonoBehaviour
         _nextButton = buttons[0];
         _player.ActiveButtonTriggerAction += FindButton;
         _currentColor = buttons[0].text.color;
+        
     }
     
     private void OnDisable()
@@ -79,6 +82,8 @@ public class ObstacleTriggerInteraction : MonoBehaviour
         if (buttons.IndexOf(_nextButton) == buttons.Count - 1)
         {
             _animator.SetTrigger(ActiveTrigger);
+            _mapManagers.isActiveObstacleTrigger_I = true;
+            Debug.Log(_mapManagers.isActiveObstacleTrigger_I);
             return;
         }
         

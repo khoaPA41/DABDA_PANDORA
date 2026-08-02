@@ -10,9 +10,9 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance {get; private set;}
     
-    public  SaveData currentSaveData {get; private set;}
+    public  SaveData CurrentSaveData {get; private set;}
 
-    public string savePath => Path.Combine(Application.persistentDataPath, "savegame.json");
+    private string savePath => Path.Combine(Application.persistentDataPath, "savegame.json");
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class SaveManager : MonoBehaviour
 
     public void CreatNewSaveData()
     {
-        currentSaveData = new SaveData();
+        CurrentSaveData = new SaveData();
         Debug.Log("Creating Save Data");
     }
 
@@ -42,7 +42,7 @@ public class SaveManager : MonoBehaviour
         saveData.hasSaveData = true;
         var json = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(savePath, json);
-        currentSaveData = saveData;
+        CurrentSaveData = saveData;
         
         Debug.Log("Game Is Saved");
     }
@@ -56,8 +56,8 @@ public class SaveManager : MonoBehaviour
         }
         Debug.Log("Load Save Data");
         var json = File.ReadAllText(savePath);
-        currentSaveData = JsonUtility.FromJson<SaveData>(json);
-        return currentSaveData;
+        CurrentSaveData = JsonUtility.FromJson<SaveData>(json);
+        return CurrentSaveData;
     }
 
     public void DeleteSaveData()
@@ -67,7 +67,7 @@ public class SaveManager : MonoBehaviour
             File.Delete(savePath);
         }
 
-        currentSaveData = null;
+        CurrentSaveData = null;
         Debug.Log("Game Is Deleted");
     }
 }

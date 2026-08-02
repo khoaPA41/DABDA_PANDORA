@@ -11,28 +11,35 @@ using UnityEngine.Splines;
 
 public class Interaction : MonoBehaviour
 {
-    [Header("Trigger Interaction")]
-    [SerializeField] private List<TextMeshPro> gateTextList;
+    [Header("Trigger Interaction")] [SerializeField]
+    private List<TextMeshPro> gateTextList;
+
     [SerializeField] private SplineAnimate splineAnimate;
 
-    [Header("Trigger Non Interaction")]
-    [SerializeField] private PlayableDirector cutsceneDirector_1;
-    
-    [Header("Change Camera Script")]
-    [SerializeField] private TriggerChangeCameraAndInput _triggerChangeCameraAndInput;
+    [Header("Trigger Non Interaction")] [SerializeField]
+    private PlayableDirector cutsceneDirector_1;
+
+    [Header("Change Camera Script")] [SerializeField]
+    private TriggerChangeCameraAndInput _triggerChangeCameraAndInput;
 
 
     private PlayerStateMachine _playerStateMachine;
     public event Action<string> ActiveButtonTriggerAction;
-    public event Action <string> ActiveKeyTriggerAction;
+    public event Action<string> ActiveKeyTriggerAction;
     public event Action<GameObject> PickUpItemAction;
     public event Action EnterKeyAction;
     public event Action<bool> ActiveSplineStateAction;
     public event Action<int> ResetPlayerStateAction;
-    private InputReader  _inputReader;
+    private InputReader _inputReader;
 
-    public List<string> keyOwned;
-    
+    public List<string> keyOwned = new List<string>();
+
+    private string itemKey;
+    private void Awake()
+    {
+        // keyOwned = SaveManager.Instance.currentSaveData.keyName;
+    }
+
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
@@ -42,20 +49,22 @@ public class Interaction : MonoBehaviour
 
     public void CheckAndActiveIfHaveKey()
     {
+        if (keyOwned.Count == 0) return;
         foreach (var key in keyOwned)
         {
             ActiveText(key);
         }
     }
 
-    public void ActiveText(string name)
+    public void ActiveText(string itemName)
     {
-        foreach (var text in gateTextList.Where(text => text.name == name))
+        foreach (var text in gateTextList.Where(text => text.name == itemName))
         {
-                text.gameObject.SetActive(true);
+            text.gameObject.SetActive(true);
         }
+        GameManager.Instance.AutoSave();
     }
-    
+
     public void ActiveSplineAnimate()
     {
         splineAnimate.Play();
@@ -65,7 +74,7 @@ public class Interaction : MonoBehaviour
     {
         ResetPlayerStateAction?.Invoke(transformIndex);
     }
-    
+
     public void ActiveSpline()
     {
         Debug.Log("Active Spline");
@@ -73,7 +82,12 @@ public class Interaction : MonoBehaviour
         splineAnimate.Play();
         ActiveSplineStateAction?.Invoke(true);
     }
-    
+
+    public void AddKeyItem(string key)
+    {
+        keyOwned.Add(key);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("DeathTrigger"))
@@ -81,7 +95,7 @@ public class Interaction : MonoBehaviour
             Debug.Log("Death");
             _playerStateMachine.CallDeathAction();
         }
-        
+
         if (other.CompareTag("Cutscene_1"))
         {
             splineAnimate.Pause();
@@ -100,7 +114,7 @@ public class Interaction : MonoBehaviour
                 _inputReader.IsInteract = false;
             }
         }
-        
+
         // if (other.CompareTag("Key_Obstacle_Trigger"))
         // {
         //     if (_inputReader.IsInteract)
@@ -112,22 +126,24 @@ public class Interaction : MonoBehaviour
 
         if (other.CompareTag("Item"))
         {
-            Debug.Log(other.name);
             if (_inputReader.IsInteract)
             {
+                itemKey = other.name;
                 PickUpItemAction?.Invoke(other.gameObject);
+                _inputReader.IsInteract = false;
             }
         }
-        
+
         if (other.CompareTag("GateLock"))
         {
             if (_inputReader.IsInteract)
             {
+                keyOwned.Add(itemKey);
                 EnterKeyAction?.Invoke();
                 _inputReader.IsInteract = false;
             }
         }
-        
+
         if (other.CompareTag("GateSpline"))
         {
             if (_inputReader.IsInteract)

@@ -9,6 +9,7 @@ public class TriggerChangeScene : MonoBehaviour
 
     public void ChangeScene()
     {
+        GameManager.Instance.NextLevel();
         SceneManager.LoadScene(sceneName);
     }
 }

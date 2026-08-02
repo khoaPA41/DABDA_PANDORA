@@ -8,11 +8,6 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
 {
     [Header("Camera Object")] [SerializeField]
     private List<GameObject> mainCameraList;
-
-    // [SerializeField] private GameObject camera2D_I;
-    // [SerializeField] private GameObject camera2D_II;
-    //
-    // [SerializeField] private GameObject camera3D;
     [SerializeField] private GameObject cameraTargetGate;
     [SerializeField] private GameObject splineCamera;
 
@@ -20,8 +15,15 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
 
     public event Action<CameraStatus> ChangeCameraStateAction;
 
-    private GameObject previousCamera;
+    public GameObject PreviousCamera { get; private set; }
+    public GameObject CurrentCamera { get; private set; }
 
+
+    private void Awake()
+    {
+        SetSaveDataCamera(SaveManager.Instance.CurrentSaveData.currentCameraName, SaveManager.Instance.CurrentSaveData.previousCameraName);
+    }
+    
     private void OnEnable()
     {
         ChangeCameraStateAction += ChangeCamera;
@@ -31,16 +33,39 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
     {
         ChangeCameraStateAction -= ChangeCamera;
     }
+    
+    public void SetSaveDataCamera(string currentCameraName, string previousCameraName)
+    {
+        if (string.IsNullOrEmpty(currentCameraName))
+        {
+            foreach (var camera in mainCameraList)
+            {
+                PreviousCamera = camera;
+                CurrentCamera = camera;
+            }
+            return;
+        }
+
+        ActiveCamera(currentCameraName);
+        ResetCamera(currentCameraName);
+        foreach (var camera in mainCameraList.Where(camera => camera.name == previousCameraName))
+        {
+            PreviousCamera = camera;
+        }
+        Debug.Log(PreviousCamera.name);
+        Debug.Log(CurrentCamera.name);
+    }
 
     private void ChangeCamera(CameraStatus cameraStatus)
     {
         IsChangeInputState = cameraStatus.isChangeInputState;
 
-        var currentCameraName = CheckCurrentCameraActive(cameraStatus) ? cameraStatus.cameraName : previousCamera.name;
+        var currentCameraName = CheckCurrentCameraActive(cameraStatus) ? cameraStatus.cameraName : PreviousCamera.name;
         
         ActiveCamera(currentCameraName);
-        
         ResetCamera(currentCameraName);
+        Debug.Log(PreviousCamera.name);
+        Debug.Log(CurrentCamera.name);
     }
 
 
@@ -50,8 +75,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         {
             if (camera.activeInHierarchy && camera.name != cameraStatus.cameraName)
             {
-                previousCamera = camera;
-                Debug.Log(previousCamera.name);
+                PreviousCamera = camera;
                 return true;
             }
         }
@@ -61,8 +85,8 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
 
     private void ActiveCamera(string cameraName)
     {
-        mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera => camera.name == cameraName))]
-            .SetActive(true);
+        CurrentCamera = mainCameraList[mainCameraList.IndexOf(mainCameraList.Find(camera => camera.name == cameraName))];
+        CurrentCamera.SetActive(true);
     }
     
     private void ResetCamera(string name)
@@ -103,9 +127,4 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
             ChangeCameraStateAction?.Invoke(other.gameObject.GetComponent<CameraStatus>());
         }
     }
-
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (!other.CompareTag("ChangeEnvironmentState")) return;
-    // }
 }

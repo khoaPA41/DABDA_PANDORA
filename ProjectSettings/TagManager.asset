@@ -22,6 +22,7 @@ TagManager:
   - Cutscene_1
   - Spline
   - ChangeSceneGate
+  - MapManager
   layers:
   - Default
   - TransparentFX
