@@ -31,14 +31,8 @@ public class Interaction : MonoBehaviour
     public event Action<bool> ActiveSplineStateAction;
     public event Action<int> ResetPlayerStateAction;
     private InputReader _inputReader;
-
-    public List<string> keyOwned = new List<string>();
-
+    
     private string itemKey;
-    private void Awake()
-    {
-        // keyOwned = SaveManager.Instance.currentSaveData.keyName;
-    }
 
     private void Start()
     {
@@ -47,10 +41,11 @@ public class Interaction : MonoBehaviour
         CheckAndActiveIfHaveKey();
     }
 
-    public void CheckAndActiveIfHaveKey()
+    private void CheckAndActiveIfHaveKey()
     {
-        if (keyOwned.Count == 0) return;
-        foreach (var key in keyOwned)
+        if (gateTextList.Count == 0 || gateTextList[0] is null) return;
+        if (GameManager.Instance.keyOwnedList.Count == 0) return;
+        foreach (var key in GameManager.Instance.keyOwnedList)
         {
             ActiveText(key);
         }
@@ -81,11 +76,6 @@ public class Interaction : MonoBehaviour
         _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
         splineAnimate.Play();
         ActiveSplineStateAction?.Invoke(true);
-    }
-
-    public void AddKeyItem(string key)
-    {
-        keyOwned.Add(key);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -138,7 +128,7 @@ public class Interaction : MonoBehaviour
         {
             if (_inputReader.IsInteract)
             {
-                keyOwned.Add(itemKey);
+                GameManager.Instance.AddKey(itemKey);
                 EnterKeyAction?.Invoke();
                 _inputReader.IsInteract = false;
             }

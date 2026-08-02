@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public List<string> keyOwnedList;
+    
     private enum ReasonLoadScene
     {
         New,
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
                 break;
             case ReasonLoadScene.NextLevel:
                 AutoSave();
+                ApplySaveData(player);
                 break;
         }
     }
@@ -98,9 +101,13 @@ public class GameManager : MonoBehaviour
             return;
         }
         var map = GameObject.FindGameObjectWithTag("MapManager").GetComponent<MapManagers>();
-        map.isActiveObstacleTrigger_I = saveData.isActiveObstacle_I;
+        if (map != null)
+        {
+            map.isActiveObstacleTrigger_I = saveData.isActiveObstacle_I;
+        }
+        
         player.transform.position = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
-        player.GetComponent<Interaction>().keyOwned = saveData.keyName;
+        keyOwnedList = saveData.keyName;
         player.GetComponent<TriggerChangeCameraAndInput>().SetSaveDataCamera(saveData.currentCameraName, saveData.previousCameraName);
     }
 
@@ -129,32 +136,38 @@ public class GameManager : MonoBehaviour
 
     public void AutoSave()
     {
+        
         var player = GameObject.FindGameObjectWithTag("Player");
         var map = GameObject.FindGameObjectWithTag("MapManager");
         var mapManager = map?.GetComponent<MapManagers>();
+        var currentSaveData = SaveManager.Instance.CurrentSaveData;
         if (player is null) return;
         
-        var previousCameraObject = player.GetComponent<TriggerChangeCameraAndInput>().PreviousCamera;
-        var currentCameraObject = player.GetComponent<TriggerChangeCameraAndInput>().CurrentCamera;
-        var keyOwned = player.GetComponent<Interaction>().keyOwned;
-
-        Debug.Log($"SaveManager.Instance: {SaveManager.Instance}");
-        Debug.Log($"currentSaveData: {SaveManager.Instance.CurrentSaveData}");
-        Debug.Log($"map: {mapManager}");
-        var isActiveObstacleTrigger_I = mapManager is null ? SaveManager.Instance.CurrentSaveData.isActiveObstacle_I : mapManager.isActiveObstacleTrigger_I;
+        var previousCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.PreviousCamera.name ?? currentSaveData.previousCameraName;
+        var currentCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.CurrentCamera.name ?? currentSaveData.currentCameraName;
         
+        var keyOwned = keyOwnedList;
+        
+        var isActiveObstacleTrigger_I = mapManager?.isActiveObstacleTrigger_I ?? currentSaveData.isActiveObstacle_I;
+        
+
         var saveData = new SaveData
         {
             sceneName = SceneManager.GetActiveScene().name,
             posX = player.transform.position.x,
             posY = player.transform.position.y,
             posZ = player.transform.position.z,
-            previousCameraName =  previousCameraObject.name,
-            currentCameraName = currentCameraObject.name,
+            previousCameraName =  previousCameraObject,
+            currentCameraName = currentCameraObject,
             keyName = new List<string>(keyOwned),
             isActiveObstacle_I = isActiveObstacleTrigger_I
         };
         
         SaveManager.Instance.SaveGame(saveData);
+    }
+
+    public void AddKey(string keyName)
+    {
+        keyOwnedList.Add(keyName);
     }
 }
