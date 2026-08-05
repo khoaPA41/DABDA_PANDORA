@@ -8,9 +8,13 @@ using UnityEngine.SceneManagement;
 public class AudioManagers : MonoBehaviour
 {
     public static AudioManagers Instance;
+    [Header("Background Music Audio Source")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource noLoopAudioSource;
     
-    public List<AudioClip> backgroundMusicList;
-    private AudioSource audioSource;
+    [Header("Audio Clip List")]
+    [field:SerializeField] public List<AudioClip> backgroundMusicList {get; private set;}
+    
     
     private void Awake()
     {
@@ -43,7 +47,7 @@ public class AudioManagers : MonoBehaviour
         audioSource.Play();
     }
 
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         audioSource?.Stop();
     }
@@ -52,8 +56,13 @@ public class AudioManagers : MonoBehaviour
     {
         audioSource?.Stop();
     }
-    
-    
-    // /*Player Audio*/
-    // public void 
+
+    public void PlayNoLoopMusic(string musicName)
+    {
+        foreach (var clip in backgroundMusicList.Where(clip => clip.name == musicName))
+        {
+            noLoopAudioSource.clip = clip;
+        }
+        noLoopAudioSource.Play();
+    }
 }
