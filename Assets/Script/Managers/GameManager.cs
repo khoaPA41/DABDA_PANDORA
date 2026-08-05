@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour
 
     public List<string> keyOwnedList;
     public bool obstacleTrigger_I;
+    public bool isGetTheFinalKey = true;
+    
+    // public event Action  
     private enum ReasonLoadScene
     {
         New,
@@ -100,12 +104,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("No save data loaded");
             return;
         }
-        // var map = GameObject.FindGameObjectWithTag("MapManager").GetComponent<MapManagers>();
-        // if (map != null)
-        // {
-            obstacleTrigger_I = saveData.isActiveObstacle_I;
-        // }
-        
+
+        obstacleTrigger_I = saveData.isActiveObstacle_I;
         player.transform.position = new Vector3(saveData.posX, saveData.posY, saveData.posZ);
         keyOwnedList = saveData.keyName;
         var camera = player.GetComponent<TriggerChangeCameraAndInput>();

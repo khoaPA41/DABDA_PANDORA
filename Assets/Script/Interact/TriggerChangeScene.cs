@@ -12,4 +12,9 @@ public class TriggerChangeScene : MonoBehaviour
         GameManager.Instance.NextLevel();
         SceneManager.LoadScene(sceneName);
     }
+
+    public void ActiveFinalKey()
+    {
+        GameManager.Instance.isGetTheFinalKey = true;
+    }
 }

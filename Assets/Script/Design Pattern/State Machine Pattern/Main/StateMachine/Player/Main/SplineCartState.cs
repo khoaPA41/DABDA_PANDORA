@@ -20,8 +20,6 @@ public class SplineCartState : PlayerBaseState
         
         playerStateMachine.Animator.CrossFadeInFixedTime(playerStateMachine.IsRunningOnSpline ? _runAnimation : _slideAnimation,
             playerStateMachine.AnimationCrossFade, 0);
-        // playerStateMachine.Animator.CrossFadeInFixedTime(_runAnimation,
-        //     playerStateMachine.AnimationCrossFade, 0);
     }
 
     public override void Tick(float deltaTime)
@@ -32,6 +30,5 @@ public class SplineCartState : PlayerBaseState
     public override void Exit()
     {
         playerStateMachine.InputReader.JumpAction -= playerStateMachine.SwitchJumpState;
-
     }
 }

@@ -6,6 +6,7 @@ public class DragonHealth : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private string destroyVfxName;
+    [SerializeField] private bool isPlayer;
 
     private float _currentHealth;
 
@@ -36,6 +37,11 @@ public class DragonHealth : MonoBehaviour
     private void ActiveDestroyVFX()
     {
         ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(destroyVfxName, transform.position).GetComponent<ParticleSystem>().Play();
+
+        if (isPlayer)
+        {
+            GameManager.Instance.ReturnCheckpoint();
+        }
         gameObject.SetActive(false);
     }
 }

@@ -14,9 +14,18 @@ public class TriggerButton
 
 public class ObstacleTriggerInteraction : MonoBehaviour
 {
+    [Header("Animation Trigger Name")]
     private static readonly int ActiveTrigger = Animator.StringToHash("ActiveTrigger");
+    
+    [Header("Object")]
     [SerializeField] private GameObject obstacle;
     [SerializeField] private List<TriggerButton> buttons;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip correctSound;
+    [SerializeField] private AudioClip wrongSound;
+    [SerializeField] private AudioClip tremorSound;
 
     private TriggerButton _nextButton;
     private Interaction _player;
@@ -39,7 +48,6 @@ public class ObstacleTriggerInteraction : MonoBehaviour
         _nextButton = buttons[0];
         _player.ActiveButtonTriggerAction += FindButton;
         _currentColor = buttons[0].text.color;
-        
     }
     
     private void OnDisable()
@@ -70,17 +78,21 @@ public class ObstacleTriggerInteraction : MonoBehaviour
 
     private void FindButton(string name)
     {
-        Debug.Log(_nextButton.button.name);
+        // Debug.Log(_nextButton.button.name);
         if (_nextButton.button.name != name)
         {
+            PlayButtonSound(wrongSound);
             StartCoroutine(ChangeAlertColor(1f, FindButtonByName(name)));
             return;
         }
+
+        PlayButtonSound(correctSound);
 
         StartCoroutine(ChangeOpacity(1f, .3f, 1f,  _nextButton.text));
 
         if (buttons.IndexOf(_nextButton) == buttons.Count - 1)
         {
+            PlayButtonSound(tremorSound);
             _animator.SetTrigger(ActiveTrigger);
             GameManager.Instance.obstacleTrigger_I = true;
             return;
@@ -116,5 +128,12 @@ public class ObstacleTriggerInteraction : MonoBehaviour
         }
         currentColor.a =  targetOpacity;
         text.color = currentColor;
+    }
+    
+    private void PlayButtonSound(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }

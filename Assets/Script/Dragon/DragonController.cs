@@ -15,11 +15,12 @@ public class DragonController : MonoBehaviour
     [Header("Movement")] [SerializeField] private float speed;
     [SerializeField] private float viewPointMargin;
     
-    [Header("Projectile")] [SerializeField] Transform projectile;
+    [Header("Projectile")] [SerializeField]
+    private Transform projectile;
     [SerializeField] Transform subProjectile_I;
     [SerializeField] Transform subProjectile_II;
 
-    [SerializeField] float timeWaitToShoot;
+    [SerializeField] private float timeWaitToShoot;
     
     private Camera _mainCamera;
     private readonly BulletType _bulletType = BulletType.Normal_Bullet;

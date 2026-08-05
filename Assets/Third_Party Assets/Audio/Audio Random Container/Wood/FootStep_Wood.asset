@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-6657369795000732889
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_05_{-6657369795000732889}
+  m_AudioClip: {fileID: 8300000, guid: 2e832dbb2c7c9ba4e97fd3005fe850b7, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2560384441806098623
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_01_{-2560384441806098623}
+  m_AudioClip: {fileID: 8300000, guid: 8e001351cd7065543a068386cde4c960, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-2265086567157395873
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_09_{-2265086567157395873}
+  m_AudioClip: {fileID: 8300000, guid: a45bdfd5056ed1d4d8f667cc2498ca12, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-129291613479053515
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_04_{-129291613479053515}
+  m_AudioClip: {fileID: 8300000, guid: cb9aa4db4b3a12147bf2fe3d88fee270, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &542724618202566668
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_02_{542724618202566668}
+  m_AudioClip: {fileID: 8300000, guid: c41fb169b2991c247a5466e00faa6639, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &851241592143175741
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_08_{851241592143175741}
+  m_AudioClip: {fileID: 8300000, guid: eea9624d96ae191439615ca598fe01fa, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2311532763677402912
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_03_{2311532763677402912}
+  m_AudioClip: {fileID: 8300000, guid: 76c66b3ae15685a45a334b0628d1edd1, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5364371331333833038
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_07_{5364371331333833038}
+  m_AudioClip: {fileID: 8300000, guid: 30668cf6c5cbfef478b0812fc59eb646, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &6391404888541181332
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_10_{6391404888541181332}
+  m_AudioClip: {fileID: 8300000, guid: ec4bd5988d7de0c41ab2d9959705dd8b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootStep_Wood
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: 0, y: 0}
+  m_PitchRandomizationRange: {x: 0, y: 0}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -2560384441806098623}
+  - {fileID: 542724618202566668}
+  - {fileID: 2311532763677402912}
+  - {fileID: -129291613479053515}
+  - {fileID: -6657369795000732889}
+  - {fileID: 6617603842628501630}
+  - {fileID: 5364371331333833038}
+  - {fileID: 851241592143175741}
+  - {fileID: -2265086567157395873}
+  - {fileID: 6391404888541181332}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 0
+  m_PitchRandomizationEnabled: 0
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &6617603842628501630
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Footsteps_Wood_Walk_06_{6617603842628501630}
+  m_AudioClip: {fileID: 8300000, guid: 3af6e561e364a274aa306461461c386b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

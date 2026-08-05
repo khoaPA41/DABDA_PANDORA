@@ -17,7 +17,6 @@ public class GetItemState : PlayerBaseState
     public override void Enter()
     {
         playerStateMachine.Animator.CrossFadeInFixedTime(_getItemAnimation, playerStateMachine.AnimationCrossFade, 0);
-        // playerStateMachine.Interaction.AddKeyItem(item.name);
         playerStateMachine.GetPooledObject.GetObject(item.name, Vector3.zero, playerStateMachine.HoldItemTransform);
     }
 

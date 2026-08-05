@@ -6,20 +6,13 @@ public class ObstacleCanDestroy : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private int health;
-    [SerializeField] private ObjectPooling _destroyedParticleSystem;
+    [SerializeField] private ObjectPooling destroyedParticleSystem;
+    [SerializeField] private AudioClip explosion;
 
     public event Action OnDestroyedAction;
     private void Start()
     {
         OnDestroyedAction += Destroyed;
-    }
-
-    private void Update()
-    {
-        // if (health <= 0)
-        // {
-        //     Destroyed();
-        // }
     }
 
     public void SubtractHealth(int amount)
@@ -31,10 +24,12 @@ public class ObstacleCanDestroy : MonoBehaviour
         }
     }
     
-
     private void Destroyed()
     {
-        var particleObject = _destroyedParticleSystem.GetPooledObject("Rock_Explosion", transform.position);
+        var particleObject = destroyedParticleSystem.GetPooledObject("Rock_Explosion", transform.position);
+        var sound = destroyedParticleSystem.GetPooledObject("Sound_Effect", transform.position).GetComponent<AudioSource>();
+        sound.clip = explosion;
+        sound.Play();
         particleObject.transform.localScale = transform.localScale;
         Destroy(gameObject);
     }

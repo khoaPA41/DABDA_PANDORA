@@ -29,7 +29,15 @@ namespace Script.StateMachine.Player.Main
 
         public override void Tick(float deltaTime)
         {
-            // SwitchJumpState();
+            if (GameManager.Instance.isGetTheFinalKey)
+            {
+                Debug.Log(GameManager.Instance.isGetTheFinalKey);
+                playerStateMachine.GetPooledObject.GetObject("Key_Name_IV", Vector3.zero, playerStateMachine.HoldItemTransform);
+                playerStateMachine.Interaction.GetKeyName("Key_Name_IV");
+                GameManager.Instance.isGetTheFinalKey = false;
+                return;
+            }
+            
             if (playerStateMachine.InputReader.Movement == Vector2.zero)
             {
                 playerStateMachine.IsMove = false;

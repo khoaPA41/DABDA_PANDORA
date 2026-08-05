@@ -48,10 +48,12 @@ public class ForceReceiver : MonoBehaviour
     public event Action OnHoldWallAction;
     public event Action OnSlideWallAction;
     public event Action<Vector3> OnMatchTargetAction;
-    
+
+    private PlayerAudio _playerAudio;
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _playerAudio = GetComponent<PlayerAudio>();
     }
 
     private void Update()
@@ -112,12 +114,36 @@ public class ForceReceiver : MonoBehaviour
     
     private void CheckGround()
     {
-        IsGrounded = Physics.CheckSphere(footTransform.position, footSphereCastRadius, groundLayer);
+        IsGrounded = Physics.CheckSphere(footTransform.position, footSphereCastRadius, groundLayer);;
+        var hit = CheckSphereCast(footTransform, footSphereCastRadius, -transform.up, groundLayer, bodyCastDistance);
+
+        if (hit.collider is null) return;
+        
+        var sharedMaterial = hit.collider.sharedMaterial;
+
+        _playerAudio.groundType = sharedMaterial.name switch
+        {
+            "Grass" => GroundType.Grass,
+            "Wood" => GroundType.Wood,
+            "Rock" => GroundType.Rock
+        };
+                
+        // if (sharedMaterial.name.Contains("Grass"))
+        // {
+        //     _playerAudio.groundType = GroundType.Grass;
+        // }else if (sharedMaterial.name.Contains("Wood"))
+        // {
+        //     _playerAudio.groundType = GroundType.Wood;
+        //
+        // }else if (sharedMaterial.name.Contains("Rock"))
+        // {
+        //     _playerAudio.groundType = GroundType.Rock;
+        // }
     }
 
     private void CheckClimb()
     {
-        RaycastHit hit = CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, climbLayer, bodyCastDistance);
+        var hit = CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, climbLayer, bodyCastDistance);
         IsClimbing = hit.collider is not null;
         
         SurfaceNormal = hit.normal;
@@ -131,7 +157,7 @@ public class ForceReceiver : MonoBehaviour
     private void CheckHoldWall()
     {
         if (IsHoldWall) return;
-        RaycastHit hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, holdWallLayer, bodyCastDistance);
+        var hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, holdWallLayer, bodyCastDistance);
         
         IsHoldWall = hit.collider != null;
         // Debug.Log(IsHoldWall);
@@ -145,7 +171,7 @@ public class ForceReceiver : MonoBehaviour
     {
         if (IsSlideWall) return;
         
-        RaycastHit hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, slideWallLayer, bodyCastDistance);
+        var hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, slideWallLayer, bodyCastDistance);
         IsSlideWall = hit.collider != null;
         
         if (!IsSlideWall) return;
@@ -154,14 +180,14 @@ public class ForceReceiver : MonoBehaviour
 
     private void CheckMatchTarget()
     {
-        RaycastHit hit =   CheckSphereCast(footTransform, matchTargetCastRadius, -transform.up, matchTargetLayer, matchTargetCastDistance);
+        var hit = CheckSphereCast(footTransform, matchTargetCastRadius, -transform.up, matchTargetLayer, matchTargetCastDistance);
         IsMatchTarget = hit.collider is not null;
         OnMatchTargetAction?.Invoke(hit.point);
     }
 
-    private RaycastHit CheckSphereCast(Transform pos, float radius, Vector3 direction, LayerMask mask, float distance)
+    private static RaycastHit CheckSphereCast(Transform pos, float radius, Vector3 direction, LayerMask mask, float distance)
     {
-        Physics.SphereCast(pos.position, radius, direction, out RaycastHit hit, distance, mask);
+        Physics.SphereCast(pos.position, radius, direction, out var hit, distance, mask);
         return hit;
     }
     

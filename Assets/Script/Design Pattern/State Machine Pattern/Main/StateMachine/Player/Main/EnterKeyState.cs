@@ -23,6 +23,7 @@ public class EnterKeyState : PlayerBaseState
         {
             playerStateMachine.Interaction.ActiveText(playerStateMachine.GetPooledObject.item.name);
             playerStateMachine.GetPooledObject.item.Release(playerStateMachine.GetPooledObject.item.name);
+            playerStateMachine.PlayerAudio.LookAtGateSound();
             playerStateMachine.TriggerChangeCameraAndInput.ChangeCameraTargetGateCoroutine(3f);
             playerStateMachine.ReturnLocomotion();
             return;

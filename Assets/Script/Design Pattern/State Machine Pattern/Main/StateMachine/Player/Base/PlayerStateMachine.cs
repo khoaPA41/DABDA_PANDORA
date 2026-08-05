@@ -48,6 +48,8 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField]
         public Shooting Shooting { get; private set; }
         
+        [Header("Audio")] 
+        [field: SerializeField] public PlayerAudio PlayerAudio { get; private set; }
         
         public Transform MainCameraTransform { get; private set; }
         // public bool Is3dEnvironment {get; private set;} = false;

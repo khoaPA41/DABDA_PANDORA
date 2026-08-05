@@ -8713,6 +8713,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1925846350}
     m_Modifications:
+    - target: {fileID: 468220804761687809, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 468220804761687809, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120696641364606813, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120696641364606813, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120696641364606813, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 5
@@ -8722,16 +8738,48 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2103855916719433526, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103855916719433526, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103855916719433526, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2476843699242715161, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 2476843699242715161, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2476843699242715161, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2621441160256272848, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621441160256272848, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621441160256272848, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3770639256071157425, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 3770639256071157425, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3770639256071157425, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
@@ -8742,8 +8790,24 @@ PrefabInstance:
       value: FX_LightPillar
       objectReference: {fileID: 0}
     - target: {fileID: 4312076776242021818, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312076776242021818, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312076776242021818, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330022708575732584, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330022708575732584, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6809244935188088186, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: m_LocalScale.x
@@ -8800,6 +8864,14 @@ PrefabInstance:
     - target: {fileID: 6809244935188088186, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847671187197783445, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: randomSeed
+      value: 2732
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847671187197783445, guid: 6555300494081614fa6b6a823cca9f64, type: 3}
+      propertyPath: autoRandomSeed
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54883,7 +54955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6055356676718624360, guid: b098282f7d4a0844dace59d58eab26a8, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 16777215
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54892,6 +54964,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2088448109386473060, guid: b098282f7d4a0844dace59d58eab26a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1741655655}
+    - targetCorrespondingSourceObject: {fileID: 6161795625962192783, guid: b098282f7d4a0844dace59d58eab26a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b098282f7d4a0844dace59d58eab26a8, type: 3}
 --- !u!4 &1741655653 stripped
 Transform:
@@ -63002,6 +63077,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 2035521765}
+          m_TargetAssemblyTypeName: TriggerChangeScene, Assembly-CSharp
+          m_MethodName: ActiveFinalKey
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &2035521765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67288,6 +67375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DragonHealth
   maxHealth: 1000
   destroyVfxName: Big_Rock_Explosion
+  isPlayer: 0
 --- !u!1 &2076789763
 GameObject:
   m_ObjectHideFlags: 0
@@ -80042,6 +80130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DragonHealth
   maxHealth: 100
   destroyVfxName: Death_VFX
+  isPlayer: 1
 --- !u!65 &2760342913369294148
 BoxCollider:
   m_ObjectHideFlags: 0

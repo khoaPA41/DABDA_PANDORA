@@ -24,10 +24,11 @@ public class Shooting : MonoBehaviour
     private Camera _mainCamera;
     private Vector3 target;
     private RectTransform crosshair;
-    
+    private PlayerAudio _playerAudio;
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
+        _playerAudio =  GetComponent<PlayerAudio>();
         _mainCamera = Camera.main;
         // if (crosshair)
         // {
@@ -73,6 +74,8 @@ public class Shooting : MonoBehaviour
     private void Shoot()
     {
         if (!_inputReader.IsAttack) return;
+        // _playerAudio
+        _playerAudio.ThrowBulletSound();
         objectPooling.GetPooledObject("Bullet", projectile.position).GetComponent<Bullet>().direction = target;
         _inputReader.IsAttack = false;
     }

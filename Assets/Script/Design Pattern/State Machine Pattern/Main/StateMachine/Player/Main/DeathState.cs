@@ -20,7 +20,7 @@ public class DeathState : PlayerBaseState
     {
         var normalizeTime = GetNormalizeTime(playerStateMachine.Animator, _deathAnimationTag, 0);
 
-        if (normalizeTime >= _previousTime && normalizeTime >= .2f && !isActiveVFX)
+        if (normalizeTime >= _previousTime && normalizeTime >= .1f && !isActiveVFX)
         {
             isActiveVFX = true;
             playerStateMachine.GetPooledObject.GetObject("Death_VFX", playerStateMachine.transform.position, null);
