@@ -144,12 +144,15 @@ public class Interaction : MonoBehaviour
             {
                 splineAnimate.Play();
                 ActiveSplineStateAction?.Invoke(false);
+                other.gameObject.SetActive(false);
             }
         }
 
         if (other.CompareTag("ChangeSceneGate"))
         {
+            if (!_inputReader.IsInteract) return;
             other.GetComponent<TriggerChangeScene>().ChangeScene();
+            _inputReader.IsInteract = false;
         }
     }
 

@@ -56,7 +56,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         Debug.Log(CurrentCamera.name);
     }
 
-    private void ChangeCamera(CameraStatus cameraStatus)
+    public void ChangeCamera(CameraStatus cameraStatus)
     {
         IsChangeInputState = cameraStatus.isChangeInputState;
 
@@ -68,7 +68,6 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         Debug.Log(CurrentCamera.name);
     }
 
-
     private bool CheckCurrentCameraActive(CameraStatus cameraStatus)
     {
         foreach (var camera in mainCameraList)
@@ -79,7 +78,6 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
                 return true;
             }
         }
-
         return false;
     }
 
