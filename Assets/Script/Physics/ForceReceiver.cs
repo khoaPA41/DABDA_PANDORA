@@ -125,20 +125,9 @@ public class ForceReceiver : MonoBehaviour
         {
             "Grass" => GroundType.Grass,
             "Wood" => GroundType.Wood,
-            "Rock" => GroundType.Rock
+            "Rock" => GroundType.Rock,
+            _ => throw new ArgumentOutOfRangeException()
         };
-                
-        // if (sharedMaterial.name.Contains("Grass"))
-        // {
-        //     _playerAudio.groundType = GroundType.Grass;
-        // }else if (sharedMaterial.name.Contains("Wood"))
-        // {
-        //     _playerAudio.groundType = GroundType.Wood;
-        //
-        // }else if (sharedMaterial.name.Contains("Rock"))
-        // {
-        //     _playerAudio.groundType = GroundType.Rock;
-        // }
     }
 
     private void CheckClimb()
@@ -160,7 +149,6 @@ public class ForceReceiver : MonoBehaviour
         var hit =  CheckSphereCast(bodyTransform, bodySphereCastRadius, transform.forward, holdWallLayer, bodyCastDistance);
         
         IsHoldWall = hit.collider != null;
-        // Debug.Log(IsHoldWall);
         transform.SetParent(hit.transform);
         
         if (!IsHoldWall) return;

@@ -1,4 +1,5 @@
 using System.Collections;
+using Script.Design_Pattern.Object_Pooling;
 using UnityEngine;
 
 public enum BulletType
@@ -36,7 +37,7 @@ public class DragonController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (ObjectPoolManager.Instance is null) return;
+        if (ObjectPooling.Instance is null) return;
         StartCoroutine(ShootingCoroutine());
     }
 
@@ -68,13 +69,13 @@ public class DragonController : MonoBehaviour
         {
             AutoShootBuffProjectile();
         }
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), projectile.position);
+        ObjectPooling.Instance.GetPooledObject(_bulletType.ToString(), projectile.position);
     }
 
     private void AutoShootBuffProjectile()
     {
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), subProjectile_I.position);
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(_bulletType.ToString(), subProjectile_II.position);
+        ObjectPooling.Instance.GetPooledObject(_bulletType.ToString(), subProjectile_I.position);
+        ObjectPooling.Instance.GetPooledObject(_bulletType.ToString(), subProjectile_II.position);
     }
 
     private IEnumerator ShootingCoroutine()

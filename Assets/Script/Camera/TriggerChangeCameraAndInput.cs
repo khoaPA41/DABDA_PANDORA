@@ -52,8 +52,6 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         {
             PreviousCamera = camera;
         }
-        Debug.Log(PreviousCamera.name);
-        Debug.Log(CurrentCamera.name);
     }
 
     public void ChangeCamera(CameraStatus cameraStatus)
@@ -64,8 +62,6 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
         
         ActiveCamera(currentCameraName);
         ResetCamera(currentCameraName);
-        Debug.Log(PreviousCamera.name);
-        Debug.Log(CurrentCamera.name);
     }
 
     private bool CheckCurrentCameraActive(CameraStatus cameraStatus)

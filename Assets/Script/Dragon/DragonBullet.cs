@@ -24,6 +24,9 @@ public class DragonBullet : MonoBehaviour
     
     private void Update()
     {
+        _mainCamera ??= Camera.main;
+        if(_mainCamera is null) return;
+        
         MoveAndCheckCast();
         CheckReleasePosition();
     }

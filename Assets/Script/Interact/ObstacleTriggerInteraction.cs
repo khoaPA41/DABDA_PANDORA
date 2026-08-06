@@ -78,7 +78,6 @@ public class ObstacleTriggerInteraction : MonoBehaviour
 
     private void FindButton(string name)
     {
-        // Debug.Log(_nextButton.button.name);
         if (_nextButton.button.name != name)
         {
             PlayButtonSound(wrongSound);
@@ -97,7 +96,6 @@ public class ObstacleTriggerInteraction : MonoBehaviour
             GameManager.Instance.obstacleTrigger_I = true;
             return;
         }
-        
         _nextButton = buttons[buttons.IndexOf(_nextButton) + 1];
     }
 

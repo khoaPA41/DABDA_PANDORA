@@ -21,11 +21,18 @@ public class DragonBuff : MonoBehaviour
     private void Start()
     {
         _pooledObject = GetComponent<PooledObject>();
-        _mainCamera =  Camera.main;
+    }
+    
+    private void OnEnable()
+    {
+        _mainCamera = Camera.main;
     }
 
     private void Update()
     {
+        _mainCamera ??= Camera.main;
+        if (_mainCamera is null) return;
+        
         CheckPositionToRelease();
         transform.Translate(-Vector3.forward * speed * Time.deltaTime);
     }

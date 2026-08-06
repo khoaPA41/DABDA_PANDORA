@@ -7,31 +7,38 @@ public class DragonEnemy : MonoBehaviour
     [SerializeField] private float timeWaitToShoot;
     [SerializeField] private Transform projectile;
 
-    private float health;
-    private float speed;
-    private Camera mainCamera;
+    private float _health;
+    private float _speed;
+    private Camera _mainCamera;
 
-    private PooledObject pooledObject;
+    private PooledObject _pooledObject;
     private Animator _animator;
-    private bool isCanShoot;
+    private bool _isCanShoot;
 
     public void Init(DragonEnemyData data)
     {
-        health = data.health;
-        speed = data.speed;
-        isCanShoot = data.isCanShoot;
+        _health = data.health;
+        _speed = data.speed;
+        _isCanShoot = data.isCanShoot;
     }
 
     private void Start()
     {
-        pooledObject = GetComponent<PooledObject>();
+        _pooledObject = GetComponent<PooledObject>();
         _animator = GetComponent<Animator>();
-        mainCamera = Camera.main;
-        if (isCanShoot) StartCoroutine(ShootingCoroutine());
+        if (_isCanShoot) StartCoroutine(ShootingCoroutine());
+    }
+
+    private void OnEnable()
+    {
+        _mainCamera = Camera.main;
     }
 
     private void Update()
     {
+        _mainCamera ??= Camera.main;
+        if (_mainCamera is null) return;
+        
         Move();
         CheckOutScreen(); // If out of screen => enemy die
     }
@@ -39,9 +46,9 @@ public class DragonEnemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
+        _health -= damage;
         // Debug.Log(health);
-        if (health <= 0)
+        if (_health <= 0)
         {
             DragonDeath();
         }
@@ -49,28 +56,31 @@ public class DragonEnemy : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     private void CheckOutScreen()
     {
-        if (mainCamera.WorldToScreenPoint(transform.position).y < -.1f)
+        if (_mainCamera.WorldToScreenPoint(transform.position).y < -.1f)
         {
-            pooledObject.Release(gameObject.name);
+            _pooledObject.Release(gameObject.name);
         }
     }
 
     private void DragonDeath()
     {
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject("Rock_Explosion", transform.position);
-        pooledObject.Release(gameObject.name);
+        ObjectPooling.Instance.GetPooledObject("Rock_Explosion", transform.position);
+        // ObjectPoolManager.Instance.ObjectPooling.GetPooledObject("Rock_Explosion", transform.position);
+        _pooledObject.Release(gameObject.name);
     }
 
     private void AutoShoot()
     {
         ActiveTriggerAttackAnimation();
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(BulletType.Enemy_Bullet.ToString(),
+        ObjectPooling.Instance.GetPooledObject(nameof(BulletType.Enemy_Bullet),
             projectile.position);
+        // ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(BulletType.Enemy_Bullet.ToString(),
+        //     projectile.position);
     }
 
     private IEnumerator ShootingCoroutine()

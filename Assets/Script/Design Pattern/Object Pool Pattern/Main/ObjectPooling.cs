@@ -24,6 +24,13 @@ namespace Script.Design_Pattern.Object_Pooling
         
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+            
             parentObjectList = new List<GameObject>();
             foreach (var item in poolItemList)
             {

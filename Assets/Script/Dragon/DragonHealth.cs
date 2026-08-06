@@ -1,6 +1,7 @@
 using System;
 using Script.Design_Pattern.Object_Pooling;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class DragonHealth : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class DragonHealth : MonoBehaviour
 
     private void ActiveDestroyVFX()
     {
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(destroyVfxName, transform.position).GetComponent<ParticleSystem>().Play();
+        ObjectPooling.Instance.GetPooledObject(destroyVfxName, transform.position).GetComponent<ParticleSystem>().Play();
 
         if (isPlayer)
         {

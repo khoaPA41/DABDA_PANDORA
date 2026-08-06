@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Design_Pattern.Object_Pooling;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -35,7 +36,7 @@ public class SpawnBuff : MonoBehaviour
         var randomName = buffNames[Random.Range(0, buffNames.Count)];
         var viewPoint = new Vector3(Random.Range(.1f, .9f), 1.1f, 58f);
         var worldSpacePos = _mainCamera.ViewportToWorldPoint(viewPoint);
-        ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(randomName, worldSpacePos);
+        ObjectPooling.Instance.GetPooledObject(randomName, worldSpacePos);
     }
  
 }

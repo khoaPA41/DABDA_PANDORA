@@ -23,6 +23,7 @@ TagManager:
   - Spline
   - ChangeSceneGate
   - MapManager
+  - ObjectPoolingManager
   layers:
   - Default
   - TransparentFX

@@ -21,10 +21,8 @@ public class Interaction : MonoBehaviour
     [Header("Change Camera Script")] [SerializeField]
     private TriggerChangeCameraAndInput _triggerChangeCameraAndInput;
 
-
     private PlayerStateMachine _playerStateMachine;
     public event Action<string> ActiveButtonTriggerAction;
-    public event Action<string> ActiveKeyTriggerAction;
     public event Action<GameObject> PickUpItemAction;
     public event Action EnterKeyAction;
     public event Action<bool> ActiveSplineStateAction;
@@ -59,11 +57,6 @@ public class Interaction : MonoBehaviour
         GameManager.Instance.AutoSave();
     }
 
-    public void ActiveSplineAnimate()
-    {
-        splineAnimate.Play();
-    }
-
     public void ResetPlayerPositionAction(int transformIndex)
     {
         ResetPlayerStateAction?.Invoke(transformIndex);
@@ -71,7 +64,6 @@ public class Interaction : MonoBehaviour
 
     public void ActiveSpline()
     {
-        Debug.Log("Active Spline");
         _triggerChangeCameraAndInput?.ChangeSplineCamera(true);
         splineAnimate.Play();
         ActiveSplineStateAction?.Invoke(true);
@@ -86,7 +78,6 @@ public class Interaction : MonoBehaviour
     {
         if (other.CompareTag("DeathTrigger"))
         {
-            Debug.Log("Death");
             _playerStateMachine.CallDeathAction();
         }
 

@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 public class ObjectPoolManager : MonoBehaviour
 {
     public static ObjectPoolManager Instance;
-    [SerializeField] private ObjectPooling objectPool;
+    public ObjectPooling ObjectPooling;
     
     private void Awake()
     {
@@ -14,10 +14,9 @@ public class ObjectPoolManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        ObjectPooling = GetComponent<ObjectPooling>();
     }
-
-    public ObjectPooling ObjectPooling => objectPool;
 }

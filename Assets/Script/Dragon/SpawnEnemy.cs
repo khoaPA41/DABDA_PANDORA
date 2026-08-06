@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Design_Pattern.Object_Pooling;
 using Random = UnityEngine.Random;
 
 public class SpawnEnemy : MonoBehaviour
@@ -26,6 +27,7 @@ public class SpawnEnemy : MonoBehaviour
 
     private void OnEnable()
     {
+        if (ObjectPooling.Instance == null) return;
         StartCoroutine(SpawnLoop());
     }
 
@@ -48,7 +50,8 @@ public class SpawnEnemy : MonoBehaviour
         var viewPos = new Vector3(Random.Range(.1f, .9f), 2f, 59.8f);
         var worldSpacePos = mainCamera.ViewportToWorldPoint(viewPos);
         
-        var enemy = ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(data.name, worldSpacePos);
+        // var enemy = ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(data.name, worldSpacePos);
+        var enemy = ObjectPooling.Instance.GetPooledObject(data.name, worldSpacePos);
         enemy.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         enemy.GetComponent<DragonEnemy>().Init(data);
     }

@@ -13,7 +13,6 @@ public class TriggerActiveCutscene : MonoBehaviour
         triggerBoxCollider = GetComponent<BoxCollider>();
     }
     
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
