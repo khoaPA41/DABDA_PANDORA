@@ -53,7 +53,7 @@ public class TriggerChangeCameraAndInput : MonoBehaviour
             PreviousCamera = camera;
         }
     }
-
+    
     public void ChangeCamera(CameraStatus cameraStatus)
     {
         IsChangeInputState = cameraStatus.isChangeInputState;

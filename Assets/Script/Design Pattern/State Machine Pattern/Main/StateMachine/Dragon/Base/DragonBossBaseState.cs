@@ -1,4 +1,5 @@
 using System.Collections;
+using Script.Design_Pattern.Object_Pooling;
 using Script.StateMachine.Base;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Script.StateMachine.Player.Base
         protected void Shooting(int index)
         {
             
-            ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(dragonStateMachine.BulletName[index],
+            ObjectPooling.Instance.GetPooledObject(dragonStateMachine.BulletName[index],
                 dragonStateMachine.MainProjectile.position);
         }
         

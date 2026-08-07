@@ -51,6 +51,9 @@ namespace Script.StateMachine.Player.Base
         [Header("Audio")] 
         [field: SerializeField] public PlayerAudio PlayerAudio { get; private set; }
         
+        [Header("Change Scene")] 
+        [field: SerializeField] public TriggerChangeScene TriggerChangeScene { get; private set; }
+
         public Transform MainCameraTransform { get; private set; }
         // public bool Is3dEnvironment {get; private set;} = false;
         
@@ -58,16 +61,13 @@ namespace Script.StateMachine.Player.Base
         
         public bool IsMove {get; set;}
         public bool IsCrouch {get; set;}
-
-        // public bool isRunning {get; private set;} = false;
-
+        
         public event Action OnDeathAction;
         private void Start()
         {
             if (Camera.main is not null) MainCameraTransform = Camera.main.transform;
             InputReader.SetCursor();
             ReturnLocomotion();
-            // SwitchState(new SplineCartState(this));
         }
         
         private void OnEnable()

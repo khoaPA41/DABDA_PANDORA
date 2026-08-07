@@ -26,6 +26,7 @@ public class EnterKeyState : PlayerBaseState
             playerStateMachine.PlayerAudio.LookAtGateSound();
             playerStateMachine.TriggerChangeCameraAndInput.ChangeCameraTargetGateCoroutine(3f);
             playerStateMachine.ReturnLocomotion();
+            CheckGate();
             return;
         }
 
@@ -34,6 +35,13 @@ public class EnterKeyState : PlayerBaseState
 
     public override void Exit()
     {
-        // playerStateMachine.TriggerChangeCameraAndInput.ChangeCameraState();
+    }
+
+    private void CheckGate()
+    {
+        if (GameManager.Instance.keyOwnedList.Count == 4)
+        {
+            playerStateMachine.TriggerChangeScene.ChangeScene();
+        }
     }
 }

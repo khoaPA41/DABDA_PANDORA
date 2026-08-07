@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DragonShooter.unity
     guid: 65ec457574131cb4cab177d99453e2b8
+  - enabled: 1
+    path: Assets/Scenes/Denial_Final.unity
+    guid: b656711cad6e0ed4bba47dcbde38dd02
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 20cc390b8ac3fba4eaf90ce82f668b2d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

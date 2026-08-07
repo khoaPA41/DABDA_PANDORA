@@ -48,7 +48,6 @@ public class ForceReceiver : MonoBehaviour
     public event Action OnHoldWallAction;
     public event Action OnSlideWallAction;
     public event Action<Vector3> OnMatchTargetAction;
-
     private PlayerAudio _playerAudio;
     private void Start()
     {

@@ -29,9 +29,9 @@ namespace Script.StateMachine.Player.Main
 
         public override void Tick(float deltaTime)
         {
-            if (GameManager.Instance.isGetTheFinalKey)
+            if (GameManager.Instance is not null && GameManager.Instance.isGetTheFinalKey)
             {
-                Debug.Log(GameManager.Instance.isGetTheFinalKey);
+                // Debug.Log(GameManager.Instance.isGetTheFinalKey);
                 playerStateMachine.GetPooledObject.GetObject("Key_Name_IV", Vector3.zero, playerStateMachine.HoldItemTransform);
                 playerStateMachine.Interaction.GetKeyName("Key_Name_IV");
                 GameManager.Instance.isGetTheFinalKey = false;
@@ -63,7 +63,7 @@ namespace Script.StateMachine.Player.Main
 
         private void Movement(float deltaTime)
         {
-            currentSpeed = playerStateMachine.InputReader.IsSprint
+            currentSpeed = playerStateMachine.InputReader.IsSprint && !playerStateMachine.Interaction.IsSlow
                 ? playerStateMachine.SprintSpeed
                 : playerStateMachine.WalkSpeed;
 
@@ -85,7 +85,7 @@ namespace Script.StateMachine.Player.Main
                 return;
             }
 
-            if (playerStateMachine.InputReader.IsSprint)
+            if (playerStateMachine.InputReader.IsSprint && !playerStateMachine.Interaction.IsSlow)
             {
                 playerStateMachine.Animator.SetFloat(_movement, 1, playerStateMachine.AnimationCrossFade, deltaTime);
                 return;

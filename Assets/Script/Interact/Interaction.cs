@@ -27,7 +27,10 @@ public class Interaction : MonoBehaviour
     public event Action EnterKeyAction;
     public event Action<bool> ActiveSplineStateAction;
     public event Action<int> ResetPlayerStateAction;
+    
     private InputReader _inputReader;
+    
+    public bool IsSlow { get; set; }
     
     private string itemKey;
 
@@ -86,6 +89,12 @@ public class Interaction : MonoBehaviour
             splineAnimate.Pause();
             cutsceneDirector_1?.Play();
             ResetPlayerStateAction?.Invoke(0);
+        }
+
+        if (other.CompareTag("SlowArea"))
+        {
+            Debug.Log("Slow Area");
+            IsSlow = true;
         }
     }
 

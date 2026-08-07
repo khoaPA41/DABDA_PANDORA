@@ -142,14 +142,15 @@ public class GameManager : MonoBehaviour
     {
         
         var player = GameObject.FindGameObjectWithTag("Player");
-        var map = GameObject.FindGameObjectWithTag("MapManager");
-        var mapManager = map?.GetComponent<MapManagers>();
+        // var map = GameObject.FindGameObjectWithTag("MapManager");
+        // var mapManager = map?.GetComponent<MapManagers>();
         var currentSaveData = SaveManager.Instance.CurrentSaveData;
         if (player is null) return;
         
         var previousCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.PreviousCamera.name ?? currentSaveData.previousCameraName;
         var currentCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.CurrentCamera.name ?? currentSaveData.currentCameraName;
-        
+
+
         var keyOwned = keyOwnedList;
         
         var isActiveObstacleTrigger_I = obstacleTrigger_I;
