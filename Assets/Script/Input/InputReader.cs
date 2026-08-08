@@ -15,6 +15,7 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
     public event Action DashAction = delegate { };
     public event Action CrouchAction = delegate { };
 
+    public event Action ActiveSettingsAction = delegate { };
     private Input _inputActions;
     
     private void Awake()
@@ -49,12 +50,9 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
         if (context.canceled)
         {
             IsAttack = false;
-            Debug.Log(IsAttack);
             return;
         }
         IsAttack = true;
-        
-        Debug.Log(IsAttack);
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -102,7 +100,13 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
         if (context.performed || context.canceled) return;
         DashAction?.Invoke();
     }
-    
+
+    public void OnSettings(InputAction.CallbackContext context)
+    {
+        if (context.performed || context.canceled) return;
+        ActiveSettingsAction?.Invoke();
+    }
+
     public void SetCursor()
     {
         Cursor.lockState = CursorLocked ? CursorLockMode.Locked : CursorLockMode.None;

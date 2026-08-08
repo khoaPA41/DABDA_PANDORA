@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,11 +11,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    [Header("Setting UI")]
+    [SerializeField] private GameObject settingPanel;
+    
     public List<string> keyOwnedList;
     public bool obstacleTrigger_I;
     public bool isGetTheFinalKey = true;
     
+    private InputReader inputReader;
     // public event Action  
     private enum ReasonLoadScene
     {
@@ -37,6 +41,12 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        inputReader = GetComponent<InputReader>();
+    }
+
+    private void Start()
+    {
+        inputReader.ActiveSettingsAction += ActiveSettingPanel;
     }
 
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -51,16 +61,20 @@ public class GameManager : MonoBehaviour
         switch (_loadSceneReason)
         {
             case ReasonLoadScene.New:
+                GraphicsManager.Instance.LoadApplyAll();
                 break;
             case ReasonLoadScene.Continue:
                 ApplySaveData(player);
+                GraphicsManager.Instance.LoadApplyAll();
                 break;
             case ReasonLoadScene.Respawn:
                 ApplySaveData(player);
+                GraphicsManager.Instance.LoadApplyAll();
                 break;
             case ReasonLoadScene.NextLevel:
                 AutoSave();
                 ApplySaveData(player);
+                GraphicsManager.Instance.LoadApplyAll();
                 break;
         }
     }
@@ -140,21 +154,22 @@ public class GameManager : MonoBehaviour
 
     public void AutoSave()
     {
-        
         var player = GameObject.FindGameObjectWithTag("Player");
         // var map = GameObject.FindGameObjectWithTag("MapManager");
         // var mapManager = map?.GetComponent<MapManagers>();
         var currentSaveData = SaveManager.Instance.CurrentSaveData;
         if (player is null) return;
-        
-        var previousCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.PreviousCamera.name ?? currentSaveData.previousCameraName;
-        var currentCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.CurrentCamera.name ?? currentSaveData.currentCameraName;
+
+        var previousCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.PreviousCamera.name ??
+                                   currentSaveData.previousCameraName;
+        var currentCameraObject = player.GetComponent<TriggerChangeCameraAndInput>()?.CurrentCamera.name ??
+                                  currentSaveData.currentCameraName;
 
 
         var keyOwned = keyOwnedList;
-        
+
         var isActiveObstacleTrigger_I = obstacleTrigger_I;
-        
+
 
         var saveData = new SaveData
         {
@@ -162,17 +177,35 @@ public class GameManager : MonoBehaviour
             posX = player.transform.position.x,
             posY = player.transform.position.y,
             posZ = player.transform.position.z,
-            previousCameraName =  previousCameraObject,
+            previousCameraName = previousCameraObject,
             currentCameraName = currentCameraObject,
             keyName = new List<string>(keyOwned),
-            isActiveObstacle_I = isActiveObstacleTrigger_I
+            isActiveObstacle_I = isActiveObstacleTrigger_I,
+            resolutionIndex = GraphicsManager.Instance.ResolutionIndex,
+            displayModeIndex = GraphicsManager.Instance.DisplayModeIndex,
+            vsync = GraphicsManager.Instance.Vsync,
+            qualityPresentIndex = GraphicsManager.Instance.QualityPresentIndex,
+            shadow = GraphicsManager.Instance.Shadow,
+            antiAliasingIndex = GraphicsManager.Instance.AntiAliasingIndex,
+            textureQualityIndex = GraphicsManager.Instance.TextureQualityIndex,
+            motionBlur = GraphicsManager.Instance.MotionBlurData,
+            ambientOcclusion = GraphicsManager.Instance.AmbientOcclusion,
+            bloom = GraphicsManager.Instance.BloomData
         };
-        
+
         SaveManager.Instance.SaveGame(saveData);
     }
 
     public void AddKey(string keyName)
     {
         keyOwnedList.Add(keyName);
+    }
+
+    public void ActiveSettingPanel()
+    {
+        settingPanel.SetActive(!settingPanel.activeInHierarchy);
+        inputReader.CursorLocked = !settingPanel.activeInHierarchy;
+        inputReader.SetCursor();
+        AutoSave();
     }
 }
