@@ -93,71 +93,60 @@ public class GraphicsSettings : MonoBehaviour
         {
             if(!isInitializing) GraphicsManager.Instance.SetResolution(i);
             resolutionDropdown.SetValueWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         displayModeDropdown.onValueChanged.AddListener(i =>
         {
             if(!isInitializing) GraphicsManager.Instance.SetDisplayMode(i);
             displayModeDropdown.SetValueWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         vsyncToggle.onValueChanged.AddListener(i =>
         {
             if(!isInitializing) GraphicsManager.Instance.SetVsync(i);
             vsyncToggle.SetIsOnWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         shadowsToggle.onValueChanged.AddListener(i =>
         {
             if (!isInitializing) GraphicsManager.Instance.SetShadow(i);
             shadowsToggle.SetIsOnWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         qualityPresetDropdown.onValueChanged.AddListener(i =>
         {
             if(!isInitializing) GraphicsManager.Instance.SetQualityPresent(i);
             qualityPresetDropdown.SetValueWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         antiAliasingDropdown.onValueChanged.AddListener(i =>
         {
             if (!isInitializing) GraphicsManager.Instance.SetAntiAliasing(i);
             antiAliasingDropdown.SetValueWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
         
         textureQualityDropdown.onValueChanged.AddListener(i =>
         {
             if (!isInitializing) GraphicsManager.Instance.SetTextureQuality(i);
             textureQualityDropdown.SetValueWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
  
         bloomToggle.onValueChanged.AddListener(i =>
         {
             if (!isInitializing) GraphicsManager.Instance.SetBloom(i);
             bloomToggle.SetIsOnWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
  
         motionBlurToggle.onValueChanged.AddListener(i =>
         {
-            Debug.Log(i);
             if (!isInitializing) GraphicsManager.Instance.SetMotionBlur(i);
             motionBlurToggle.SetIsOnWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
  
         ambientOcclusionToggle.onValueChanged.AddListener(i =>
         {
             if (!isInitializing) GraphicsManager.Instance.SetAmbientOcclusion(i);
             ambientOcclusionToggle.SetIsOnWithoutNotify(i);
-            GameManager.Instance.AutoSave();
         });
     }
 }

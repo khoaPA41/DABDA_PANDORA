@@ -1224,6 +1224,7 @@ MonoBehaviour:
   - {fileID: 0}
   <Shooting>k__BackingField: {fileID: 4294572056917560706}
   <PlayerAudio>k__BackingField: {fileID: 5498335633598744788}
+  <TriggerChangeScene>k__BackingField: {fileID: 0}
 --- !u!95 &5888423571448757231
 Animator:
   serializedVersion: 7
@@ -1415,6 +1416,7 @@ MonoBehaviour:
   getItemClip: {fileID: 8300000, guid: e5a19c2ceed344944bc287d6d9c043cb, type: 3}
   interactGate: {fileID: 8300000, guid: 2f3c02481a1330a439638f63d6be4955, type: 3}
   lookAtGate: {fileID: 8300000, guid: 4bc7aaa253293b4429a62f9c2ea449ba, type: 3}
+  throwBulletSound: {fileID: 0}
   groundType: 0
   isGround: 0
 --- !u!1 &2493043943129251457
@@ -2272,7 +2274,7 @@ AudioSource:
   m_GameObject: {fileID: 3966033721744714607}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -411489669680345503, guid: 5b617e966de9f6942abe1d06fb107840, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -2401,7 +2403,7 @@ AudioSource:
   m_GameObject: {fileID: 4027133025792616933}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -411489669680345503, guid: 5b617e966de9f6942abe1d06fb107840, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0

@@ -127,6 +127,13 @@ public class GameManager : MonoBehaviour
         {
             camera.SetSaveDataCamera(saveData.currentCameraName, saveData.previousCameraName);
         }
+        
+        /*Apply Sound*/
+        SettingUI.Instance.sound.MasterVolume = saveData.masterVolume;
+        SettingUI.Instance.sound.BGMVolume = saveData.bgmVolume;
+        SettingUI.Instance.sound.SfxVolume = saveData.sfxVolume;
+        SettingUI.Instance.sound.UIVolume = saveData.uiVolume;
+
     }
 
     public void SetCheckPoint(Vector3 pos)
@@ -190,7 +197,11 @@ public class GameManager : MonoBehaviour
             textureQualityIndex = GraphicsManager.Instance.TextureQualityIndex,
             motionBlur = GraphicsManager.Instance.MotionBlurData,
             ambientOcclusion = GraphicsManager.Instance.AmbientOcclusion,
-            bloom = GraphicsManager.Instance.BloomData
+            bloom = GraphicsManager.Instance.BloomData,
+            masterVolume = SettingUI.Instance.sound.MasterVolume,
+            bgmVolume = SettingUI.Instance.sound.BGMVolume,
+            sfxVolume = SettingUI.Instance.sound.SfxVolume,
+            uiVolume = SettingUI.Instance.sound.UIVolume,
         };
 
         SaveManager.Instance.SaveGame(saveData);

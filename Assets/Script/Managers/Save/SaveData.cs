@@ -32,4 +32,10 @@ public class SaveData
     public bool bloom;
     public bool motionBlur;
     public bool ambientOcclusion;
+    
+    //Sound
+    public float masterVolume;
+    public float bgmVolume;
+    public float sfxVolume;
+    public float uiVolume;
 }

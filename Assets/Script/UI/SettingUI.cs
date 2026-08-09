@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class SettingUI : MonoBehaviour
 {
+    public static SettingUI Instance { get; private set; }
+    
     [Header("UI Elements")] [SerializeField]
     private GameObject settingsPanel;
     [SerializeField] private GameObject soundPanel;
     [SerializeField] private GameObject screenPanel;
     [SerializeField] private GameObject graphicsPanel;
 
-
+    [Header("Sound Settings")]
+    [field: SerializeField] public SoundSettings sound { get; private set; }
+    
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
     
