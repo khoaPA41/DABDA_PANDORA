@@ -25,6 +25,7 @@ TagManager:
   - MapManager
   - ObjectPoolingManager
   - SlowArea
+  - Suggestion
   layers:
   - Default
   - TransparentFX

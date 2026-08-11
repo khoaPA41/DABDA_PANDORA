@@ -154,6 +154,13 @@ public class Interaction : MonoBehaviour
             other.GetComponent<TriggerChangeScene>().ChangeScene();
             _inputReader.IsInteract = false;
         }
+        
+        if (other.CompareTag("Suggestion"))
+        {
+            if (!_inputReader.IsInteract) return;
+            other.GetComponent<ObstacleSuggestion>().Suggestion();
+            _inputReader.IsInteract = false;
+        }
     }
 
     private void OnTriggerExit(Collider other)

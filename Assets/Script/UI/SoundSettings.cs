@@ -24,7 +24,17 @@ public class SoundSettings : MonoBehaviour
     
     private void Start()
     {
-        // UpdateSoundSettingFromSaveData();
+        UpdateSoundSettingFromSaveData();
+        UpdateSoundSettings();
+        SetMasterVolume(MasterVolume);
+        SetBGMVolume(BGMVolume);
+        SetSFXVolume(SfxVolume);
+        SetUIVolume(UIVolume);
+    }
+
+    public void Setup()
+    {
+        UpdateSoundSettingFromSaveData();
         UpdateSoundSettings();
         SetMasterVolume(MasterVolume);
         SetBGMVolume(BGMVolume);
@@ -48,7 +58,7 @@ public class SoundSettings : MonoBehaviour
         uiVolumeSlider.value = UIVolume;
     }
     
-    public void SetMasterVolume(float volume)
+    private void SetMasterVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
         mixer.SetFloat("Master", Mathf.Log10(safeVolume) * 20f);
@@ -59,7 +69,7 @@ public class SoundSettings : MonoBehaviour
         }
     }
 
-    public void SetBGMVolume(float volume)
+    private void SetBGMVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
 
@@ -70,7 +80,7 @@ public class SoundSettings : MonoBehaviour
         }
     }
     
-    public void SetSFXVolume(float volume)
+    private void SetSFXVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
 
@@ -81,7 +91,7 @@ public class SoundSettings : MonoBehaviour
         }
     }
     
-    public void SetUIVolume(float volume)
+    private void SetUIVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
 

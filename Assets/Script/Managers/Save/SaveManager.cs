@@ -24,7 +24,7 @@ public class SaveManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        LoadSaveData();
+        CurrentSaveData = LoadSaveData();
     }
 
     private bool HasSaveData()

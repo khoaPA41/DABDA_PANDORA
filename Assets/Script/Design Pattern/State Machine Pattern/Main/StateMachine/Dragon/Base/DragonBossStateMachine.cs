@@ -23,6 +23,8 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public DragonHealth DragonHealth { get; private set; }
         [field: SerializeField] public PlayableDirector EndCutscene { get; private set; }
 
+        [field: SerializeField] public GameObject HealthUI { get; private set; }
+
         public Camera MainCamera { get; private set; }
         
         private void Start()
@@ -34,6 +36,7 @@ namespace Script.StateMachine.Player.Base
         private void OnEnable()
         {
             DragonHealth.OnDeath += ActiveEndCutscene;
+            HealthUI.SetActive(true);
         }
 
         private void OnDisable()

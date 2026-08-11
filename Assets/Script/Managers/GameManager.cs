@@ -129,11 +129,11 @@ public class GameManager : MonoBehaviour
         }
         
         /*Apply Sound*/
-        SettingUI.Instance.sound.MasterVolume = saveData.masterVolume;
-        SettingUI.Instance.sound.BGMVolume = saveData.bgmVolume;
-        SettingUI.Instance.sound.SfxVolume = saveData.sfxVolume;
-        SettingUI.Instance.sound.UIVolume = saveData.uiVolume;
-
+        SettingUI.Instance.sound.Setup();
+        
+        /*Apply Graphics*/
+        GraphicsManager.Instance.LoadApplyAll();
+        SettingUI.Instance.graphics.LoadCurrentValuesToUI();
     }
 
     public void SetCheckPoint(Vector3 pos)
@@ -162,8 +162,6 @@ public class GameManager : MonoBehaviour
     public void AutoSave()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
-        // var map = GameObject.FindGameObjectWithTag("MapManager");
-        // var mapManager = map?.GetComponent<MapManagers>();
         var currentSaveData = SaveManager.Instance.CurrentSaveData;
         if (player is null) return;
 
@@ -217,6 +215,6 @@ public class GameManager : MonoBehaviour
         settingPanel.SetActive(!settingPanel.activeInHierarchy);
         inputReader.CursorLocked = !settingPanel.activeInHierarchy;
         inputReader.SetCursor();
-        AutoSave();
+        // AutoSave();
     }
 }

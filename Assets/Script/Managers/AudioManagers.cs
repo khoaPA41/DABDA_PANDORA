@@ -15,7 +15,10 @@ public class AudioManagers : MonoBehaviour
     [Header("Audio Clip List")]
     [field:SerializeField] public List<AudioClip> backgroundMusicList {get; private set;}
     
-    
+    [Header("UI Audio Source")]
+    [SerializeField] private AudioSource uiAudioSource;
+    [field:SerializeField] public List<AudioClip> uiSoundList {get; private set;}
+
     private void Awake()
     {
         if (Instance is not null && Instance != this)
@@ -49,7 +52,10 @@ public class AudioManagers : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name.Contains("End")) return;
         audioSource?.Stop();
+        noLoopAudioSource?.Stop();
+        PlayNoLoopMusic(scene.name);
     }
 
     public void StopBackgroundMusic()
@@ -62,7 +68,16 @@ public class AudioManagers : MonoBehaviour
         foreach (var clip in backgroundMusicList.Where(clip => clip.name == musicName))
         {
             noLoopAudioSource.clip = clip;
+            noLoopAudioSource.Play();
         }
-        noLoopAudioSource.Play();
+    }
+
+    public void PlayButtonSound(string soundName)
+    {
+        foreach (var clip in uiSoundList.Where(clip => clip.name == soundName))
+        {
+            uiAudioSource.PlayOneShot(clip);
+        }
+        
     }
 }

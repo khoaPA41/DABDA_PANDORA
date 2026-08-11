@@ -73,7 +73,7 @@ public class GraphicsSettings : MonoBehaviour
         textureQualityDropdown.AddOptions(new List<string> { "Ultra", "High", "Medium", "Low" });
     }
 
-    private void LoadCurrentValuesToUI()
+    public void LoadCurrentValuesToUI()
     {
         resolutionDropdown.SetValueWithoutNotify(SaveManager.Instance.CurrentSaveData.resolutionIndex);
         displayModeDropdown.SetValueWithoutNotify(SaveManager.Instance.CurrentSaveData.displayModeIndex);

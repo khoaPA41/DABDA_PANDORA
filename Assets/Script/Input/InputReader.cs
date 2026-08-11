@@ -77,14 +77,6 @@ public class InputReader : MonoBehaviour, Input.IPlayerActions
         JumpAction?.Invoke();
     }
 
-    public void OnPrevious(InputAction.CallbackContext context)
-    {
-    }
-
-    public void OnNext(InputAction.CallbackContext context)
-    {
-    }
-
     public void OnSprint(InputAction.CallbackContext context)
     {
         if (context.canceled)

@@ -12,6 +12,8 @@ public class SettingUI : MonoBehaviour
 
     [Header("Sound Settings")]
     [field: SerializeField] public SoundSettings sound { get; private set; }
+    [field: SerializeField] public GraphicsSettings graphics { get; private set; }
+
     
     private void Awake()
     {
