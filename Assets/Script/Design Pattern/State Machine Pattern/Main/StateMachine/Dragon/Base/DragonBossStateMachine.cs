@@ -46,7 +46,6 @@ namespace Script.StateMachine.Player.Base
         
         private void ActiveEndCutscene()
         {
-            Debug.Log("end cutscene");
             EndCutscene.Play();
         }
     }

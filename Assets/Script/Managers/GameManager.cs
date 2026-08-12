@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public List<string> keyOwnedList;
     public bool obstacleTrigger_I;
     public bool isGetTheFinalKey = true;
-    
+    private bool isExitToTitle;
     private InputReader inputReader;
     // public event Action  
     private enum ReasonLoadScene
@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
         New,
         Continue,
         Respawn,
-        NextLevel
+        NextLevel,
+        ReturnTitle
     }
 
     private Vector3 checkPointPosition;
@@ -76,6 +77,9 @@ public class GameManager : MonoBehaviour
                 ApplySaveData(player);
                 GraphicsManager.Instance.LoadApplyAll();
                 break;
+            case ReasonLoadScene.ReturnTitle:
+                AutoSave();
+                break;
         }
     }
 
@@ -101,13 +105,31 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(saveData.sceneName);
     }
 
+    public void SetExitType(bool type) => isExitToTitle = type;
+
     public void Exit()
+    {
+        if (isExitToTitle)
+        {
+            ExitToTitle();
+            return;
+        }
+        ExitToDesktop();
+    }
+
+    private void ExitToDesktop()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
+    }
+
+    private void ExitToTitle()
+    {
+        _loadSceneReason = ReasonLoadScene.ReturnTitle;
+        SceneManager.LoadScene("Start");
     }
 
     private void ApplySaveData(GameObject player)

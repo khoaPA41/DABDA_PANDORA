@@ -27,7 +27,6 @@ public class ForceReceiver : MonoBehaviour
     public float _verticalVelocity { get; set; }
     private Vector3 _dampingVelocity;
     private Vector3 _impact;
-    private float _coefficientOfMovement = 1f;
 
     public Vector3 Movement => _impact + Vector3.up * _verticalVelocity;
     
@@ -103,13 +102,6 @@ public class ForceReceiver : MonoBehaviour
     {
         _verticalVelocity += jumpForce;
     }
-
-    public void SetCoefficientOfMovement(float value)
-    {
-        _coefficientOfMovement = value;
-    }
-
-    public float GetCoefficientOfMovement() => _coefficientOfMovement;
     
     private void CheckGround()
     {

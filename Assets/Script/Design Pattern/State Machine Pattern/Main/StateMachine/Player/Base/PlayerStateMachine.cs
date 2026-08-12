@@ -151,8 +151,6 @@ namespace Script.StateMachine.Player.Base
 
         private void ResetPlayerState(int transformIndex)
         {
-            Debug.Log("Reset Pos");
-            
             CharacterController.enabled = false;
             transform.position = PlayerTransformsReset[transformIndex].position;
             CharacterController.enabled = true;

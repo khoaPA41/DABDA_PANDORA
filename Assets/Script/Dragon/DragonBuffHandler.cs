@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DragonBuffHandler : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem immortalBuffVfx;
     [SerializeField] private float immortalTime = 3f;
     [SerializeField] private float buffProjectileTime = 3f;
 
@@ -13,12 +14,13 @@ public class DragonBuffHandler : MonoBehaviour
     private void Start()
     {
         _dragonHealth = GetComponent<DragonHealth>();
-        _dragonController =  GetComponent<DragonController>();
+        _dragonController = GetComponent<DragonController>();
     }
 
 
     public void ActiveBaseOnBuff(BuffType type)
     {
+        ResetBuff();
         switch (type)
         {
             case BuffType.Healing:
@@ -33,15 +35,24 @@ public class DragonBuffHandler : MonoBehaviour
                 Debug.Log("Projectile");
                 StartCoroutine(CountdownBuffProjectile(buffProjectileTime));
                 break;
-        } 
-        
+        }
+
     }
-    
+
+    private void ResetBuff()
+    {
+        immortalBuffVfx.Stop();
+        _dragonHealth.isImmortal = false;
+        _dragonController.isBuffProjectile = false;
+    }
+
     IEnumerator CountdownImmortal(float time)
     {
         _dragonHealth.isImmortal = true;
+        immortalBuffVfx.Play();
         yield return new WaitForSecondsRealtime(time);
         _dragonHealth.isImmortal = false;
+        immortalBuffVfx.Stop();
     }
 
     IEnumerator CountdownBuffProjectile(float time)
