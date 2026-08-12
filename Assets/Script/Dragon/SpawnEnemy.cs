@@ -48,7 +48,7 @@ public class SpawnEnemy : MonoBehaviour
 
         var viewPos = new Vector3(Random.Range(.1f, .9f), 2f, 60f);
         var worldSpacePos = mainCamera.ViewportToWorldPoint(viewPos);
-        var enemy = ObjectPooling.Instance.GetPooledObject(data.name, worldSpacePos);
+        var enemy = ObjectPooling.Instance.GetPooledObject(data.enemyName, worldSpacePos);
         enemy.transform.SetPositionAndRotation(new Vector3(enemy.transform.position.x, -54.8f, enemy.transform.position.z),
         Quaternion.Euler(0f, 180f, 0f));
         enemy.GetComponent<DragonEnemy>().Init(data);

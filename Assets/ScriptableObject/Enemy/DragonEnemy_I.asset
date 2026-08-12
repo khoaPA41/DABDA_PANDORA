@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039e3a840b564ce45909f822b9ba856a, type: 3}
   m_Name: DragonEnemy_I
   m_EditorClassIdentifier: Assembly-CSharp::DragonEnemyData
-  name: DragonEnemy_I
+  enemyName: DragonEnemy_I
   health: 10
   speed: 30
   isCanShoot: 0
