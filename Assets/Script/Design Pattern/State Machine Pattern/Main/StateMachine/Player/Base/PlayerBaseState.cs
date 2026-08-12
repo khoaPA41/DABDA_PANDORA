@@ -6,7 +6,7 @@ namespace Script.StateMachine.Player.Base
     public abstract class PlayerBaseState : State
     {
         protected readonly PlayerStateMachine playerStateMachine;
-        
+
         protected PlayerBaseState(PlayerStateMachine playerStateMachine)
         {
             this.playerStateMachine = playerStateMachine;
@@ -16,7 +16,7 @@ namespace Script.StateMachine.Player.Base
         {
             playerStateMachine.CharacterController.Move((playerStateMachine.ForceReceiver.Movement + motion) * deltaTime);
         }
-        
+
         protected void Move(float deltaTime)
         {
             playerStateMachine.CharacterController.Move((playerStateMachine.ForceReceiver.Movement + Vector3.zero) * deltaTime);
@@ -25,17 +25,17 @@ namespace Script.StateMachine.Player.Base
         protected void MoveFollowSplineCart(float deltaTime)
         {
             var cartDelta = Vector3.zero;
-            
+
             // Calculate delta S of Spline Cart
             cartDelta = playerStateMachine.SplineCart.position - playerStateMachine.LastCartPosition;
-            playerStateMachine.LastCartPosition =  playerStateMachine.SplineCart.position;
-            
+            playerStateMachine.LastCartPosition = playerStateMachine.SplineCart.position;
+
             // Gravity of horizontal
             var horizontalInput = playerStateMachine.IsRunningOnSpline
                 ? -playerStateMachine.InputReader.Movement.x
                 : playerStateMachine.InputReader.Movement.x;
             var horizontalSpline = playerStateMachine.SplineCart.right * (horizontalInput * playerStateMachine.SprintSpeed * deltaTime);
-            
+
             // Gravity of falling / jumping
             var playerDelta = playerStateMachine.ForceReceiver.Movement * deltaTime;
 
@@ -43,14 +43,14 @@ namespace Script.StateMachine.Player.Base
             var forwardDir = playerStateMachine.IsRunningOnSpline
                 ? -playerStateMachine.MainCameraTransform.transform.forward
                 : playerStateMachine.MainCameraTransform.transform.forward;
-            
+
             FaceDir(forwardDir, deltaTime);
-            
+
             // Combine forces
             playerStateMachine.CharacterController.Move(playerDelta + cartDelta + horizontalSpline);
-            
+
             //Convert Player World Space to Spline Local
-            var localPosToCart =  playerStateMachine.SplineCart.InverseTransformPoint(playerStateMachine.transform.position);
+            var localPosToCart = playerStateMachine.SplineCart.InverseTransformPoint(playerStateMachine.transform.position);
             localPosToCart.x = Mathf.Clamp(localPosToCart.x, -5f, 5f);
             localPosToCart.z = 0f;
 
@@ -60,7 +60,7 @@ namespace Script.StateMachine.Player.Base
 
         protected void MoveToTarget(Vector3 movement, float deltaTime)
         {
-            var distance= movement - playerStateMachine.transform.position;
+            var distance = movement - playerStateMachine.transform.position;
             // var lerpPosition = Vector3.MoveTowards(playerStateMachine.transform.position, movement, playerStateMachine.SprintSpeed * 3 * deltaTime); 
             // var playerDelta = playerStateMachine.ForceReceiver.Movement * deltaTime;
             // var movementDelta = lerpPosition - playerStateMachine.transform.position;
@@ -68,7 +68,7 @@ namespace Script.StateMachine.Player.Base
             playerStateMachine.CharacterController.Move(distance);
 
         }
-        
+
         protected void FaceDir(Vector3 movement, float deltaTime)
         {
             if (movement == Vector3.zero)
@@ -96,17 +96,17 @@ namespace Script.StateMachine.Player.Base
 
         protected Vector3 CalculateInputDirection()
         {
-            if (playerStateMachine.TriggerChangeCameraAndInput.IsChangeInputState)
-            {
-                var forward = playerStateMachine.MainCameraTransform.transform.forward;
-                var right = playerStateMachine.MainCameraTransform.transform.right;
-                forward.y = 0f;
-                right.y = 0f;
-                forward.Normalize();
-                right.Normalize();
-                return forward * playerStateMachine.InputReader.Movement.y + right * playerStateMachine.InputReader.Movement.x;
-            }
-            return new Vector3(-playerStateMachine.InputReader.Movement.y, 0f, playerStateMachine.InputReader.Movement.x);
+            // if (playerStateMachine.TriggerChangeCameraAndInput.IsChangeInputState)
+            // {
+            var forward = playerStateMachine.MainCameraTransform.transform.forward;
+            var right = playerStateMachine.MainCameraTransform.transform.right;
+            forward.y = 0f;
+            right.y = 0f;
+            forward.Normalize();
+            right.Normalize();
+            return forward * playerStateMachine.InputReader.Movement.y + right * playerStateMachine.InputReader.Movement.x;
+            // }
+            // return new Vector3(-playerStateMachine.InputReader.Movement.y, 0f, playerStateMachine.InputReader.Movement.x);
         }
 
         protected Vector3 CalculateClimbInputDirection()
@@ -119,7 +119,7 @@ namespace Script.StateMachine.Player.Base
             var climbSurfaceNormal = playerStateMachine.ForceReceiver.SurfaceNormal;
             var climbUp = Vector3.ProjectOnPlane(Vector3.up, climbSurfaceNormal).normalized;
             var climbRight = Vector3.ProjectOnPlane(right, climbSurfaceNormal).normalized;
-            
+
             return (climbUp * playerStateMachine.InputReader.Movement.y +
                    climbRight * playerStateMachine.InputReader.Movement.x);
             // - climbSurfaceNormal * .1f

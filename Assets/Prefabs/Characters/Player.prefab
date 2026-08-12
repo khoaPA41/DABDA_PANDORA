@@ -1214,7 +1214,7 @@ MonoBehaviour:
   <RotationDamping>k__BackingField: 10
   <RotationDamping2D>k__BackingField: 10
   <JumpForce>k__BackingField: 15
-  <DashForce>k__BackingField: 25
+  <DashForce>k__BackingField: 15
   <GetPooledObject>k__BackingField: {fileID: 4849306263806299947}
   <HoldItemTransform>k__BackingField: {fileID: 6694422289052690490}
   <SplineCart>k__BackingField: {fileID: 0}

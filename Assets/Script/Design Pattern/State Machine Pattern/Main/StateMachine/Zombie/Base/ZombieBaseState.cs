@@ -13,10 +13,8 @@ namespace Script.StateMachine.Zombie.Base
             this.zombieStateMachine = zombieStateMachine;
         }
 
-
         protected void MoveToTarget(Vector3 target)
         {
-
             zombieStateMachine.NavMeshAgent.SetDestination(target);
         }
 
@@ -30,9 +28,9 @@ namespace Script.StateMachine.Zombie.Base
         protected bool CheckAttackRange()
         {
             return (zombieStateMachine.Player.position - zombieStateMachine.transform.position).sqrMagnitude <=
-                   zombieStateMachine.AttackRadius * zombieStateMachine.AttackRadius;
+            zombieStateMachine.AttackRadius * zombieStateMachine.AttackRadius;
         }
-        
+
         protected bool CheckChasingRange()
         {
             var directionToPlayer = zombieStateMachine.Player.position - zombieStateMachine.transform.position;
@@ -42,25 +40,20 @@ namespace Script.StateMachine.Zombie.Base
             {
                 return false;
             }
-            
-            // Debug.Log("In Chasing Range");
-            
+
             var player = zombieStateMachine.Player.GetComponent<PlayerStateMachine>();
             if (player.IsMove) return true;
 
             var angleToPlayer = Vector3.Angle(zombieStateMachine.transform.forward, directionToPlayer);
 
-            // Debug.Log("Angle: " + angleToPlayer);
             if (angleToPlayer <= zombieStateMachine.ViewAngle / 2f)
             {
-                // Debug.Log("See Player" +  zombieStateMachine.Player.name);
-            
+
                 var origin = zombieStateMachine.transform.position + Vector3.up;
                 var target = zombieStateMachine.Player.position + Vector3.up;
-            
+
                 if (!Physics.Linecast(origin, target, zombieStateMachine.ObstacleLayer))
                 {
-                    // Debug.Log(zombieStateMachine.Player.name + " is chasing");
                     return true;
                 }
             }

@@ -7,13 +7,15 @@ namespace Script.StateMachine.Player.Base
 {
     public class PlayerStateMachine : StateMachine.Base.StateMachine
     {
-        [Header("Input")][field: SerializeField]
+        [field: Header("Input")]
+        [field: SerializeField]
         public InputReader InputReader { get; private set; }
-        
-        [Header("Camera")][field: SerializeField]
+
+        [field: Header("Camera")]
+        [field: SerializeField]
         public TriggerChangeCameraAndInput TriggerChangeCameraAndInput { get; private set; }
-        
-        [Header("Physics")]
+
+        [field: Header("Physics")]
         [field: SerializeField]
         public CharacterController CharacterController { get; private set; }
         [field: SerializeField] public ForceReceiver ForceReceiver { get; private set; }
@@ -26,42 +28,41 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public float JumpForce { get; private set; }
         [field: SerializeField] public float DashForce { get; private set; }
 
-        [Header("Item")]         
+        [field: Header("Item")]
         [field: SerializeField] public GetPooledObject GetPooledObject { get; private set; }
         [field: SerializeField] public Transform HoldItemTransform { get; private set; }
 
-        [Header("Spline Cart")]
+        [field: Header("Spline Cart")]
         [field: SerializeField] public Transform SplineCart { get; private set; }
         public Vector3 LastCartPosition { get; set; }
         public bool IsOnSplineCart { get; set; } = false;
         public bool IsRunningOnSpline { get; set; } = false;
-        [Header("Animation")]
+        [field: Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
         [field: SerializeField] public float AnimationCrossFade { get; private set; } = .1f;
 
-        [Header("Reset")]
+        [field: Header("Reset")]
         [field: SerializeField]
         public List<Transform> PlayerTransformsReset { get; private set; }
-        
-        [Header("Attack")]
+
+        [field: Header("Attack")]
         [field: SerializeField]
         public Shooting Shooting { get; private set; }
-        
-        [Header("Audio")] 
+
+        [field: Header("Audio")]
         [field: SerializeField] public PlayerAudio PlayerAudio { get; private set; }
-        
-        [Header("Change Scene")] 
+
+        [field: Header("Change Scene")]
         [field: SerializeField] public TriggerChangeScene TriggerChangeScene { get; private set; }
 
         public Transform MainCameraTransform { get; private set; }
-        // public bool Is3dEnvironment {get; private set;} = false;
-        
+
         public int JumpCount { get; set; }
-        
-        public bool IsMove {get; set;}
-        public bool IsCrouch {get; set;}
-        
+
+        public bool IsMove { get; set; }
+        public bool IsCrouch { get; set; }
+
         public event Action OnDeathAction;
         private void Start()
         {
@@ -69,7 +70,7 @@ namespace Script.StateMachine.Player.Base
             InputReader.SetCursor();
             ReturnLocomotion();
         }
-        
+
         private void OnEnable()
         {
             Interaction.ActiveSplineStateAction += SwitchSplineCartState;
@@ -79,7 +80,7 @@ namespace Script.StateMachine.Player.Base
             ForceReceiver.OnSlideWallAction += SwitchHoldWallState;
             OnDeathAction += SwitchDeathState;
         }
-        
+
         private void OnDisable()
         {
             Interaction.ActiveSplineStateAction -= SwitchSplineCartState;
@@ -89,28 +90,28 @@ namespace Script.StateMachine.Player.Base
             ForceReceiver.OnSlideWallAction -= SwitchHoldWallState;
             OnDeathAction -= SwitchDeathState;
         }
-        
+
         public void ReturnLocomotion()
         {
             SwitchState(new LocomotionState(this));
         }
-        
+
         public void SwitchDashState()
         {
             SwitchState(new DashState(this));
         }
-        
+
         public void SwitchJumpState()
         {
             ForceReceiver.IsHoldWall = false;
             SwitchState(new StartJumpState(this));
         }
-        
+
         public void SwitchInAirState()
         {
             SwitchState(new InAirState(this));
         }
-        
+
         private void SwitchSplineCartState(bool isRunning)
         {
             IsOnSplineCart = true;
@@ -123,22 +124,22 @@ namespace Script.StateMachine.Player.Base
         {
             SwitchState(new ClimbState(this));
         }
-        
+
         private void SwitchHoldWallState()
         {
             SwitchState(new HoldWallState(this));
         }
-        
+
         private void SwitchDeathState()
         {
             SwitchState(new DeathState(this));
         }
-        
+
         public void SwitchGetItemState(GameObject item)
         {
             SwitchState(new GetItemState(this, item));
         }
-        
+
         public void SwitchEnterKeyState()
         {
             SwitchState(new EnterKeyState(this));
@@ -154,7 +155,7 @@ namespace Script.StateMachine.Player.Base
             CharacterController.enabled = false;
             transform.position = PlayerTransformsReset[transformIndex].position;
             CharacterController.enabled = true;
-            
+
             TriggerChangeCameraAndInput?.ChangeSplineCamera(false);
             IsOnSplineCart = false;
             Shooting?.ActiveCrosshair(false);

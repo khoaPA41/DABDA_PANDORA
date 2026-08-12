@@ -6,12 +6,12 @@ namespace Script.StateMachine.Player.Base
 {
     public class DragonBossStateMachine : StateMachine.Base.StateMachine
     {
-        [Header("Animation")]
+        [field: Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
         [field: SerializeField] public float AnimationCrossFade { get; private set; } = .1f;
-        
-        [Header("Attack")]
+
+        [field: Header("Attack")]
         [field: SerializeField]
         public Shooting Shooting { get; private set; }
         [field: SerializeField] public float Speed { get; private set; }
@@ -26,7 +26,7 @@ namespace Script.StateMachine.Player.Base
         [field: SerializeField] public GameObject HealthUI { get; private set; }
 
         public Camera MainCamera { get; private set; }
-        
+
         private void Start()
         {
             MainCamera = Camera.main;
@@ -43,7 +43,7 @@ namespace Script.StateMachine.Player.Base
         {
             DragonHealth.OnDeath -= ActiveEndCutscene;
         }
-        
+
         private void ActiveEndCutscene()
         {
             EndCutscene.Play();
