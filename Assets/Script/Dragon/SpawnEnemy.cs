@@ -11,17 +11,16 @@ public class SpawnEnemy : MonoBehaviour
     [SerializeField] private float minInterval = 1.5f;
     [SerializeField] private float maxInterval = 3f;
     [SerializeField] private float timeToSpawnBoss;
-    
+
     [Header("Boss")]
     [SerializeField] private GameObject dragonBoss;
-    
+
     private Camera mainCamera;
-    private float spawnDepth;
     private float countRealTime;
-    
+
     private void Start()
     {
-        mainCamera  = Camera.main;
+        mainCamera = Camera.main;
         countRealTime = Time.time + timeToSpawnBoss;
     }
 
@@ -47,11 +46,11 @@ public class SpawnEnemy : MonoBehaviour
         if (mainCamera is null) return;
         var data = dragonData[Random.Range(0, dragonData.Length)];
 
-        var viewPos = new Vector3(Random.Range(.1f, .9f), 2f, 59.8f);
+        var viewPos = new Vector3(Random.Range(.1f, .9f), 2f, 60f);
         var worldSpacePos = mainCamera.ViewportToWorldPoint(viewPos);
-        
         var enemy = ObjectPooling.Instance.GetPooledObject(data.name, worldSpacePos);
-        enemy.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        enemy.transform.SetPositionAndRotation(new Vector3(enemy.transform.position.x, -54.8f, enemy.transform.position.z),
+        Quaternion.Euler(0f, 180f, 0f));
         enemy.GetComponent<DragonEnemy>().Init(data);
     }
 }

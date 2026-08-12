@@ -2,23 +2,24 @@ using Script.Design_Pattern.Object_Pooling;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+[RequireComponent(typeof(PlayerAudio))]
 
+[RequireComponent(typeof(InputReader))]
 public class Shooting : MonoBehaviour
 {
     [Header("Canvas")]
     [SerializeField] private Canvas Canvas;
     [SerializeField] private Image crosshairImage;
-   
-    //[SerializeField] private RectTransform crosshair;
+
     [SerializeField] private float sensitivity;
     [SerializeField] private float crosshairPadding;
-    
+
     [Header("Bullet Pool")]
     [SerializeField] private ObjectPooling objectPooling;
-    
+
     [Header("Projectile")]
     [SerializeField] private Transform projectile;
-    
+
     public bool isCanShoot { get; set; }
     private InputReader _inputReader;
     private Camera _mainCamera;
@@ -28,12 +29,9 @@ public class Shooting : MonoBehaviour
     private void Start()
     {
         _inputReader = GetComponent<InputReader>();
-        _playerAudio =  GetComponent<PlayerAudio>();
+        _playerAudio = GetComponent<PlayerAudio>();
         _mainCamera = Camera.main;
-        // if (crosshair)
-        // {
-            crosshair = crosshairImage.rectTransform;
-        // }
+        crosshair = crosshairImage.rectTransform;
     }
 
     void Update()
@@ -52,7 +50,6 @@ public class Shooting : MonoBehaviour
         var canvasRect = Canvas.GetComponent<RectTransform>().rect;
         var halfWidth = canvasRect.width / 2;
         var halfHeight = canvasRect.height / 2;
-        // var halfHeight = canvasRect.height / 2 * Canvas.scaleFactor;
 
         var currentCrosshairPos = crosshair.anchoredPosition;
         currentCrosshairPos.x = Mathf.Clamp(currentCrosshairPos.x, -halfWidth + crosshairPadding, halfWidth - crosshairPadding);
@@ -65,7 +62,7 @@ public class Shooting : MonoBehaviour
         Ray ray = _mainCamera.ScreenPointToRay(crosshair.position);
         target = ray.direction;
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo,Mathf.Infinity))
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
         {
             // target.position = hitInfo.;
         }
@@ -74,15 +71,14 @@ public class Shooting : MonoBehaviour
     private void Shoot()
     {
         if (!_inputReader.IsAttack) return;
-        // _playerAudio
         _playerAudio.ThrowBulletSound();
-        objectPooling.GetPooledObject("Bullet", projectile.position).GetComponent<Bullet>().direction = target;
+        objectPooling.GetPooledObject("Bullet", projectile.position).GetComponent<Bullet>().Direction = target;
         _inputReader.IsAttack = false;
     }
 
     public void ActiveCrosshair(bool active)
     {
         crosshairImage.gameObject.SetActive(active);
-        isCanShoot =  active;
+        isCanShoot = active;
     }
 }

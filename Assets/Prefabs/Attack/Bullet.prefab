@@ -199,9 +199,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   speed: 100
+  timeToReturnToPool: 3
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   rb: {fileID: 96197739059786997}
   boxCollider: {fileID: 5263544740926001144}
-  direction: {x: 0, y: 0, z: 0}

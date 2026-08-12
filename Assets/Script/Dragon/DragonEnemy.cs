@@ -10,7 +10,6 @@ public class DragonEnemy : MonoBehaviour
     private float _health;
     private float _speed;
     private Camera _mainCamera;
-
     private PooledObject _pooledObject;
     private Animator _animator;
     private bool _isCanShoot;
@@ -38,7 +37,7 @@ public class DragonEnemy : MonoBehaviour
     {
         _mainCamera ??= Camera.main;
         if (_mainCamera is null) return;
-        
+
         Move();
         CheckOutScreen(); // If out of screen => enemy die
     }
@@ -47,7 +46,6 @@ public class DragonEnemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _health -= damage;
-        // Debug.Log(health);
         if (_health <= 0)
         {
             DragonDeath();
@@ -70,7 +68,6 @@ public class DragonEnemy : MonoBehaviour
     private void DragonDeath()
     {
         ObjectPooling.Instance.GetPooledObject("Rock_Explosion", transform.position);
-        // ObjectPoolManager.Instance.ObjectPooling.GetPooledObject("Rock_Explosion", transform.position);
         _pooledObject.Release(gameObject.name);
     }
 
@@ -78,9 +75,7 @@ public class DragonEnemy : MonoBehaviour
     {
         ActiveTriggerAttackAnimation();
         ObjectPooling.Instance.GetPooledObject(nameof(BulletType.Enemy_Bullet),
-            projectile.position);
-        // ObjectPoolManager.Instance.ObjectPooling.GetPooledObject(BulletType.Enemy_Bullet.ToString(),
-        //     projectile.position);
+        projectile.position);
     }
 
     private IEnumerator ShootingCoroutine()
@@ -95,5 +90,13 @@ public class DragonEnemy : MonoBehaviour
     private void ActiveTriggerAttackAnimation()
     {
         _animator.SetTrigger("Attack");
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!_isCanShoot && other.CompareTag("Player"))
+        {
+            other.GetComponent<DragonHealth>().TakeDamage(100f);
+        }
     }
 }

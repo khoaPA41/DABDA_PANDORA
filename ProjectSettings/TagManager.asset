@@ -26,6 +26,7 @@ TagManager:
   - ObjectPoolingManager
   - SlowArea
   - Suggestion
+  - Dragon_Self_Destruct
   layers:
   - Default
   - TransparentFX
