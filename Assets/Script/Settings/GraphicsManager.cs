@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.UI;
 using Bloom = UnityEngine.Rendering.Universal.Bloom;
 using MotionBlur = UnityEngine.Rendering.Universal.MotionBlur;
 using ShadowQuality = UnityEngine.ShadowQuality;
@@ -43,7 +42,7 @@ public class GraphicsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         BuildResolution();
 
-        if (postProcessingVolume is null || postProcessingVolume.profile is null) return;
+        if (postProcessingVolume == null || postProcessingVolume.profile == null) return;
         postProcessingVolume.profile.TryGet<Bloom>(out _bloom);
         postProcessingVolume.profile.TryGet<MotionBlur>(out _motionBlur);
 
@@ -122,8 +121,9 @@ public class GraphicsManager : MonoBehaviour
 
     public void SetShadow(bool active)
     {
-        QualitySettings.shadows = active ? ShadowQuality.All : ShadowQuality.Disable;
-
+        var mainLight = RenderSettings.sun;
+        if (mainLight == null) return;
+        mainLight.shadows = active ? LightShadows.Soft : LightShadows.None;
         //Save data
         Shadow = active;
     }
@@ -171,7 +171,12 @@ public class GraphicsManager : MonoBehaviour
 
     public void LoadApplyAll()
     {
-        if (SaveManager.Instance.CurrentSaveData is null) return;
+        if (SaveManager.Instance.CurrentSaveData is null)
+        {
+            SetResolution(16);
+            SetDisplayMode(0);
+            return;
+        }
         SetResolution(SaveManager.Instance.CurrentSaveData.resolutionIndex);
         SetDisplayMode(SaveManager.Instance.CurrentSaveData.displayModeIndex);
         SetVsync(SaveManager.Instance.CurrentSaveData.vsync);

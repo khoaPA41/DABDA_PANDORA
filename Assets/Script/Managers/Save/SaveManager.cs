@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager Instance {get; private set;}
-    
-    public  SaveData CurrentSaveData {get; private set;}
+    public static SaveManager Instance { get; private set; }
+
+    public SaveData CurrentSaveData { get; private set; }
 
     private string savePath => Path.Combine(Application.persistentDataPath, "savegame.json");
 
@@ -29,6 +29,8 @@ public class SaveManager : MonoBehaviour
 
     private bool HasSaveData()
     {
+        Debug.Log($"Save Path: {savePath}");
+        Debug.Log($"File Exists: {File.Exists(savePath)}");
         return File.Exists(savePath);
     }
 
@@ -44,7 +46,7 @@ public class SaveManager : MonoBehaviour
         var json = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(savePath, json);
         CurrentSaveData = saveData;
-        
+
         Debug.Log("Game Is Saved");
     }
 

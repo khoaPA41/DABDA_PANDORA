@@ -28,7 +28,6 @@ public class Bullet : MonoBehaviour
         countTime = 0f; // Reset Count Time
         rb.angularVelocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
-        Debug.Log(countTime);
     }
 
     void Update()

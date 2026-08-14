@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 public class GetItemState : PlayerBaseState
-{       
+{
     private static readonly int _getItemAnimation = Animator.StringToHash("GetItem");
     private static readonly string _getItemAnimationTag = "GetItem";
 
@@ -17,7 +17,7 @@ public class GetItemState : PlayerBaseState
     public override void Enter()
     {
         playerStateMachine.Animator.CrossFadeInFixedTime(_getItemAnimation, playerStateMachine.AnimationCrossFade, 0);
-        playerStateMachine.GetPooledObject.GetObject(item.name, Vector3.zero, playerStateMachine.HoldItemTransform);
+
     }
 
     public override void Tick(float deltaTime)
@@ -26,6 +26,7 @@ public class GetItemState : PlayerBaseState
         if (normalizeTime >= _previousTime && normalizeTime >= .5f)
         {
             playerStateMachine.DestroyObject(item);
+            playerStateMachine.GetPooledObject.GetObject(item.name, Vector3.zero, playerStateMachine.HoldItemTransform);
             playerStateMachine.ReturnLocomotion();
             return;
         }

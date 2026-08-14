@@ -22,7 +22,7 @@ public class SaveData
 
     /*Settings*/
     //Graphics
-    public int resolutionIndex;
+    public int resolutionIndex = 16;
     public int displayModeIndex;
     public bool vsync;
     public int qualityPresentIndex;
@@ -32,10 +32,10 @@ public class SaveData
     public bool bloom;
     public bool motionBlur;
     public bool ambientOcclusion;
-    
+
     //Sound
-    public float masterVolume;
-    public float bgmVolume;
-    public float sfxVolume;
-    public float uiVolume;
+    public float masterVolume = .5f;
+    public float bgmVolume = .5f;
+    public float sfxVolume = .5f;
+    public float uiVolume = .5f;
 }

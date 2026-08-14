@@ -37,6 +37,7 @@ namespace Script.StateMachine.Player.Base
         public Vector3 LastCartPosition { get; set; }
         public bool IsOnSplineCart { get; set; } = false;
         public bool IsRunningOnSpline { get; set; } = false;
+
         [field: Header("Animation")]
         [field: SerializeField]
         public Animator Animator { get; private set; }
@@ -55,6 +56,9 @@ namespace Script.StateMachine.Player.Base
 
         [field: Header("Change Scene")]
         [field: SerializeField] public TriggerChangeScene TriggerChangeScene { get; private set; }
+
+        [field: Header("Player Mesh Object")]
+        [field: SerializeField] public GameObject PlayerObjectMesh { get; private set; }
 
         public Transform MainCameraTransform { get; private set; }
 

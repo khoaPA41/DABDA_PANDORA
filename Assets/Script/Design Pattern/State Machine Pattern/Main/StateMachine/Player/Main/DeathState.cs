@@ -23,12 +23,13 @@ public class DeathState : PlayerBaseState
         if (normalizeTime >= _previousTime && normalizeTime >= .1f && !isActiveVFX)
         {
             isActiveVFX = true;
+            playerStateMachine.PlayerObjectMesh.SetActive(false);
             playerStateMachine.GetPooledObject.GetObject("Death_VFX", playerStateMachine.transform.position, null);
         }
-        
+
         if (normalizeTime >= _previousTime && normalizeTime >= .5f)
         {
-           GameManager.Instance.ReturnCheckpoint();
+            GameManager.Instance.ReturnCheckpoint();
         }
 
         _previousTime = normalizeTime;

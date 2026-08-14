@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -10,10 +11,18 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    private static readonly int AppearHash = Animator.StringToHash("Appear");
+    private static readonly int DisappearHash = Animator.StringToHash("Disappear");
+
     public static GameManager Instance { get; private set; }
     [Header("Setting UI")]
     [SerializeField] private GameObject settingPanel;
-    
+
+    [Header("Tutorials UI")]
+    // [SerializeField] private GameObject tutorials;
+    [SerializeField] private Animator tutorialsUiAnimator;
+    [SerializeField] private float timeToUnActiveTutorials;
+
     public List<string> keyOwnedList;
     public bool obstacleTrigger_I;
     public bool isGetTheFinalKey = true;
@@ -31,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     private Vector3 checkPointPosition;
     private ReasonLoadScene _loadSceneReason = ReasonLoadScene.New;
+
+
 
     private void Awake()
     {
@@ -63,6 +74,7 @@ public class GameManager : MonoBehaviour
         {
             case ReasonLoadScene.New:
                 GraphicsManager.Instance.LoadApplyAll();
+                StartCoroutine(ActiveTutorialsByTime());
                 break;
             case ReasonLoadScene.Continue:
                 ApplySaveData(player);
@@ -149,10 +161,10 @@ public class GameManager : MonoBehaviour
         {
             camera.SetSaveDataCamera(saveData.currentCameraName, saveData.previousCameraName);
         }
-        
+
         /*Apply Sound*/
         SettingUI.Instance.sound.Setup();
-        
+
         /*Apply Graphics*/
         GraphicsManager.Instance.LoadApplyAll();
         SettingUI.Instance.graphics.LoadCurrentValuesToUI();
@@ -238,5 +250,22 @@ public class GameManager : MonoBehaviour
         inputReader.CursorLocked = !settingPanel.activeInHierarchy;
         inputReader.SetCursor();
         // AutoSave();
+    }
+
+    private void AppearTutorials()
+    {
+        tutorialsUiAnimator.SetTrigger(AppearHash);
+    }
+
+    private void DisappearTutorials()
+    {
+        tutorialsUiAnimator.SetTrigger(DisappearHash);
+    }
+
+    private IEnumerator ActiveTutorialsByTime()
+    {
+        AppearTutorials();
+        yield return new WaitForSecondsRealtime(timeToUnActiveTutorials);
+        DisappearTutorials();
     }
 }

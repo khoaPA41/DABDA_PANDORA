@@ -1,16 +1,17 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class SoundSettings : MonoBehaviour
 {
-    [Header("Settings UI")] 
+    [Header("Settings UI")]
     [SerializeField] private GameObject settings;
-    
+
     [Header("Audio Mixer")]
     [SerializeField] private AudioMixer mixer;
-    
-    [Header("Slider Settings")] 
+
+    [Header("Slider Settings")]
     [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private Slider bgmVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
@@ -21,7 +22,7 @@ public class SoundSettings : MonoBehaviour
     public float BGMVolume { get; set; } = .5f;
     public float SfxVolume { get; set; } = .5f;
     public float UIVolume { get; set; } = .5f;
-    
+
     private void Start()
     {
         UpdateSoundSettingFromSaveData();
@@ -44,6 +45,8 @@ public class SoundSettings : MonoBehaviour
 
     private void UpdateSoundSettingFromSaveData()
     {
+        if (SaveManager.Instance.CurrentSaveData == null) return;
+
         MasterVolume = SaveManager.Instance.CurrentSaveData.masterVolume;
         BGMVolume = SaveManager.Instance.CurrentSaveData.bgmVolume;
         SfxVolume = SaveManager.Instance.CurrentSaveData.sfxVolume;
@@ -57,7 +60,7 @@ public class SoundSettings : MonoBehaviour
         sfxVolumeSlider.value = SfxVolume;
         uiVolumeSlider.value = UIVolume;
     }
-    
+
     private void SetMasterVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
@@ -79,7 +82,7 @@ public class SoundSettings : MonoBehaviour
             BGMVolume = bgmVolumeSlider.value;
         }
     }
-    
+
     private void SetSFXVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
@@ -90,7 +93,7 @@ public class SoundSettings : MonoBehaviour
             SfxVolume = sfxVolumeSlider.value;
         }
     }
-    
+
     private void SetUIVolume(float volume)
     {
         var safeVolume = Mathf.Clamp(volume, 0.0001f, 1.0f);
@@ -101,5 +104,5 @@ public class SoundSettings : MonoBehaviour
             UIVolume = uiVolumeSlider.value;
         }
     }
-    
+
 }
