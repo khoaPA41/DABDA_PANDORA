@@ -16,21 +16,21 @@ This project was developed as a portfolio project to demonstrate my
 Unity development and C# programming skills.
 
 ## ✨ Features
-
 - Multiple gameplay styles and mechanics.
 - Dynamic Camera System — Designed and implemented trigger-based camera transitions for different gameplay sections.
 - Interactive with item.
-- Dynamic gameplay progression
+- Dynamic gameplay progression.
 
 ## 🛠️ Technical Highlights
 ### Engine & Tools
-- Unity 6.3 (6000.3.8f1)
-- C#
-- Unity Input System
-- Universal Render Pipeline (URP)
-- Animator
-- Timeline
-- Unity UI (Canvas)
+- Unity 6.3 (6000.3.8f1).
+- C#.
+- Unity Input System.
+- Universal Render Pipeline (URP).
+- Animator.
+- Timeline.
+- Unity UI (Canvas).
+- Unity Spline.
 ### Gameplay & Architecture
 - Multiple gameplay mechanics - Different sections introduce unique gameplay mechanics and challenges.
 - Trigger-based gameplay events - Used to control gameplay transitions between sections.
@@ -41,14 +41,14 @@ Unity development and C# programming skills.
 - Timeline & Signals** — Used to orchestrate cinematic sequences and gameplay events.
 
 ## 🎯 Controls
-
-| Action | Input |
-|---|---|
-| Move | WASD |
-| Jump | Space |
-| Run  | Left Shift |
-| Interact | E |
-| Shoot | Left Mouse |
+| Action          | Input              |
+|-----------------|--------------------|
+| Move            | WASD               |
+| Jump            | Spacebar           |
+| Crouch          | C                  |
+| Run             | Left Shift         |
+| Interact        | E                  |
+| Shoot           | Left Mouse         |
 
 ## 📂 Project Structure
 
@@ -84,5 +84,4 @@ Assets/
 4. Press Play.
 
 ## 👨‍💻 Developer
-
 Phạm Anh Khoa        
