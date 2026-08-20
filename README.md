@@ -3,9 +3,9 @@
 > A 3D single-player - adventure - puzzle game developed with Unity and C#.
 
 ## 🎮 Demo
-[Download](https://pakbot4124.itch.io/dabda-pandora)
-[Gameplay Video](https://youtu.be/3XokwoHEwiI)
-[Play Demo](https://pakbot4124.itch.io/dabda-pandora-web)
+- [Download](https://pakbot4124.itch.io/dabda-pandora)
+- [Gameplay Video](https://youtu.be/3XokwoHEwiI)
+- [Play Demo](https://pakbot4124.itch.io/dabda-pandora-web)
 ## 📖 Overview
 DABDA PANDORA is a 3D action, adventure, puzzle game developed with Unity and C#.
 
