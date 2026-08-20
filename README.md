@@ -19,7 +19,7 @@ Unity development and C# programming skills.
 
 - Multiple gameplay styles and mechanics.
 - Dynamic Camera System — Designed and implemented trigger-based camera transitions for different gameplay sections.
-- Interactive with item.
+- Item Interactions.
 - Dynamic gameplay progression
 
 ## 🛠️ Technical Highlights
